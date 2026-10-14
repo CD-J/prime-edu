@@ -1,0 +1,8 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),P=require('../js/sudo-layout.js');
+const bounds={minX:40,maxX:280,minY:102,maxY:656},size={width:70,height:70},desired={x:280,y:656};
+const launch={left:319.33,right:363.33,top:685.6,bottom:729.6},point=P.avoidControls(desired,size,bounds,[launch]);assert(point);assert(!P.overlaps(point,size,launch));assert.deepEqual(desired,{x:280,y:656},'desired user coordinates are never mutated');assert(point.x<desired.x);
+const clock={left:66,right:324,top:465,bottom:730},home=P.avoidControls({x:208,y:554},size,bounds,[clock]);assert(home);assert(!P.overlaps(home,size,clock));
+assert.deepEqual(P.avoidControls({x:100,y:200},size,bounds,[]),{x:100,y:200});assert.equal(P.avoidControls(desired,size,bounds,[{left:0,right:390,top:0,bottom:900}]),null,'no safe gap temporarily hides the control');
+for(const width of [320,390,768])for(const height of [320,568,844]){const b={minX:40,maxX:Math.max(40,width-110),minY:102,maxY:Math.max(102,height-160)};const p=P.avoidControls({x:-200,y:4000},size,b,[]);assert(p.x>=b.minX&&p.x<=b.maxX&&p.y>=b.minY&&p.y<=b.maxY);}
+const shell=fs.readFileSync(require.resolve('../js/app-shell.js'),'utf8');assert.match(shell,/visiblePoint=window.PrimeSudoLayout.avoidControls/);assert.match(shell,/JSON.stringify\(\{\.\.\.point,rx:ratio.x,ry:ratio.y\}\)/);assert.doesNotMatch(shell,/JSON.stringify\([^\n]*visiblePoint/);assert.match(shell,/prime:notebook-content-change',refreshBoundary/);
+console.log('PASS mascot control clearance: launcher/clock avoidance, bounded candidates, crowded fallback, no mutation of desired/saved coordinates, coalesced content/scroll update.');

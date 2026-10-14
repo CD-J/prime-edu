@@ -1,0 +1,86 @@
+/* Compact phone composition: reduce chrome, not the whole document or inputs. */
+.exam-optional > summary { display:flex; align-items:center; min-height:44px; padding:0 12px; border:1px solid var(--shell-line); border-radius:14px; cursor:pointer; color:var(--shell-muted); font-size:15px; }
+.exam-optional > summary::after { content:'＋'; margin-left:auto; font-size:18px; color:var(--shell-blue); }
+.exam-optional[open] > summary::after { content:'−'; }
+.exam-optional[open] > textarea { margin-top:6px; }
+.exam-optional > summary:focus-visible { outline:2px solid var(--shell-blue); outline-offset:3px; }
+@media (max-width:999px) {
+  body .app { width:calc(100% - 16px); padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))!important; }
+  .main > .panel:not(.panel-home) > .page-heading { padding:4px 2px!important; margin-bottom:6px!important; }
+  .main > .panel:not(.panel-home) > .page-heading h2 { font-size:22px!important; }
+  .topbar { min-height:50px!important; padding:6px 8px!important; }
+  .topbar :is(.theme-toggle,.notification-btn,.icon-btn) { width:40px!important; height:40px!important; min-width:40px!important; }
+  :is(.panel-school,.panel-plan,.panel-assistant,.panel-progress,.panel-settings) { gap:8px!important; }
+  :is(.panel-school,.panel-plan,.panel-progress,.panel-settings) .card { padding:12px!important; }
+  :is(.card,.study-book-page) > :is(h2,h3,header) { margin-top:0!important; margin-bottom:10px!important; }
+  :is(.study-form,.student-profile-form) { gap:7px!important; }
+  :is(.study-form,.student-profile-form) label { min-width:0; gap:3px!important; }
+  :is(.panel-plan,.panel-assistant,.panel-progress,.panel-settings) .field { padding:8px 10px!important; line-height:1.35!important; }
+  :is(.panel-plan,.panel-assistant) .study-form textarea.field { min-height:80px!important; height:80px!important; resize:vertical; }
+  :is(.panel-plan,.panel-assistant) .study-form textarea.field { line-height:1.4!important; scrollbar-width:none; }
+  :is(.panel-plan,.panel-assistant) .study-form textarea.field::-webkit-scrollbar { display:none; }
+  .panel-plan :is(.study-form,#examStrategyForm) { gap:7px!important; }
+  .panel-plan .study-form-row { gap:7px!important; }
+  #examStrategyForm #examStrategySubjects { height:72px!important; min-height:72px!important; }
+  .exam-optional > summary { display:flex; align-items:center; min-height:40px; padding:0 10px; border:1px solid var(--shell-line); border-radius:12px; cursor:pointer; color:var(--shell-muted); font-size:14px; }
+  .exam-optional > summary::after { content:'＋'; margin-left:auto; font-size:18px; color:var(--shell-blue); }
+  .exam-optional[open] > summary::after { content:'−'; }
+  .exam-optional[open] > textarea { margin-top:6px; }
+  .panel-plan :is(.plan-mode-description,.planner-section-description) { display:none!important; }
+  #aiNotesPanel .study-book-page { padding:10px!important; }
+  #aiNotesPanel .study-book-page .ai-collapsible { padding:10px 0 0!important; border:0!important; box-shadow:none!important; margin-top:4px!important; }
+  #aiNotesPanel .study-book-page .study-form-row { grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:7px!important; }
+  #aiNotesPanel .study-form textarea.field { min-height:100px!important; height:100px!important; }
+  #aiNotesPanel .study-form :is(input,select,textarea) { width:100%; min-width:0; box-sizing:border-box; }
+  #studyQuizForm { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px!important; }
+  #studyQuizForm > .study-form-row { display:contents!important; }
+  #studyQuizForm > .study-form-row > label:nth-child(3) { grid-column:1; grid-row:2; }
+  #studyQuizForm > label:nth-of-type(1) { grid-column:2; grid-row:2; }
+  #studyQuizForm > :is(label:nth-of-type(2),button,.status-text) { grid-column:1 / -1; }
+  .status-text:empty { display:none; }
+  #aiNotesPanel .quiz-library-empty { font-size:15px!important; padding:10px!important; }
+  .panel-progress .grade-tracker { padding:12px!important; }
+  .grade-year-block > summary { padding:7px 2px; min-height:40px; font-size:16px; }
+  .grade-input-table caption { height:1px; padding:0!important; overflow:hidden; clip-path:inset(50%); font-size:0!important; }
+  .grade-input-table input { height:40px!important; min-height:40px!important; padding:6px 2px!important; }
+  .grade-input-table :is(th,td) { padding:2px!important; }
+  .grade-save-row { margin:8px 0; }
+  .grade-profile-controls { margin-bottom:8px; }
+  #gradeSaveStatus { font-size:14px!important; }
+  :is(.panel-school,.panel-home) .table-wrap tbody :is(th,td) { height:36px!important; padding:4px 2px!important; line-height:1.25!important; }
+  :is(.panel-school,.panel-home) .table-wrap thead th { height:32px!important; padding:4px 2px!important; }
+  #studyBookResults .book-recommendation-card { display:grid!important; grid-template-columns:26px minmax(0,1fr); gap:8px; padding:12px!important; }
+  #studyBookResults .book-recommendation-number { position:static!important; width:26px; height:26px; font-size:14px!important; }
+  .book-recommendation-card :is(h4,p,dl,dd) { overflow-wrap:anywhere; }
+  #studyBookResults .book-recommendation-card h4 { font-size:19px!important; margin:2px 0 3px!important; }
+  #studyBookResults .book-recommendation-card p { font-size:15px!important; line-height:1.5!important; margin:7px 0!important; }
+  #studyBookResults .book-recommendation-card dl { margin-top:9px!important; padding-top:8px!important; }
+  #studyBookResults .book-recommendation-card dd { font-size:15px!important; line-height:1.5!important; }
+  .book-recommendation-summary { font-size:15px!important; line-height:1.5!important; }
+  .book-recommendation-grid { gap:8px!important; }
+  .book-recommendation-author { color:var(--shell-muted); }
+  .panel-school .weekday-card { padding:8px!important; }
+  .panel-school .weekday-meal-text { line-height:1.4!important; }
+  .panel-settings .settings-link-button { min-height:48px!important; }
+}
+.sudo-dizzy-notice { max-width:min(260px,calc(100vw - 24px)); border-radius:18px!important; padding:8px 12px!important; font-size:14px!important; line-height:1.4!important; box-shadow:0 6px 20px rgb(0 0 0 / .07); }
+.sudo-return { bottom:calc(78px + env(safe-area-inset-bottom,0px)); padding:10px 16px; font-size:14px; border-color:color-mix(in srgb,var(--shell-blue) 22%,var(--shell-line)); box-shadow:0 8px 32px color-mix(in srgb,var(--shell-blue) 12%,transparent); }
+.sudo-return-seed { transform:scaleX(calc(1.12 - var(--return-progress,0)*.12)) scaleY(calc(.88 + var(--return-progress,0)*.12)); }
+.sudo-return-seed::before { content:''; position:absolute; inset:-8px; border:1px solid var(--shell-blue); border-radius:50%; opacity:calc(var(--return-progress,0)*.45); transform:scale(calc(.7 + var(--return-progress,0)*.7)); }
+.sudo-return-seed::after { content:''; position:absolute; inset:-15px; border:1px dashed var(--shell-blue); border-radius:50%; opacity:calc(var(--return-progress,0)*.3); transform:rotate(calc(var(--return-progress,0)*90deg)); }
+.is-sudo-returning .sudo-ai-character { animation:sudo-spring-return 1150ms both; transform-origin:center 80%; }
+.is-sudo-returning::after { content:''; position:absolute; inset:8px; border:2px solid var(--shell-blue); border-radius:50%; pointer-events:none; animation:sudo-return-ring 800ms ease-out both; }
+@keyframes sudo-spring-return {
+  0% { opacity:0; transform:translateY(30px) scale(.45,.28); animation-timing-function:cubic-bezier(.16,.8,.24,1); }
+  34% { opacity:1; transform:translateY(-26px) scale(.9,1.12); animation-timing-function:ease-in; }
+  58% { transform:translateY(0) scale(1.12,.88); animation-timing-function:ease-out; }
+  76% { transform:translateY(-7px) scale(.97,1.03); }
+  90% { transform:translateY(0) scale(1.02,.98); }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes sudo-return-ring { from {opacity:.5;transform:scale(.3);} to {opacity:0;transform:scale(1.8);} }
+@media (prefers-reduced-motion:reduce) {
+  .is-sudo-returning .sudo-ai-character { animation:none; }
+  .is-sudo-returning::after { display:none; }
+  .sudo-return-seed { transition:none; }
+}

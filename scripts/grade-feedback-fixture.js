@@ -1,0 +1,2 @@
+// Isolated preview only. Real account/production data is never modified.
+if(!localStorage.getItem('primeEduGradeNotebook.v2.guest'))localStorage.setItem('primeEduGradeNotebook.v2.guest',JSON.stringify({settings:{schoolLevel:'high',grade:2,gradeSystem:5,subjects:['수학','영어'],targets:{high:{name:'[예시] 목표 대학'},middle:null}},rows:[{schoolLevel:'high',recordType:'exam-score',year:2,term:1,exam:'mid',subject:'수학',score:90}],pending:false}));

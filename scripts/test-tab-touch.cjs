@@ -1,0 +1,23 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),T=require('../js/liquid-tabs.js');
+const classes=new Set(),handlers={},docHandlers={},winHandlers={},style={setProperty(k,v){this[k]=v;},removeProperty(k){delete this[k];}};
+const lens={setAttribute(){},style};let selected=0,clicks=0,capture=null;
+const buttons=Array.from({length:3},(_,i)=>({disabled:false,getAttribute:k=>k==='aria-selected'?String(i===selected):null,classList:{contains:()=>false},closest:s=>s==='button'?buttons[i]:null,matches:()=>true,getClientRects:()=>[1],getBoundingClientRect:()=>({left:i*90,top:5,width:88,height:44,right:i*90+88,bottom:49}),click(){selected=i;clicks++;},focus(){}}));
+const doc={createElement:()=>lens,hidden:false,addEventListener:(k,f)=>docHandlers[k]=f,removeEventListener:k=>delete docHandlers[k]};
+const bar={ownerDocument:doc,append(){},classList:{add:k=>classes.add(k),remove:k=>classes.delete(k)},closest:()=>null,matches:()=>false,querySelectorAll:()=>buttons,getClientRects:()=>[1],getBoundingClientRect:()=>({left:0,top:0}),clientWidth:270,clientHeight:54,scrollLeft:0,scrollTop:0,addEventListener:(k,f)=>handlers[k]=f,setPointerCapture:id=>capture=id,hasPointerCapture:id=>capture===id,releasePointerCapture:()=>capture=null};
+const win={performance:{now:()=>10},requestAnimationFrame:()=>1,cancelAnimationFrame(){},MutationObserver:class{observe(){}disconnect(){}},ResizeObserver:class{observe(){}disconnect(){}},addEventListener:(k,f)=>winHandlers[k]=f,removeEventListener:k=>delete winHandlers[k]};
+const c=T.create(bar,'button',win),e=(x,y=20,id=1)=>({pointerId:id,button:0,target:buttons[0],clientX:x,clientY:y,preventDefault(){}});
+c.down(e(30));assert(classes.has('is-tab-held'));assert(Number(style['--tab-scale-x'])>1);assert(Number(style['--tab-scale-y'])>1);assert.equal(clicks,0,'press is preview only');
+c.move(e(220));assert(classes.has('is-tab-held'));assert(classes.has('is-tab-dragging'));assert(Number(style['--tab-scale-y'])>1);c.end(e(220));assert.equal(selected,2);assert.equal(clicks,1);assert(!classes.has('is-tab-held'));assert.equal(style['--tab-scale-y'],'1');
+c.down(e(30));c.end(e(30),true);assert.equal(clicks,1);assert(!classes.has('is-tab-held'));
+c.down(e(30));c.move(e(33,50));assert(!classes.has('is-tab-held'));assert.equal(clicks,1,'vertical scroll does not select');
+c.down(e(30));c.end(e(30,20,2));assert(classes.has('is-tab-held'),'unrelated pointer does not release');doc.hidden=true;docHandlers.visibilitychange();assert(!classes.has('is-tab-held'));assert.equal(clicks,1);
+handlers.keydown({key:' ',target:buttons[0]});assert(classes.has('is-tab-held'));handlers.keyup({key:' '});assert(!classes.has('is-tab-held'));assert.equal(clicks,1,'keyboard native owner is not invoked twice');
+handlers.keydown({key:'Enter',target:buttons[0]});winHandlers.blur();assert(!classes.has('is-tab-held'));
+c.down(e(30));winHandlers.resize();assert(!classes.has('is-tab-held'));assert.equal(capture,null);
+buttons[0].disabled=true;c.down(e(30));assert(!classes.has('is-tab-held'));buttons[0].disabled=false;c.down(e(30));c.destroy();assert(!classes.has('is-tab-held'));assert.equal(docHandlers.visibilitychange,undefined);
+for(const width of [320,390,768,1440])for(const left of [0,width-48]){const g=T.lensGeometry(left,4,48,44,width,54,true);assert(g.left-48*(g.sx-1)/2>=.99);assert(g.left+48+48*(g.sx-1)/2<=width-.99);assert(g.top-44*(g.sy-1)/2>=.99);assert(g.top+44+44*(g.sy-1)/2<=53.01);}
+const narrow=T.lensGeometry(0,0,44,44,44,44,true);assert.equal(narrow.sx,1);assert.equal(narrow.sy,1);
+assert.equal(narrow.left,0);assert.equal(narrow.top,0);
+const css=fs.readFileSync(require.resolve('../js/tab-touch.css'),'utf8'),html=fs.readFileSync(require.resolve('../index.html'),'utf8');
+assert.match(css,/scale:var\(--tab-scale-x,1\) var\(--tab-scale-y,1\)/);assert.match(css,/prefers-reduced-motion:reduce[^}]+scale:1!important/s);assert.match(css,/forced-colors:active/);assert(html.indexOf('tab-touch.css')>html.indexOf('styled-selects.css'));
+console.log('PASS shared tab touch: held growth, scrubbing, release once, edge insets, keyboard, cancellation/vertical/blur/hidden/resize/disposal, reduced motion and contrast.');

@@ -1,0 +1,34 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('js/layout-integrity.css','utf8'),app=fs.readFileSync('js/app-shell.js','utf8'),layers=fs.readFileSync('js/ui-layers.js','utf8');
+assert.equal((html.match(/id="homeSettingsButton"/g)||[]).length,1);
+assert.equal((html.match(/id="mobileHomeChangeButton"/g)||[]).length,1);
+const desktop=html.slice(html.indexOf('class="home-hero-actions desktop-home-actions"'),html.indexOf('class="ai-chat-messages home-ai-messages"'));
+assert(desktop.includes('id="homeSettingsButton"')&&desktop.includes('id="desktopHistoryButton"'));
+const mobile=html.slice(html.indexOf('class="home-hero-actions mobile-home-actions"'),html.indexOf('class="mobile-home-main"'));
+assert(mobile.includes('id="mobileHomeChangeButton"')&&mobile.includes('id="mobileLandingHistoryButton"'));
+assert(!html.slice(html.indexOf('class="home-utility-bar"'),html.indexOf('class="mobile-home-landing')).includes('id="homeSettingsButton"'),'Desktop icon must not be resurrected in a zero-height mobile row');
+assert.match(css,/home-hero-actions>button[^}]+position:static!important/);
+assert.match(css,/\[data-theme=light\]\[data-accent\][^}]+--shell-muted:#596570/);
+assert.match(css,/cal-day\.is-today[^}]+color:var\(--glass-on-accent/);
+assert.match(css,/homeSettingsSaveButton[^}]+color:var\(--glass-on-accent/,'Sheet save text must not remain white on a pastel fill');
+assert.match(css,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+assert(!/\bzoom\s*:/.test(css));assert(!css.includes('scale('));
+assert(html.indexOf('layout-integrity.css')>html.indexOf('interface-system.css'));
+assert(fs.readFileSync('service-admin.html','utf8').includes('layout-integrity.css'));
+assert(app.includes('.home-settings-wrap,#homeSettingsButton'));
+assert(app.includes('homeSettingsTrigger.focus({preventScroll:true})'));
+assert.match(app,/data-activity-source-event[^\n]+aria-label=[^\n]+PrimeUI.svg\('arrow'\)/,'School-source connection keeps its action and accessible name without crowding titles');
+assert.match(css,/planner-detail-kind[^}]+white-space:nowrap/);
+assert.match(css,/planner-detail-row.event[^}]+max-content minmax\(0,1fr\) auto/,'Personal-event labels also need their intrinsic width');
+const lum=hex=>{const c=hex.match(/\w\w/g).map(x=>Number.parseInt(x,16)/255);return c.reduce((v,x,i)=>v+[.2126,.7152,.0722][i]*(x<=.04045?x/12.92:((x+.055)/1.055)**2.4),0);};
+for(const ink of ['596570','245cd3','bf3943','a94e0f'])assert((1.05)/(lum(ink)+.05)>4.5,'Readable light-theme text: '+ink);
+const props={},panel={hidden:true,offsetHeight:260,style:{setProperty(k,v){props[k]=Number(v.replace('px',''));}},matches(){return false;}},anchor={getBoundingClientRect(){return {right:1250,bottom:310};}};
+const win={innerWidth:1280,innerHeight:720,addEventListener(){},visualViewport:{width:1280,height:720,offsetTop:0,offsetLeft:0,addEventListener(){}}};
+vm.runInNewContext(layers,{window:win,document:{body:{append(){},classList:{toggle(){}}},getElementById:id=>id==='homeSettingsPanel'?panel:id==='homeSettingsButton'?anchor:null,querySelectorAll:()=>[]},MutationObserver:class{observe(){}},requestAnimationFrame(){}});
+panel.hidden=false;
+for(const [width,height,top,left,size] of [[1280,720,0,0,260],[1024,300,0,0,500],[1440,900,0,0,280],[1100,220,60,35,600]]){
+ win.innerWidth=width;win.visualViewport={width,height,offsetTop:top,offsetLeft:left};panel.offsetHeight=size;win.PrimeHomeSettingsLayout.position();
+ assert(props['--home-panel-left']>=left+12);assert(props['--home-panel-left']+props['--home-panel-width']<=left+width-12);
+ assert(props['--home-panel-top']>=top+12);assert(props['--home-panel-top']+Math.min(size,props['--home-panel-height'])<=top+height-12);
+}
+console.log('PASS home launcher structural isolation, common card toolbar, mobile palettes, readable captions/date badge, shared admin styles, viewport-contained desktop popover and focus return.');

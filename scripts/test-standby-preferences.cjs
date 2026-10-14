@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),P=require('../js/standby-preferences.js');
+assert.deepEqual(P.normalize().order,['timer','clock','calendar','school','tasks']);
+const p=P.normalize({clock:'duo',frame:'card',mood:100,order:['clock','clock','wrong','timer']});assert.equal(p.clock,'duo');assert.equal(p.frame,'card');assert.equal(p.mood,16);assert.deepEqual(p.order,['clock','timer','calendar','school','tasks']);
+assert.equal(P.normalize({clock:'<img>',frame:'bad',mood:'x'}).clock,'digital');assert.equal(P.normalize(null).mood,10);
+assert.deepEqual(P.move(p.order,'clock',-1),p.order);assert.deepEqual(P.move(p.order,'timer',-1),['timer','clock','calendar','school','tasks']);
+assert.deepEqual(P.move(p.order,'timer',NaN),p.order);assert.deepEqual(P.move(p.order,'timer',-.9),p.order);
+const d=new Date(2026,9,8,10,8,30),a=P.angles(d);assert.equal(a.hour,304);assert.equal(a.minute,51);
+const m=P.monthDays(d,[{date:'2026-10-08',title:'시험'},{date:'2026-10-07',endDate:'2026-10-09'}]);assert.equal(m.days.length,31);assert.equal(m.days[7].count,2);assert.equal(m.days[2].weekday,6);assert.equal(m.days[3].weekday,0);assert(m.days[7].today);
+assert.equal(P.monthDays(new Date(2024,1,4)).days.length,29);assert.equal(P.monthDays(new Date(2026,7,1)).weeks,6);
+assert.equal(P.monthDays(d,[null,undefined,'bad']).days[7].count,0);assert.equal(P.monthDays(d,null).days.length,31);
+const read=f=>fs.readFileSync(require.resolve('../'+f),'utf8'),s=read('js/standby.js'),css=read('js/standby-customize.css'),html=read('index.html');
+assert.match(s,/pageKeys.indexOf\(preferences.order\[active\]\)/);assert.match(s,/track.append\(pages\[pageKeys.indexOf\(key\)\]\)/);
+assert.match(s,/PrimeStandby=\{preview:source=>open\(source\)\}/);assert.match(s,/standby-clock-hand hour/);assert.match(s,/standby-event-point/);
+assert.match(css,/data-weekday="0"/);assert.match(css,/data-weekday="6"/);assert.match(css,/width:24px!important;height:24px/);
+assert(html.indexOf('standby-preferences.js')<html.indexOf('js/standby.js'));
+assert.match(html,/data-weekday="\$\{new Date\(year,month,day\).getDay\(\)\}"/);
+assert.doesNotMatch(read('js/standby-preferences.js'),/Firestore|fetch\(|setInterval/);
+console.log('PASS standby appearance: validated local preferences/permutation, 4 templates, analog time, compact event dots/leap and 6-week months, reorder mapping, idle preview, weekend metadata and smaller mobile icons.');

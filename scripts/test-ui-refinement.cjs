@@ -1,0 +1,37 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const { format } = require('../js/message-format.js');
+assert.equal(format('공부매니저 **스도**입니다.'), '공부매니저 <strong>스도</strong>입니다.');
+assert.equal(format('**<img src=x onerror=alert(1)>**'), '<strong>&lt;img src=x onerror=alert(1)&gt;</strong>');
+assert.equal(format('`**코드**`'), '<code>**코드**</code>');
+assert.equal(format('```js\n<img>\n```'), '<pre><code>&lt;img&gt;\n</code></pre>');
+assert.equal(format('**미완성'), '**미완성');
+assert.equal(format('**첫째**\n**둘째**'), '<strong>첫째</strong>\n<strong>둘째</strong>');
+const read = file => fs.readFileSync(path.join(__dirname,'..',file),'utf8');
+const html=read('index.html'), css=read('js/ui-refinement.css'), shell=read('js/app-shell.js');
+assert.doesNotMatch(html, /id="studyNoteUnit"|data-ai-tool-target="reflection"|data-chat-memory-status/);
+assert.ok(html.indexOf('message-format.js') < html.indexOf('schedule-ai.js'));
+assert.doesNotMatch(shell, /style\.height = `\$\{Math\.ceil\(activePageHeight/);
+assert.match(css, /is-current \{ position:relative/);
+assert.match(css, /touch-action:pan-y/);
+assert.match(css, /safe-area-inset-bottom/);
+assert.match(html, /classList.toggle\("sudo-chat-open", open\)/);
+// Run the real operation presenter with a tiny DOM, including the success-empty
+// regression which otherwise leaves a padded blank card after every request.
+const source=read('js/study-ai.js');
+const button={disabled:false}, attributes={};
+const form={setAttribute:(k,v)=>{attributes[k]=v;},querySelectorAll:()=>[button]};
+const status={className:'',innerHTML:'',closest:()=>form,setAttribute(){},replaceChildren(){this.innerHTML='';}};
+const toast={setAttribute(){},remove(){},textContent:''};
+const scope=vm.createContext({$: selector=>selector==='#state'?status:toast,escapeHtml:require('../js/message-format.js').escape,window:{dispatchEvent(){}},CustomEvent:function(){},setTimeout:()=>1,clearTimeout(){},document:{}});
+vm.runInContext(source.slice(source.indexOf('  let toastTimer;'),source.indexOf('  function today()')),scope);
+scope.setOperation('#state','loading','필기 정리');
+assert.equal(button.disabled,true);assert.equal(attributes['aria-busy'],'true');assert.match(status.innerHTML,/operation-skeleton/);
+scope.setOperation('#state','success','저장 완료');
+assert.equal(button.disabled,false);assert.equal(status.className,'status-text');assert.equal(status.innerHTML,'');assert.equal(toast.textContent,'저장 완료');
+scope.setOperation('#state','error','<script>안전</script>');
+assert.equal(attributes['aria-busy'],'false');assert.match(status.innerHTML,/&lt;script&gt;/);
+assert.match(source,/controller\.signal/);assert.match(source,/55000/);
+console.log('PASS: safe bold/code, removed UI, natural-height layout, touch scroll, overlay state; real loading/success/error presenter; finite AI request timeout.');

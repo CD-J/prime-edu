@@ -1,0 +1,23 @@
+/* Shared touch response for every scrub-select control, including app selects.
+   The visual capsule grows; typography and touch geometry stay in place. */
+:root[data-theme] body .prime-slide-bar .prime-tab-lens {
+  translate:var(--tab-x,0px) var(--tab-y,0px);transform:none!important;
+  scale:var(--tab-scale-x,1) var(--tab-scale-y,1);transform-origin:center;
+  transition:translate 340ms cubic-bezier(.2,.8,.25,1),width 340ms cubic-bezier(.2,.8,.25,1),height 340ms cubic-bezier(.2,.8,.25,1),scale 340ms cubic-bezier(.2,.8,.25,1),box-shadow 240ms ease;
+}
+:root[data-theme] body .prime-slide-bar.is-tab-held .prime-tab-lens {
+  background:linear-gradient(155deg,var(--glass-sheen),transparent 65%),color-mix(in srgb,var(--shell-blue) 16%,var(--capsule-lens));
+  box-shadow:inset 0 1px 2px var(--glass-lip),inset 0 -1px 2px color-mix(in srgb,var(--shell-blue) 12%,transparent),0 5px 16px color-mix(in srgb,var(--shell-blue) 14%,transparent);
+  transition-duration:150ms,150ms,150ms,150ms,150ms;
+}
+:root[data-theme] body .prime-slide-bar.is-tab-dragging .prime-tab-lens {
+  /* Track variable-width targets without a stale width/scale hanging off an
+     edge. Position, size and scale follow the pointer in the same frame. */
+  transition:box-shadow 150ms ease;
+}
+@media(prefers-reduced-motion:reduce) {
+  :root[data-theme] body .prime-slide-bar .prime-tab-lens { scale:1!important;transition:none!important; }
+}
+@media(forced-colors:active) {
+  :root[data-theme] body .prime-slide-bar.is-tab-held .prime-tab-lens { background:Highlight;box-shadow:none;border:2px solid Highlight; }
+}

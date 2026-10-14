@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const js=fs.readFileSync('js/standby.js','utf8'),css=fs.readFileSync('js/standby-refine.css','utf8'),html=fs.readFileSync('index.html','utf8');
+const context={};vm.runInNewContext(js.slice(js.indexOf('  function analogMarkup()'),js.indexOf('  function compactCalendar('))+'this.markup=analogMarkup();',context);
+assert.equal((context.markup.match(/class="standby-hour-mark/g)||[]).length,60);
+assert.equal((context.markup.match(/<text /g)||[]).length,12);assert(context.markup.includes('standby-clock-hand second'));
+assert.match(js,/date.getSeconds\(\)\*6/);assert.match(js,/event\?'<i class="standby-event-point"/);
+assert.match(css,/background:#030405/);assert.match(css,/font-weight:850!important/);
+assert.match(css,/standby-compact-grid \.is-today b[^}]+border|standby-compact-grid \.is-today b[^}]+background/);
+assert.match(css,/prefers-reduced-motion:reduce/);assert.match(css,/animation-play-state:paused/);
+assert.match(html,/standby-refine.css\?v=20261014-79b/);assert.match(html,/standby.js\?v=20261014-87/);
+assert.match(js,/pages\[pageKeys.indexOf\(preferences.order\[active\]\)\]\.querySelectorAll/);
+assert.equal(require('../js/timer-progress.js').remaining(750,1500),.5);
+console.log('PASS StandBy refinement: complete dial/seconds, dot calendar, quiet adaptive color, separate countdown, reduced-motion support and fresh asset versions.');

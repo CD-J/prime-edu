@@ -1,0 +1,38 @@
+/* Compact actual-work history; existing notebook binding and theme stay intact. */
+#studyHistoryList{min-width:0;gap:12px}
+.study-history-card{grid-column:1/-1;min-width:0}
+.study-history-filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;padding:4px;border-radius:999px;background:var(--glass-inset,var(--shell-bg))}
+.study-history-filters button{min-width:0;min-height:40px;padding:8px 4px;border:0;border-radius:999px;background:transparent;color:var(--shell-muted);font-size:13px;font-weight:600;cursor:pointer}
+.study-history-filters button[aria-pressed=true]{color:var(--shell-ink);background:var(--shell-card);box-shadow:0 2px 8px #0000000c}
+.study-history-filters button:focus-visible,.study-history-more:focus-visible{outline:2px solid var(--shell-blue);outline-offset:2px}
+.study-history-day{min-width:0}.study-history-day>h4{font-size:12px!important;color:var(--shell-muted);font-weight:600;margin:4px 0 2px!important}
+.study-history-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;padding:14px 0;border-bottom:1px solid var(--shell-line);min-width:0;align-items:start}
+.study-history-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:var(--shell-blue-soft);color:var(--shell-blue)}
+.study-history-icon .prime-icon{width:19px;height:19px}
+.study-history-copy{min-width:0}.study-history-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--shell-muted);font-variant-numeric:tabular-nums}
+.study-history-copy h4{font-size:16px!important;line-height:1.45!important;font-weight:650;margin:5px 0 3px!important;overflow-wrap:anywhere;word-break:keep-all}
+.study-history-copy>p{font-size:13px!important;line-height:1.5!important;margin:3px 0!important;overflow-wrap:anywhere}
+.study-history-context,.study-history-copy>small{color:var(--shell-muted);font-size:12px!important;line-height:1.5}
+.study-history-result{color:var(--shell-ink);font-variant-numeric:tabular-nums}.study-history-result:empty{display:none}
+.study-history-actions{display:grid;gap:5px}
+:root[data-theme] body .study-history-actions .btn{box-sizing:border-box;display:grid;place-items:center;width:44px!important;min-width:44px!important;height:44px;min-height:44px;padding:10px!important;border-radius:14px}
+.study-history-actions .prime-icon{width:20px;height:20px}
+.study-history-copy details{margin-top:6px}.study-history-copy summary{font-size:12px;min-height:36px;display:flex;align-items:center;color:var(--shell-muted);cursor:pointer}
+.study-history-copy details p{font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0}
+.study-history-more{min-height:44px;border:0;border-radius:14px;background:transparent;color:var(--shell-blue);font-size:14px;text-align:center;width:100%;cursor:pointer}
+.study-history-empty{padding:16px 0;color:var(--shell-muted);font-size:14px;line-height:1.5}.study-history-empty .btn{min-height:44px;margin-top:4px}
+/* The progressive form is elsewhere while closed: don't draw an empty frame. */
+:root[data-theme] body :is(#aiNotesPanel,#aiBooksPanel)>.ai-category-head{display:flex!important;align-items:center;gap:8px}
+:root[data-theme] body :is(#aiNotesPanel,#aiBooksPanel)>.ai-category-head>h2{flex:1;min-width:0}
+:root[data-theme] body :is(#aiNotesPanel,#aiBooksPanel)>.ai-category-head>.notebook-page-icon{display:grid!important;place-items:center;width:28px;height:28px;flex:none}
+:root[data-theme] body #aiBooksPanel>.ai-book-panel{padding:0!important;margin:0!important;border:0!important;min-height:0!important;background:none!important;box-shadow:none!important}
+:root[data-theme] body #studyBookResults :is(.book-recommendation-category,dt,.book-recommendation-number){color:var(--notebook-accent-ink)!important}
+:root[data-theme] body #studyBookResults .book-recommendation-number{background:var(--shell-blue-soft)!important;background:color-mix(in srgb,var(--notebook-accent) 12%,var(--shell-card))!important}
+:root[data-theme] body #studyBookResults .book-verification-note{background:transparent!important;padding:8px 0!important;color:var(--shell-muted)!important;font-size:12px!important}
+:root[data-theme] body #studyBookResults .book-connect-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;margin-top:12px;padding:9px 12px!important;width:auto!important;border-radius:14px;color:var(--notebook-accent-ink);background:var(--shell-card)}
+.book-connect-action .prime-icon{width:18px;height:18px}
+:root[data-theme] body #studyBookResults .book-recommendation-empty{background:transparent!important;border:0!important;padding:8px 0!important;margin:0!important}
+.book-recommendation-empty strong{display:block;font-size:17px}.book-recommendation-empty p{font-size:14px!important;color:var(--shell-muted)}
+.book-recommendation-empty .btn{min-height:44px}
+@media(max-width:599px){.study-history-row{gap:8px}.study-history-filters button{min-height:44px}.study-history-copy h4{font-size:15px!important}}
+@media(min-width:1000px){.study-history-filters{max-width:500px}.study-history-day{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.study-history-day>h4{grid-column:1/-1}}

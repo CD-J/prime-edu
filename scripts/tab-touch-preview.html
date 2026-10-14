@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko" data-theme="light"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prime Edu tab touch visual fixture</title>
+<link rel="stylesheet" href="../js/experience-finish.css"><link rel="stylesheet" href="../js/capsule-standby.css"><link rel="stylesheet" href="../js/tab-touch.css">
+<style>
+:root{--shell-blue:#467ada;--glass-muted:#647080;--glass-sheen:#ffffff90;--glass-lip:#ffffffb0;--glass-chrome:#fff;--glass-edge:#dce1ee}
+:root[data-theme=dark]{--glass-muted:#bdc5d5;--glass-sheen:#ffffff13;--glass-lip:#ffffff30;--glass-chrome:#20242b;--glass-edge:#444b56}
+*{box-sizing:border-box}body{margin:0;padding:26px 18px;background:#edf1f8;color:#18202d;font:14px system-ui,sans-serif}html[data-theme=dark] body{background:#151921;color:#edf0f7}
+h1{font-size:20px;margin:0 0 24px}section{margin:0 0 28px}h2{font-size:13px;color:var(--glass-muted);margin:0 0 12px}.prime-choice-picker,.touch-preview-picker{display:flex;height:58px;gap:2px}button{flex:1;border:0;background:none;font:600 15px system-ui;min-height:48px;padding:8px;border-radius:999px}p{line-height:1.6;color:var(--glass-muted);margin-top:32px}
+</style>
+<body><h1>선택 타원형 터치 반응</h1>
+<section><h2>기본</h2><div id="rest" class="prime-choice-picker"><button role="radio" aria-checked="true">홈</button><button role="radio" aria-checked="false">학교</button><button role="radio" aria-checked="false">계획</button></div></section>
+<section><h2>누르는 동안</h2><div id="held" class="touch-preview-picker"><button role="radio" aria-checked="true">홈</button><button role="radio" aria-checked="false">학교</button><button role="radio" aria-checked="false">계획</button></div></section>
+<section><h2>끌어서 이동한 뒤 손을 뗐을 때</h2><div id="released" class="prime-choice-picker"><button role="radio" aria-checked="false">홈</button><button role="radio" aria-checked="false">학교</button><button role="radio" aria-checked="true">계획</button></div></section>
+<p>공통 선택 타원형의 크기 계산과 스타일을<br>사용한 상태별 로컬 미리보기입니다.</p>
+<script src="../js/liquid-tabs.js"></script><script>
+if(new URLSearchParams(location.search).has('dark'))document.documentElement.dataset.theme='dark';
+for(const bar of document.querySelectorAll('.prime-choice-picker')){bar.addEventListener('click',e=>{if(!e.target.matches('button'))return;for(const b of bar.querySelectorAll('button'))b.setAttribute('aria-checked',String(b===e.target));});}
+const held=document.querySelector('#held'),lens=document.createElement('span');
+// A persistent visual state, calculated by the same pure geometry function.
+// Browser capture can blur/resize a live gesture; this is a preview, not a
+// physical-device gesture test. Controller transitions are tested separately.
+held.classList.add('prime-choice-picker','prime-slide-bar','is-tab-held');lens.className='prime-tab-lens';lens.setAttribute('aria-hidden','true');held.append(lens);
+function renderHeld(){const b=held.querySelector('button'),r=b.getBoundingClientRect(),p=held.getBoundingClientRect(),g=PrimeLiquidTabs.lensGeometry(r.left-p.left,r.top-p.top,r.width,r.height,held.clientWidth,held.clientHeight,true);for(const [k,v] of Object.entries({'--tab-x':g.left+'px','--tab-y':g.top+'px','--tab-width':g.width+'px','--tab-height':g.height+'px','--tab-scale-x':g.sx,'--tab-scale-y':g.sy}))lens.style.setProperty(k,String(v));}
+PrimeLiquidTabs.start(document,window);addEventListener('load',renderHeld);addEventListener('resize',renderHeld);
+</script></body></html>

@@ -1,0 +1,45 @@
+/* Compact by removing wasted gutters, never by zooming the whole app.
+   Hidden scrollbar chrome does not disable touch, wheel or keyboard scrolling. */
+html, body { scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+:is(.table-wrap,.grade-table-scroll,.grade-chart,.ai-chat-messages,.study-list,.modal,.sheet) { scrollbar-width: none; }
+:is(.table-wrap,.grade-table-scroll,.grade-chart,.ai-chat-messages,.study-list,.modal,.sheet)::-webkit-scrollbar { display: none; }
+#aiFabPanel .ai-chat-messages { scrollbar-width: none; }
+:is(#gradeComboChart,#homeSettingsPanel,.study-book-page,.quiz-workspace) { scrollbar-width: none; }
+:is(#gradeComboChart,#homeSettingsPanel,.study-book-page,.quiz-workspace)::-webkit-scrollbar { display: none; }
+.topbar .brand h1 { font-weight: 700!important; letter-spacing: -.025em; }
+.panel-school .card { padding: 22px!important; }
+.panel-school .card > h2 { margin: 0 0 14px!important; font-size: 20px!important; line-height: 1.4!important; }
+.panel-school .card > h2 + :is(.list,.table-wrap) { margin-top: 0!important; }
+.panel-school .schedule-stack { gap: 14px!important; }
+.panel-school .section-card-head { margin: 0 0 14px!important; }
+.panel-school .section-card-head h2 { margin: 0!important; line-height: 1.4; }
+.panel-school .calendar-note .list-item { padding: 14px 16px!important; }
+.panel-school .calendar-note .meal-menu { margin: 8px 0 0!important; line-height: 1.7!important; }
+.panel-school .schedule-card { min-height: 0!important; }
+.panel-school .table-wrap table,.panel-home .table-wrap table { min-width: 0!important; table-layout: fixed; }
+.panel-school .table-wrap th:first-child,.panel-home .table-wrap th:first-child { width: 26px!important; }
+.panel-school .table-wrap :is(th,td),.panel-home .table-wrap :is(th,td) { padding: 10px 5px!important; line-height: 1.45; vertical-align: middle; }
+/* Keep the original cell colors, bold type and rounded today column. */
+.panel-home .home-pomodoro .pomodoro-actions [data-pomodoro-reset],
+.panel-home .mobile-pomodoro-copy .pomodoro-actions [data-pomodoro-reset],
+.pomodoro-actions [data-pomodoro-reset] { color: color-mix(in srgb,var(--shell-blue) 70%,var(--shell-ink))!important; border-color: color-mix(in srgb,var(--shell-blue) 30%,var(--shell-line))!important; background: var(--shell-blue-soft)!important; }
+body .panel-home .home-pomodoro .pomodoro-actions [data-pomodoro-toggle],
+.panel-home .mobile-pomodoro-copy .pomodoro-actions [data-pomodoro-toggle],
+.pomodoro-actions [data-pomodoro-toggle] { background: var(--shell-blue)!important; border-color: var(--shell-blue)!important; color: var(--on-accent,#fff)!important; }
+.pomodoro-actions button:focus-visible { outline: 2px solid var(--shell-blue); outline-offset: 3px; }
+:root[data-theme="dark"] .panel-home .pomodoro-actions [data-pomodoro-toggle],
+:root[data-theme="dark"] .pomodoro-actions [data-pomodoro-toggle] { color: #17191c!important; }
+:root[data-theme="light"]:is([data-accent="orange"],[data-accent="red"]) .pomodoro-actions [data-pomodoro-toggle] { color: #111!important; }
+@media(max-width:999px) {
+  .panel-school .card { padding: 18px!important; border-radius: 22px!important; }
+  .panel-school .card > h2 { font-size: 19px!important; margin-bottom: 12px!important; }
+  .panel-school .table-wrap th:first-child,.panel-home .table-wrap th:first-child { width: 20px!important; }
+  .panel-school .table-wrap :is(th,td),.panel-home .table-wrap :is(th,td) { padding: 9px 3px!important; font-size: 14px!important; line-height: 1.5; }
+  .panel-school .calendar-note .list-item { padding: 12px 14px!important; }
+  .panel-plan .planner-checklist-card,.panel-plan .planner-workspace,.panel-plan .plan-generator,.panel-plan .exam-strategy-card { padding: 14px!important; }
+  .panel-plan .study-form,.panel-plan #examStrategyForm,.panel-assistant .study-form { gap: 10px!important; }
+  .panel-plan .planner-section-title,.panel-plan .planner-calendar-head { margin-bottom: 10px!important; }
+  .panel-assistant .ai-category-panel { padding: 14px 12px!important; }
+  #aiNotesPanel .study-book-page { padding: 12px!important; }
+}

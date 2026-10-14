@@ -1,0 +1,63 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**",
+      "mobile/**",
+      "scripts/**",
+      "netlify/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/chat",
+        "function": "chat"
+      },
+      {
+        "source": "/api/generateStudyPlan",
+        "function": "generateStudyPlan"
+      },
+      {
+        "source": "/api/generateQuiz",
+        "function": "generateQuiz"
+      },
+      {
+        "source": "/api/gradeQuiz",
+        "function": "gradeQuiz"
+      },
+      {
+        "source": "/api/generateLearningDiagnosis",
+        "function": "generateLearningDiagnosis"
+      }
+    ],
+    "headers": [
+      {
+        "source": "/js/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600, must-revalidate"
+          }
+        ]
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.chat.rules"
+  }
+}

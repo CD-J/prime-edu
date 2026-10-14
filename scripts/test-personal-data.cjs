@@ -1,0 +1,35 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const core=require('../js/personal-data-core.js');
+const conversations=[{id:'first',updatedAt:'2026-10-12',messages:[{role:'user',content:'나는 INFP야.'},{role:'assistant',content:'당신은 수학을 좋아해요.'},{role:'user',content:'내 비밀번호는 secret'}]},{id:'new',updatedAt:'2026-10-14',messages:[{role:'user',content:'나는 INTJ야.'},{role:'user',content:'나는 외향적인가?'}]}];
+const input={owner:'a',profile:{name:'예시',school:{name:'예시학교'},grade:2,classNo:1},grades:{targets:{middle:{name:'예시고등학교'}}},conversations,study:{sessions:[{source:'pomodoro',minutes:20},{source:'pomodoro',minutes:30},{source:'review',minutes:5}],notes:[{subject:'수학'}]},store:{manual:{habits:'짧게 나눠 공부'},actions:{'tab:plan':2}}};
+let graph=core.build(input);
+assert.equal(graph.name,'예시');assert.equal(graph.nodes.filter(n=>n.target==='branch').length,7);
+assert(graph.nodes.some(n=>n.title==='예시학교'));assert(graph.nodes.some(n=>n.title==='예시고등학교'));
+assert(graph.nodes.some(n=>n.title==='한 번에 평균 25분'));assert(graph.nodes.some(n=>n.title==='짧게 나눠 공부'));
+assert(graph.nodes.some(n=>n.title==='INTJ'));assert(!graph.nodes.some(n=>n.title==='INFP'));assert(!graph.nodes.some(n=>n.title==='외향적'));
+assert.equal(graph.sourceRows.length,3);assert(!JSON.stringify(graph).includes('secret'));
+const chosen=graph.nodes.find(n=>n.title==='INTJ');assert.equal(chosen.work.id,'new');
+assert(!core.build({...input,store:{hidden:[chosen.key]}}).nodes.some(n=>n.key===chosen.key));
+assert(!core.build({...input,conversations:conversations.map(c=>({...c,deleted:true})),store:{facts:[{category:'traits',title:'INTJ',sourceId:'new:0',quote:'나는 INTJ야.'}]}}).nodes.some(n=>n.title==='INTJ'));
+assert.deepEqual(core.cleanStore(null).actions,{});assert.equal(core.cleanStore({actions:{'tab:plan':-1,password:100}}).actions.password,undefined);
+assert.equal(core.cleanStore({manual:{name:'x'.repeat(100)}}).manual.name.length,30);
+assert.equal(core.localFacts([{id:'q',text:'나는 INFP인가요?'}]).length,0);
+// Actual controller: records from a mismatched study/chat owner never enter this map.
+const listeners={},storage=new Map(),win={PrimePersonalBehaviorCore:require('../js/personal-behavior-core.js'),PrimePersonalDataCore:core,ClassHubFirebase:{getCurrentUser:()=>null},SchemsStudyAI:{getSnapshot:()=>({owner:'other',sessions:[{minutes:999,source:'pomodoro'}]})},PrimeGradeNotebook:{getSnapshot:()=>({owner:'other',targets:{middle:{name:'다른 계정 목표'}}})},SchemsScheduleAI:{getState:()=>({owner:'other',conversations})},addEventListener(){},dispatchEvent(){}};
+const doc={readyState:'loading',addEventListener:(name,fn)=>listeners[name]=fn,querySelector:()=>null};
+const context={window:win,document:doc,localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},setTimeout:()=>1,clearTimeout(){},CustomEvent:function(){},AbortController};
+vm.runInNewContext(fs.readFileSync('js/personal-data.js','utf8'),context);listeners.DOMContentLoaded();
+assert(!win.PrimePersonalData.getGraph().nodes.some(n=>n.title.includes('999')||n.title==='다른 계정 목표'||n.title==='INTJ'));
+win.PrimePersonalData.setManual({name:'[예시] 하늘'});assert.equal(win.PrimePersonalData.getGraph().name,'[예시] 하늘');assert(storage.has('primeEdu.personalData.v1.guest'));
+(async()=>{
+ const {sanitizeInsights}=await import('../netlify/functions/personal-insights.mjs');
+ const rows=[{id:'x',text:'나는 밤에 공부하는 편이야.'}];
+ const good={category:'habits',title:'밤에 공부',sourceId:'x',quote:'나는 밤에 공부하는 편이야.'};
+ assert.equal(sanitizeInsights({facts:[good]},rows).length,1);
+ assert.equal(sanitizeInsights({facts:[{...good,quote:'없는 원문'}]},rows).length,0);
+ assert.equal(sanitizeInsights({facts:[{...good,title:'우울증 진단'}]},rows).length,0);
+ assert.equal(sanitizeInsights({facts:[{...good,category:'password'}]},rows).length,0);
+ assert.equal(sanitizeInsights({facts:[null,good]},[{id:'x',text:'가상 학생: 나는 밤에 공부하는 편이야.'}]).length,0);
+ assert.equal(core.cleanStore({facts:[null]}).facts.length,0);
+ console.log('PASS personal data: sourced self-statements, latest MBTI correction, question/credential exclusion, school/goals/stats/manual/hidden/deleted records, own-account isolation and verified AI quotation boundaries.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

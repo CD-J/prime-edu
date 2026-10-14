@@ -1,0 +1,28 @@
+/* Short copy, visible primary actions, secondary context on demand. */
+.grade-analysis-note {display:flex;align-items:center;gap:8px;margin:14px 0 0;color:var(--shell-muted);}
+.grade-analysis-note > span {flex:1;min-width:0;font-size:12px;line-height:1.5;word-break:keep-all;}
+:root[data-theme] body #gradeFeedbackInfoButton {
+  display:inline-grid!important;place-items:center;flex:none;width:44px;height:44px;
+  padding:10px!important;border:0;background:transparent!important;color:var(--shell-muted);
+}
+#gradeFeedbackInfo {margin:8px 0 0;padding:16px;border-radius:18px;background:var(--shell-blue-soft);scroll-margin-bottom:calc(96px + env(safe-area-inset-bottom,0px));}
+#gradeFeedbackInfo[hidden] {display:none!important;}
+#gradeFeedbackInfo ul {margin:0;padding-left:18px;display:grid;gap:8px;font-size:13px;line-height:1.6;color:var(--shell-ink);}
+.prime-journey #gradeGoalPanel > header {display:none;}
+:root[data-theme] body .prime-journey #gradeGoalPanel {margin-top:0;padding-top:0;border-top:0;}
+:root[data-theme] body .grade-feedback-action #gradeFeedbackButton[data-ui-keep-label] {display:inline-flex!important;align-items:center;justify-content:center;width:auto!important;min-width:104px;min-height:48px;padding:12px 18px!important;border-radius:999px;}
+:root[data-theme] body .settings-actions {display:flex!important;flex-wrap:wrap;align-items:center;gap:8px;}
+:root[data-theme] body .settings-actions #openAuthButton {flex:1;min-width:96px;}
+:root[data-theme] body .settings-actions :is(#settingsProfileButton,#settingsPrivacyButton,#settingsLogoutButton).prime-icon-button {
+  display:inline-grid!important;place-items:center;width:44px;height:48px;min-width:44px;
+  padding:12px!important;border-radius:16px;flex:none;
+}
+.settings-actions :is(#settingsProfileButton,#settingsPrivacyButton,#settingsLogoutButton) .prime-icon {width:22px;height:22px;}
+:root[data-theme] body .settings-actions :is(#settingsProfileButton,#settingsPrivacyButton,#settingsLogoutButton)[hidden] {display:none!important;}
+.grade-target-clear.prime-icon-button {text-decoration:none!important;min-width:44px;min-height:44px;}
+:root[data-theme] body #planModeDescription {display:none!important;}
+:root[data-theme] body .grade-profile-controls+form .grade-save-row {align-items:center;}
+:root[data-theme] body #gradeSaveStatus {min-width:0;flex:1 1 150px;}
+:root[data-theme] body :is(.study-empty,.quiz-library-empty) {word-break:keep-all;}
+:root[data-theme] body .planner-checklist-card[data-empty="true"] .planner-section-title [data-journey="checklist"] {display:none!important;}
+:root[data-theme] body #dailyChecklistProgress[hidden],:root[data-theme] body #studyQuizLibraryCount[hidden] {display:none!important;}

@@ -1,0 +1,34 @@
+/* One outline family; sizes reflect role, never platform font glyph metrics. */
+:root { --prime-icon-stroke:1.8; }
+svg.prime-icon {
+  display:block; flex:none; fill:none!important; stroke:currentColor!important;
+  stroke-width:var(--prime-icon-stroke)!important; stroke-linecap:round; stroke-linejoin:round;
+  pointer-events:none; overflow:visible;
+}
+#notificationButton svg.prime-icon { stroke-width:var(--prime-icon-stroke)!important; }
+/* Assistant navigation uses the same SVG instead of the old filled mask. */
+:is(.desktop-nav-item,.nav-item)[data-tab=assistant]::before { display:none!important; }
+:is(.desktop-nav-item,.nav-item)[data-tab=assistant]>svg.prime-icon { display:block; }
+:is(.desktop-nav-item,.nav-item)[data-tab=assistant]>svg.prime-icon { fill:none!important;stroke:currentColor!important; }
+:is(.calendar-toolbar,.planner-month-toolbar) button.prime-icon-button { display:inline-grid!important; place-items:center; flex:none; }
+:is(.home-notice-arrow,.settings-link-arrow,.academic-event-arrow) { display:inline-flex; align-items:center; justify-content:center; flex:none; line-height:1; }
+:is(.home-notice-arrow,.settings-link-arrow,.academic-event-arrow) .prime-icon { width:18px; height:18px; }
+:is(.section-icon,.tab-heading-icon,.home-widget-icon,.guide-step-icon,[data-ui-symbol]) { align-items:center; justify-content:center; }
+:is(.section-icon,.tab-heading-icon,.home-widget-icon) .prime-icon { width:22px; height:22px; }
+.guide-step-icon .prime-icon { width:24px; height:24px; }
+.mobile-theme-button { place-items:center; line-height:1; }
+.mobile-theme-button .prime-icon { width:22px; height:22px; }
+.notebook-create-trigger b .prime-icon { width:20px; height:20px; }
+[data-ui-symbol] { display:inline-flex; vertical-align:middle; }
+[data-ui-icon]:not(svg):not(button) { display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; }
+.ai-result-card>h3,.ai-result-card>header>h3 { display:flex; align-items:center; gap:8px; }
+[data-ui-symbol] .prime-icon { width:18px; height:18px; }
+#studyDashboardSummary article>span[aria-hidden] { display:grid; place-items:center; }
+#studyDashboardSummary .prime-icon { width:22px; height:22px; }
+.grade-feedback-card footer a { display:inline-flex; align-items:center; gap:4px; }
+.grade-feedback-card footer a .prime-icon { width:14px; height:14px; }
+.standby-check-dot .prime-icon { width:18px; height:18px; }
+.chat-history-delete .prime-icon { width:18px; height:18px; }
+.school-profile-notice .prime-icon { width:22px; height:22px; }
+.book-result-jump { align-items:center; justify-content:center; gap:6px; }
+.book-result-jump .prime-icon { width:18px; height:18px; }

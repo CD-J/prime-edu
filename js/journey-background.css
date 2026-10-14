@@ -1,0 +1,25 @@
+/* Progress belongs to the feature, never to a blocking loading screen. */
+:root[data-theme] body .journey-task {
+  display:grid!important;grid-template-columns:minmax(0,1fr) 44px;
+  align-items:center;gap:12px;min-width:0;box-sizing:border-box;
+  margin:12px 0;padding:14px 16px;border:0;border-radius:22px;
+  background:color-mix(in srgb,var(--shell-blue) 7%,var(--shell-card));
+  color:var(--shell-ink);height:auto!important;min-height:0!important;
+}
+:root[data-theme] body .journey-task[hidden] { display:none!important; }
+:root[data-theme] body .panel .journey-background-result { display:none!important; }
+.journey-task>div { min-width:0; }
+:root[data-theme] body .journey-task strong { display:block;font-size:14px!important;font-weight:650;line-height:1.4; }
+:root[data-theme] body .journey-task p { margin:4px 0 0;font-size:13px!important;font-weight:400;line-height:1.5;color:var(--shell-muted);overflow-wrap:anywhere; }
+:root[data-theme] body .journey-task .journey-task-action {
+  display:grid;place-items:center;width:44px;height:44px;min-width:44px;min-height:44px;
+  padding:10px;margin:0;border:0;border-radius:50%;background:var(--shell-blue-soft);
+  color:var(--shell-blue);box-sizing:border-box;touch-action:manipulation;cursor:pointer;
+}
+.journey-task-action svg { width:22px;height:22px; }
+.journey-task-action .operation-spinner { display:block;width:20px;height:20px;box-sizing:border-box;border:2px solid var(--shell-line);border-top-color:var(--shell-blue);border-radius:50%;animation:journey-task-spin .9s linear infinite; }
+@keyframes journey-task-spin { to { transform:rotate(360deg); } }
+:root[data-theme] body .journey-task-action:disabled { opacity:1;cursor:default; }
+.journey-task-action:focus-visible { outline:2px solid var(--shell-blue);outline-offset:3px; }
+@media (max-width:480px) { :root[data-theme] body .journey-task { padding:12px;gap:10px;border-radius:18px; } }
+@media (prefers-reduced-motion:reduce) { .journey-task .operation-spinner { animation:none; } }

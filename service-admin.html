@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>서비스 관리 · Prime Edu</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="assets/sudo-app-icon.svg?v=20261005-04"
+    />
+    <script src="js/browser-compat.js?v=20261010-59"></script>
+    <script>
+      (function () {
+        const system = matchMedia("(prefers-color-scheme: dark)");
+        function syncAppearance() {
+          let mode = "auto",
+            accent = "green";
+          try {
+            const savedMode = localStorage.getItem("classHubTheme");
+            mode = ["light", "dark"].includes(savedMode) ? savedMode : "auto";
+            const preferences = JSON.parse(
+              localStorage.getItem("schemsHomePreferences.v1") || "{}",
+            );
+            if (
+              ["green", "blue", "gray", "red", "purple", "orange"].includes(
+                preferences.accent,
+              )
+            )
+              accent = preferences.accent;
+          } catch {}
+          document.documentElement.dataset.themeMode = mode;
+          document.documentElement.dataset.theme =
+            mode === "auto" ? (system.matches ? "dark" : "light") : mode;
+          document.documentElement.dataset.accent = accent;
+        }
+        syncAppearance();
+        window.addEventListener("storage", (e) => {
+          if (
+            !e.key ||
+            ["classHubTheme", "schemsHomePreferences.v1"].includes(e.key)
+          )
+            syncAppearance();
+        });
+        if (system.addEventListener)
+          system.addEventListener("change", syncAppearance);
+        else system.addListener(syncAppearance);
+      })();
+    </script>
+    <link rel="stylesheet" href="js/app-shell.css?v=20261005-02" />
+    <link rel="stylesheet" href="js/home-polish.css?v=20261008-42" />
+    <link rel="stylesheet" href="js/glass-design.css?v=20261013-76" />
+    <link rel="stylesheet" href="js/capsule-standby.css?v=20261009-53" />
+    <link rel="stylesheet" href="js/button-motion.css?v=20261007-30" />
+    <link rel="stylesheet" href="js/tab-touch.css?v=20261009-56" />
+    <link rel="stylesheet" href="js/service-admin.css?v=20261013-77" />
+    <link rel="stylesheet" href="js/interface-system.css?v=20261014-83b" />
+    <link rel="stylesheet" href="js/layout-integrity.css?v=20261014-85" />
+  </head>
+  <body>
+    <header class="manage-header">
+      <a
+        href="index.html"
+        class="icon-button"
+        aria-label="서비스로 돌아가기"
+        data-manage-icon="back"
+      ></a>
+      <a class="manage-brand" href="index.html" aria-label="Prime Edu 홈">
+        <span class="manage-brand-mark" aria-hidden="true"
+          ><svg viewBox="0 0 40 40" fill="none">
+            <circle
+              cx="20"
+              cy="20"
+              r="14"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+            <path
+              d="m17 17 2 5m4-7 2 5"
+              stroke="currentColor"
+              stroke-width="3.2"
+              stroke-linecap="round"
+            /></svg
+        ></span>
+        <strong>Prime Edu</strong>
+      </a>
+      <button
+        id="refreshManage"
+        class="icon-button"
+        aria-label="새로고침"
+        data-manage-icon="reset"
+      ></button>
+    </header>
+    <main class="manage-shell">
+      <div class="manage-page-heading">
+        <span
+          class="manage-section-icon"
+          data-manage-icon="shield"
+          aria-hidden="true"
+        ></span>
+        <h1>서비스 관리</h1>
+      </div>
+      <section id="accessPanel" class="manage-card">
+        <div class="manage-section-label">
+          <span
+            class="manage-section-icon"
+            data-manage-icon="user"
+            aria-hidden="true"
+          ></span>
+          <h2>관리자 로그인</h2>
+        </div>
+        <p id="accessMessage" role="status">관리자 연결 확인 중</p>
+        <form id="manageLogin" hidden>
+          <label
+            >이메일<input
+              name="email"
+              type="email"
+              autocomplete="username"
+              required /></label
+          ><label
+            >비밀번호<input
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required /></label
+          ><button class="primary-button" type="submit">로그인</button>
+        </form>
+        <button id="manageGoogle" class="quiet-button" hidden>
+          Google로 로그인</button
+        ><button id="manageLogout" class="quiet-button" hidden>
+          다른 계정으로 로그인
+        </button>
+      </section>
+      <div id="manageWorkspace" class="manage-workspace" hidden>
+        <aside id="accountsPanel" class="manage-card">
+          <div class="card-heading">
+            <div class="manage-section-label">
+              <span
+                class="manage-section-icon"
+                data-manage-icon="user"
+                aria-hidden="true"
+              ></span>
+              <h2>계정</h2>
+            </div>
+            <span id="accountCount" class="muted"></span>
+          </div>
+          <form id="accountSearch" class="search-row">
+            <input
+              id="accountQuery"
+              aria-label="이메일 또는 UID로 찾기"
+              placeholder="이메일 또는 UID"
+              autocomplete="off"
+            /><button
+              class="icon-button"
+              type="submit"
+              aria-label="계정 찾기"
+              data-manage-icon="search"
+            ></button>
+          </form>
+          <p id="accountsStatus" class="muted" role="status"></p>
+          <div id="accountList" class="account-list"></div>
+          <button
+            id="moreAccounts"
+            class="icon-button more"
+            aria-label="다음 계정 불러오기"
+            data-manage-icon="down"
+            hidden
+          ></button>
+        </aside>
+        <section id="detailPanel" class="manage-card" hidden>
+          <div class="detail-heading">
+            <button
+              id="backAccounts"
+              class="icon-button mobile-only"
+              aria-label="계정 목록으로"
+              data-manage-icon="back"
+            ></button>
+            <span
+              id="detailAvatar"
+              class="detail-avatar"
+              aria-hidden="true"
+            ></span>
+            <div class="min-width">
+              <h2 id="accountName"></h2>
+              <p id="accountEmail" class="muted"></p>
+            </div>
+            <div class="account-actions">
+              <button
+                id="editAccountProfile"
+                class="icon-button"
+                aria-label="계정 정보 수정"
+                data-manage-icon="edit"
+              ></button>
+              <button
+                id="manageAccountTools"
+                class="icon-button"
+                aria-label="계정 관리 도구"
+                data-manage-icon="sliders"
+              ></button>
+              <button
+                id="resetAccountPassword"
+                class="icon-button"
+                aria-label="비밀번호 재설정 메일"
+                data-manage-icon="reset"
+                hidden
+              ></button
+              ><button
+                id="toggleAccount"
+                class="icon-button"
+                aria-label="로그인 차단"
+                data-manage-icon="pause"
+                hidden
+              ></button>
+            </div>
+          </div>
+          <div
+            class="plan-mode-tabs manage-tabs"
+            role="tablist"
+            aria-label="계정 정보 종류"
+          >
+            <button role="tab" data-plan-mode="profile" aria-selected="true">
+              정보</button
+            ><button role="tab" data-plan-mode="events" aria-selected="false">
+              일정</button
+            ><button role="tab" data-plan-mode="records" aria-selected="false">
+              기록</button
+            ><button role="tab" data-plan-mode="history" aria-selected="false">
+              이력
+            </button>
+          </div>
+          <p id="detailStatus" role="status" class="muted"></p>
+          <section id="profileView">
+            <dl id="accountFacts" class="account-facts"></dl>
+            <details class="profile-details">
+              <summary>
+                <span>로그인 정보</span
+                ><span
+                  class="record-chevron"
+                  data-manage-icon="down"
+                  aria-hidden="true"
+                ></span>
+              </summary>
+              <div id="authenticationData" class="record-data"></div>
+            </details>
+            <details class="profile-details">
+              <summary>
+                <span>프로필 전체</span
+                ><span
+                  class="record-chevron"
+                  data-manage-icon="down"
+                  aria-hidden="true"
+                ></span>
+              </summary>
+              <div id="profileData" class="record-data"></div>
+            </details>
+          </section>
+          <section id="historyView" hidden>
+            <div id="accountHistory"></div>
+            <button
+              id="moreHistory"
+              class="icon-button more"
+              aria-label="다음 작업 이력"
+              data-manage-icon="down"
+              hidden
+            ></button>
+          </section>
+          <section id="eventsView" hidden>
+            <div class="card-heading">
+              <h3>계정 일정</h3>
+              <button
+                id="addAccountEvent"
+                class="icon-button"
+                aria-label="이 계정에 일정 추가"
+                data-manage-icon="plus"
+              ></button>
+            </div>
+            <p class="muted small">
+              개인 일정 · 학교 공식 원본은 변경하지 않아요
+            </p>
+            <div id="eventRecords"></div>
+          </section>
+          <section id="recordsView" hidden>
+            <div
+              id="recordCategories"
+              class="record-categories"
+              role="group"
+              aria-label="기록 분류"
+            ></div>
+            <form id="chatReasonForm" hidden>
+              <label
+                >확인 사유<input
+                  id="chatReason"
+                  minlength="3"
+                  maxlength="300"
+                  required /></label
+              ><button
+                class="icon-button"
+                aria-label="대화 목록 확인"
+                data-manage-icon="arrow"
+              ></button>
+            </form>
+            <div id="learningRecords"></div>
+          </section>
+          <button
+            id="moreRecords"
+            class="icon-button more"
+            aria-label="다음 기록 불러오기"
+            data-manage-icon="down"
+            hidden
+          ></button>
+        </section>
+      </div>
+    </main>
+    <section
+      id="manageModal"
+      class="manage-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="manageModalTitle"
+      hidden
+    >
+      <div class="modal-sheet">
+        <header class="card-heading">
+          <h2 id="manageModalTitle"></h2>
+          <button
+            id="closeManageModal"
+            class="icon-button"
+            aria-label="닫기"
+            data-manage-icon="close"
+          ></button>
+        </header>
+        <p id="modalMessage"></p>
+        <div id="accountTools" class="manage-tool-grid" hidden>
+          <button type="button" data-admin-action="updateProfile">
+            <span data-manage-icon="user" aria-hidden="true"></span
+            ><span>정보 수정</span>
+          </button>
+          <button type="button" data-admin-action="updateDday">
+            <span data-manage-icon="calendar" aria-hidden="true"></span
+            ><span>D-day</span>
+          </button>
+          <button type="button" data-admin-action="resetPassword">
+            <span data-manage-icon="reset" aria-hidden="true"></span
+            ><span>재설정 메일</span>
+          </button>
+          <button type="button" data-admin-action="revokeSessions">
+            <span data-manage-icon="logout" aria-hidden="true"></span
+            ><span>세션 종료</span>
+          </button>
+          <button type="button" data-admin-action="setDisabled">
+            <span data-manage-icon="pause" aria-hidden="true"></span
+            ><span>로그인 관리</span>
+          </button>
+        </div>
+        <form id="profileManageForm" hidden>
+          <label
+            >이름<input name="displayName" maxlength="80" required
+          /></label>
+          <fieldset class="manage-school-level">
+            <legend>학교급</legend>
+            <label
+              ><input
+                type="radio"
+                name="schoolLevel"
+                value="middle"
+                required
+              />중학교</label
+            ><label
+              ><input
+                type="radio"
+                name="schoolLevel"
+                value="high"
+              />고등학교</label
+            >
+          </fieldset>
+          <div class="manage-form-row">
+            <label
+              >학년<input
+                name="grade"
+                type="number"
+                min="1"
+                max="3"
+                step="1"
+                required /></label
+            ><label
+              >반<input
+                name="classNo"
+                type="number"
+                min="1"
+                max="99"
+                step="1"
+                required
+            /></label>
+          </div>
+          <label>학교</label>
+          <div class="search-row">
+            <input
+              id="profileSchoolQuery"
+              aria-label="학교 이름 검색"
+              placeholder="학교 이름"
+            /><button
+              id="profileSchoolSearch"
+              type="button"
+              class="icon-button"
+              aria-label="학교 찾기"
+              data-manage-icon="search"
+            ></button>
+          </div>
+          <p id="profileSchoolSelected" class="muted" role="status"></p>
+          <div id="profileSchoolResults" class="manage-school-results"></div>
+          <button class="primary-button" type="submit">저장</button>
+        </form>
+        <form id="ddayManageForm" hidden>
+          <label>D-day 이름<input name="title" maxlength="80" required /></label
+          ><label
+            >날짜<input
+              name="date"
+              type="date"
+              min="2000-01-01"
+              max="2100-12-31"
+              required /></label
+          ><button class="primary-button" type="submit">저장</button>
+        </form>
+        <form id="renameManageForm" hidden>
+          <label>노트 이름<input name="title" maxlength="160" required /></label
+          ><button class="primary-button" type="submit">저장</button>
+        </form>
+        <form id="eventManageForm" hidden>
+          <label>일정 이름<input name="title" maxlength="160" required /></label
+          ><label
+            >날짜<input
+              name="date"
+              type="date"
+              min="2000-01-01"
+              max="2100-12-31"
+              required /></label
+          ><label
+            >메모<textarea
+              name="memo"
+              maxlength="2000"
+              rows="3"
+            ></textarea></label
+          ><button class="primary-button" type="submit">추가</button>
+        </form>
+        <button id="confirmManageAction" class="primary-button" hidden>
+          확인
+        </button>
+        <p id="modalStatus" class="muted" role="status"></p>
+      </div>
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/class-hub-firebase.js?v=20261005-03"></script>
+    <script src="js/ui-icons.js?v=20261013-73"></script>
+    <script src="js/liquid-tabs.js?v=20261009-50"></script>
+    <script src="js/button-motion.js?v=20261007-30"></script>
+    <script src="js/service-admin.js?v=20261013-77"></script>
+  </body>
+</html>

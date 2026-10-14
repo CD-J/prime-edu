@@ -1,0 +1,15 @@
+/* Arrival should reveal a whole surface, never slice through a book or control. */
+:root[data-theme] body .panel-assistant .is-note-writing {
+  clip-path:none!important; transform-origin:center;
+  animation:prime-surface-arrive 240ms cubic-bezier(.22,1,.36,1) both!important;
+}
+:root[data-theme] body .panel-assistant .is-note-writing > * {
+  clip-path:none!important; animation:none!important;
+}
+@keyframes prime-surface-arrive {
+  from { opacity:0; transform:translateY(4px); }
+  to { opacity:1; transform:none; }
+}
+@media(prefers-reduced-motion:reduce) {
+  :root[data-theme] body .panel-assistant .is-note-writing { animation:none!important; }
+}

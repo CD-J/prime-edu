@@ -1,0 +1,18 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const read = file => fs.readFileSync(path.join(__dirname,'..',file),'utf8');
+const css=read('js/surface-finish.css'),html=read('index.html');
+assert(html.indexOf('js/surface-finish.css')>html.indexOf('js/mobile-layout.css'));
+assert.match(html,/surface-finish\.css\?v=20261006-25/);
+for(const [role,radius] of [['control',14],['inset',16],['card',24],['dialog',28]])assert(css.includes(`--finish-radius-${role}: ${radius}px;`));
+assert.match(css,/data-theme="dark"/);
+assert.match(css,/prefers-reduced-motion:no-preference/);
+assert.match(css,/outline-offset: 2px/);
+assert.match(css,/grade-input-table input:focus \{ outline-offset: -3px/,'Table focus must stay within clipped year edges');
+assert.match(css,/study-book-page:first-child \{ border-radius: var\(--finish-radius-card\) 0 0/,'Desktop binding must stay flat');
+assert.match(css,/modal-backdrop > \[role="dialog"\]/);
+assert.doesNotMatch(css,/[{;]\s*(?:font-size|padding|height|width|zoom|overflow|filter|transform|pointer-events)\s*:/,'Finishing must not change density, clipping or hit geometry');
+assert.doesNotMatch(css,/table-wrap|timetable-dayoff|rowspan|sudo-face|pomodoro-ring\s*\{/,'Keep established timetable, mascot contours and circular clock');
+assert.match(css,/var\(--shell-blue\)/);
+console.log('PASS surface finish: shared nested curves, theme-aware edges/fills/shadows, focus visibility, reduced-motion policy, existing layout/typography/timetable/mascot geometry preserved.');

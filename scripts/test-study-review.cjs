@@ -1,0 +1,36 @@
+const assert = require('node:assert/strict');
+const core = require('../js/study-review-core.js');
+const quiz = {id:'q',subject:'수학',title:'함수',questions:[{question:'기울기?',options:['2','3'],answer:'2'},{question:'절편?',answer:'4'}]};
+const attempt = {id:'a',quizId:'q',date:'2026-10-11',createdAt:'2026-10-11T10:00:00Z',details:[{correct:false},{correct:true}]};
+let queue = core.buildQueue([quiz],[attempt],'2026-10-11');
+assert.equal(queue.length,1);assert.equal(queue[0].id,'q:0');assert.equal(queue[0].ready,true);
+quiz.reviewProgress = {0:core.advance(queue[0],true,'2026-10-11')};
+assert.equal(quiz.reviewProgress[0].due,'2026-10-12');
+queue = core.buildQueue([quiz],[attempt],'2026-10-11');assert.equal(queue[0].ready,false);
+assert.throws(()=>core.advance(queue[0],true,'2026-10-11'),/이미/);
+queue = core.buildQueue([quiz],[attempt],'2026-10-12');
+quiz.reviewProgress[0] = core.advance(queue[0],true,'2026-10-12');assert.equal(quiz.reviewProgress[0].due,'2026-10-15');
+queue = core.buildQueue([quiz],[attempt],'2026-10-15');
+quiz.reviewProgress[0] = core.advance(queue[0],false,'2026-10-15');assert.equal(quiz.reviewProgress[0].due,'2026-10-16');assert.equal(quiz.reviewProgress[0].stage,0);
+for (const interval of core.intervals) {
+  const due = quiz.reviewProgress[0].due;
+  queue = core.buildQueue([quiz],[attempt],due);
+  quiz.reviewProgress[0] = core.advance(queue[0],true,due);
+  assert.equal(quiz.reviewProgress[0].due,core.addDays(due,interval));
+}
+queue=core.buildQueue([quiz],[attempt],quiz.reviewProgress[0].due);
+quiz.reviewProgress[0]=core.advance(queue[0],true,queue[0].due);
+assert.equal(core.buildQueue([quiz],[attempt],'2027-12-30').length,0);
+assert.equal(core.buildQueue([{...quiz,archivedAt:'now'}],[attempt]).length,0);
+const newer={...attempt,id:'b',createdAt:'2026-10-12T10:00:00Z',details:[{correct:true},{correct:true}]};
+assert.equal(core.buildQueue([quiz],[attempt,newer],'2026-10-13').length,0);
+const changed={...quiz,questions:[{...quiz.questions[0],question:'수정된 질문'}]};
+assert.equal(core.buildQueue([changed],[attempt],'2026-10-11').length,1,'edited question invalidates old review progress');
+assert.equal(core.buildQueue([quiz],[{...attempt,details:[{}]}]).length,0,'unknown correctness is not a mistake');
+assert.equal(core.matches({answer:'분자'},' 분 자 '),true);assert.equal(core.matches({answer:''},''),false);
+assert.equal(core.addDays('2026-12-31',1),'2027-01-01');assert.equal(core.validDate('2026-02-30'),false);
+assert.throws(()=>core.buildQueue([],[],'not-a-date'));
+const midnightLegacy={...attempt,id:'legacy-midnight',date:'2026-10-12',createdAt:undefined,details:[{correct:true}]};
+const midnightNew={...attempt,id:'new-midnight',date:'2026-10-12',createdAt:'2026-10-11T15:30:00Z'};
+assert.equal(core.buildQueue([{...quiz,reviewProgress:{}}],[midnightLegacy,midnightNew],'2026-10-12')[0].attemptId,'new-midnight','compare timestamp instants, not mixed UTC/local date strings');
+console.log('PASS review queue: mistakes only, stable source IDs, 1/3/7/14/30-day intervals, lapse reset, same-day duplicate guard, archive/edit/full-retry invalidation, unknown correctness, dates.');

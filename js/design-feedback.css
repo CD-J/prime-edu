@@ -1,0 +1,79 @@
+/* Sonnet's observed findings, not a new theme or notebook metaphor. */
+:root { --calendar-holiday:#c34360;--calendar-exam:#997128; }
+:root[data-theme=dark] { --calendar-holiday:#f399a9;--calendar-exam:#e5c283; }
+:root[data-theme] body .topbar { background-color:var(--shell-card)!important; }
+@supports (color:color-mix(in srgb,white,black)) {
+  :root[data-theme] body .topbar { background:color-mix(in srgb,var(--shell-card) 96%,transparent)!important; }
+}
+/* The prompt remains the heading; the original input retains its owner. */
+:root[data-theme] body .prime-journey .journey-field > .field {
+  min-height:60px;border:1px solid var(--shell-line)!important;
+  background:var(--glass-inset)!important;color:var(--shell-ink)!important;
+}
+:root[data-theme] body .prime-journey .field:focus-visible { outline:2px solid var(--shell-blue);outline-offset:3px; }
+.journey-choice-caption { margin:28px 0 10px;font-size:13px;font-weight:600;color:var(--shell-muted); }
+:root[data-theme] body .prime-journey .plan-mode-tabs { margin:0!important; }
+:root[data-theme] body .prime-journey .journey-navigation { align-items:center;justify-content:space-between;padding-top:16px;gap:16px; }
+.journey-step-counter { color:var(--shell-muted);font-size:13px;font-variant-numeric:tabular-nums;letter-spacing:.06em; }
+:root[data-theme] body .prime-journey [data-journey-next] {
+  display:flex!important;align-items:center;justify-content:center;gap:12px;
+  width:auto!important;min-width:112px;height:52px;min-height:52px;
+  padding:12px 20px;border-radius:999px;font-family:inherit;font-size:16px;font-weight:600;line-height:1.4;
+}
+.prime-journey [data-journey-next] .prime-icon { width:20px;height:20px;flex:none; }
+:root[data-theme] body .prime-journey [data-journey-next][hidden] { display:none!important; }
+/* Only key empty-state actions keep short visible labels. */
+:root[data-theme] body :is(.planner-empty,.grade-chart-empty) > button[data-ui-keep-label] {
+  width:auto!important;height:auto!important;min-width:96px;min-height:44px;
+  margin:12px 0 0;padding:10px 16px!important;display:inline-flex!important;
+  justify-content:center;align-items:center;border-radius:999px!important;
+  background:var(--shell-blue-soft)!important;color:var(--shell-blue)!important;
+  font-size:14px!important;font-weight:600;line-height:1.4;
+}
+:root[data-theme] body #gradeComboChart[data-empty=true] { min-height:0!important;height:auto!important;padding:0!important; }
+:root[data-theme] body #gradeComboChart[data-empty=true] .grade-chart-empty { padding:20px!important;background:none!important;box-shadow:none!important;border:0!important; }
+:root[data-theme] body #gradeChartSubject[hidden] { display:none!important; }
+:root[data-theme] body .grade-chart-controls.is-empty { display:none!important; }
+:root[data-theme] body .panel-progress .dashboard-empty { min-height:0!important;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;text-align:left; }
+:root[data-theme] body .panel-progress .dashboard-empty p { flex:1;min-width:0;font-size:14px;line-height:1.6; }
+:root[data-theme] body .panel-progress .dashboard-empty button { flex:none; }
+:root[data-theme] body #studyDashboardSummary { display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;border:1px solid var(--shell-line);border-radius:24px;background:var(--shell-card);overflow:hidden; }
+:root[data-theme] body #studyDashboardSummary article { min-width:0;min-height:0!important;padding:18px 12px!important;display:block!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:none!important; }
+:root[data-theme] body #studyDashboardSummary article+article { border-left:1px solid var(--shell-line)!important; }
+:root[data-theme] body #studyDashboardSummary article>span { display:none!important; }
+:root[data-theme] body #studyDashboardSummary small { font-size:12px!important;line-height:1.4; }
+:root[data-theme] body #studyDashboardSummary strong { font-size:24px!important;line-height:1.3;margin-top:7px; }
+/* Keep the paper indexes inset as tabs; remove redundant inner boxes only. */
+:root[data-theme] body #aiNotesPanel .study-book-spread { box-shadow:none!important; }
+:root[data-theme] body #aiNotesPanel .study-book-page { background:transparent!important;box-shadow:none!important; }
+:root[data-theme] body #aiNotesPanel .study-book-page-head { border-bottom-color:var(--shell-line)!important; }
+:root[data-theme] body #aiNotebookPages > .ai-category-panel { margin-inline:auto!important; }
+:root[data-theme] body #aiNotebookPages>.ai-category-panel>.ai-category-head h2 { font-size:18px!important;font-weight:600!important; }
+:root[data-theme] body :is(#plannerCalendarGrid .planner-event,#calendarGrid .cal-dot)[data-calendar-tone=holiday] { color:var(--calendar-holiday)!important; }
+:root[data-theme] body :is(#plannerCalendarGrid .planner-event,#calendarGrid .cal-dot)[data-calendar-tone=exam] { color:var(--calendar-exam)!important; }
+/* A full-bleed message canvas should not pretend to be a cropped card. */
+@media(max-width:999px) {
+  :root[data-theme] body #mobileHomeChatView .mobile-home-chat-messages { border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;padding-inline:16px!important; }
+  :root[data-theme] body #mobileHomeChatView .mobile-home-chat-form { margin-top:12px!important; }
+  :root[data-theme] body #aiNotesPanel .study-book-page { border:0!important;border-radius:0!important;padding:8px 4px 12px!important; }
+  :root[data-theme] body #aiNotesPanel .study-book-page+.study-book-page { border-top:1px solid var(--shell-line)!important;padding-top:20px!important; }
+  :root[data-theme] body #studyDashboardSummary article { padding:16px 10px!important; }
+  :root[data-theme] body #studyDashboardSummary strong { font-size:22px!important; }
+  :root[data-theme] body .panel-settings #settingsPrivacyButton { grid-column:1 / -1;width:100%; }
+}
+@media(max-width:600px) {
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-day,#calendarGrid .cal-day:not(.empty)) { grid-template-rows:24px 28px minmax(12px,auto)!important;min-height:76px!important; }
+  :root[data-theme] body :is(.planner-day-items,.cal-cell-events) { height:28px; }
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-event,#calendarGrid .cal-dot:not(.meal-dot):not(.more)) { font-size:11px!important;line-height:14px!important;max-height:28px;white-space:pre-line!important; }
+}
+/* Timer uses Gothic, while clock templates keep their rounded bold type. */
+#primeStandby #standbyTimerValue { gap:0;letter-spacing:0!important; }
+#primeStandby #standbyTimerValue .standby-number { letter-spacing:-.025em!important; }
+#primeStandby #standbyTimerValue .standby-colon { letter-spacing:0!important;font-size:.86em!important;padding:0 .09em;line-height:1!important;transform:translateY(-.035em); }
+#primeStandby .standby-timer-heading { justify-self:center; }
+#primeStandby .standby-dots { right:max(26px,var(--standby-safe-right)); }
+#primeStandby .standby-dots button::after { background:#ffffff66; }
+@media(max-height:500px) {
+  .journey-choice-caption { margin-top:16px; }
+  :root[data-theme] body .prime-journey [data-journey-next] { height:44px;min-height:44px; }
+}

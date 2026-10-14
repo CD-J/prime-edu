@@ -1,0 +1,57 @@
+/* Rounded timetable: one compact semantic table, no square joined cell borders.
+   The five weekdays and all period rows stay intact in both copies. */
+:is(.panel-school,.panel-home) .table-wrap {
+  border: 1px solid var(--finish-edge-soft)!important;
+  border-radius: 20px!important;
+  padding: 4px;
+  background: var(--shell-card);
+  overflow-x: auto!important;
+  overscroll-behavior-x: contain;
+}
+:is(.panel-school,.panel-home) .table-wrap:focus-visible {
+  outline: 2px solid var(--shell-blue);
+  outline-offset: 3px;
+}
+:is(.panel-school,.panel-home) .table-wrap table {
+  width: 100%; min-width: 0!important; table-layout: fixed;
+  border-collapse: separate!important; border-spacing: 4px!important;
+  border: 0; border-radius: 16px;
+}
+:is(.panel-school,.panel-home) .table-wrap :is(th,td) {
+  border: 1px solid var(--finish-edge-soft)!important;
+  border-radius: 12px!important;
+  box-shadow: none!important;
+  background: var(--finish-fill)!important;
+  text-align: center; vertical-align: middle;
+  white-space: normal; word-break: keep-all; overflow-wrap: anywhere;
+  padding: 8px 4px!important; line-height: 1.4;
+}
+:is(.panel-school,.panel-home) .table-wrap thead th {
+  height: 38px; color: var(--shell-muted);
+  background: color-mix(in srgb,var(--shell-ink) 5%,var(--shell-card))!important;
+}
+:is(.panel-school,.panel-home) .table-wrap th:first-child { width: 26px!important; padding-inline: 2px!important; }
+:is(.panel-school,.panel-home) .table-wrap thead th:first-child { border-color: transparent!important; background: transparent!important; }
+:is(.panel-school,.panel-home) .table-wrap tbody :is(th,td) { height: 44px; }
+:is(.panel-school,.panel-home) .table-wrap tbody th {
+  color: var(--shell-muted); background: var(--shell-card)!important;
+  border-color: transparent!important;
+}
+:is(.panel-school,.panel-home) .table-wrap :is(th,td).is-today-col {
+  color: var(--shell-blue)!important;
+  background: color-mix(in srgb,var(--shell-blue) 9%,var(--shell-card))!important;
+  border-color: color-mix(in srgb,var(--shell-blue) 24%,var(--finish-edge-soft))!important;
+}
+:is(.panel-school,.panel-home) .table-wrap thead th.is-today-col {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb,var(--shell-blue) 28%,transparent)!important;
+}
+@media (max-width:999px) {
+  .panel-school .card:has(> .table-wrap) { padding: 14px!important; }
+  :is(.panel-school,.panel-home) .table-wrap { padding: 2px; border-radius: 18px!important; }
+  :is(.panel-school,.panel-home) .table-wrap table { border-spacing: 2px!important; }
+  :is(.panel-school,.panel-home) .table-wrap :is(th,td) {
+    font-size: 14px!important; padding: 6px 3px!important; line-height: 1.35!important;
+    border-radius: 10px!important;
+  }
+  :is(.panel-school,.panel-home) .table-wrap th:first-child { width: 18px!important; padding-inline: 1px!important; }
+}

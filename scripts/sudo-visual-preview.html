@@ -1,0 +1,17 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>스도 동작 검수</title>
+<link rel="stylesheet" href="../js/sudo-ai-button.css">
+<link rel="stylesheet" href="../js/mobile-compact.css">
+<style>body{font:16px system-ui;margin:24px;color:#171918;background:#fafafa}main{max-width:640px;margin:auto}button.control{padding:12px 18px;border:1px solid #ddd;border-radius:14px;background:white;margin:6px}#aiFabWrap{position:relative;display:grid;place-items:center;height:340px}#aiFabButton.sudo-ai-button{width:160px;height:160px;background:none;border:0;backdrop-filter:none}#aiFabButton .sudo-ai-character{width:196px;height:196px}figure{margin:0;display:flex;gap:24px;align-items:center}figure img{width:96px;height:96px}</style>
+<main><h1>스도 동작 검수</h1><figure><img src="../assets/sudo-app-icon.svg" alt="스도 앱 아이콘"><figcaption>앱 아이콘 전용 얼굴</figcaption></figure><div id="aiFabWrap"><button id="aiFabButton" class="sudo-ai-button" data-sudo-state="idle" aria-label="스도"><span class="sudo-ai-character"></span></button><div id="aiFabPanel" hidden></div></div><button class="control" id="play">5.3초 부풀기·폭발 재생</button><button class="control" id="cancel">누름 취소</button><p id="status" role="status">대기</p></main>
+<script src="../js/sudo-ai-assets.js"></script><script>document.querySelector('.sudo-ai-character').innerHTML=PrimeSudoAssets.idle;</script>
+<script src="../js/sudo-dialogue.js"></script><script src="../js/sudo-physics-core.js"></script><script src="../js/sudo-ai-physics.js"></script>
+<script>
+const send=phase=>window.dispatchEvent(new CustomEvent('prime:sudo-drag',{detail:{phase,time:performance.now(),x:0,y:0}}));
+// Explicit developer-only UI controls for deterministic intermediate frames.
+for(const [label,ms] of [['누른 지 1초',1000],['누른 지 3초',3100],['누른 지 4초',4300]]){const b=document.createElement('button');b.className='control';b.textContent=label;b.onclick=()=>{document.querySelector('.sudo-return:not([hidden])')?.click();window.dispatchEvent(new CustomEvent('prime:sudo-drag',{detail:{phase:'start',time:performance.now()-ms,pointerX:200,pointerY:200}}));};document.querySelector('#cancel').after(b);}
+const peak=document.createElement('button');peak.className='control';peak.textContent='폭발 직전 물결 확인';document.querySelector('#cancel').after(peak);
+peak.onclick=()=>{document.querySelector('.sudo-return:not([hidden])')?.click();window.dispatchEvent(new CustomEvent('prime:sudo-drag',{detail:{phase:'start',time:performance.now()-4700,x:0,y:0}}));document.querySelector('#status').textContent='폭발 직전 표면 물결';};
+document.querySelector('#play').onclick=()=>{document.querySelector('.sudo-return:not([hidden])')?.click();send('start');document.querySelector('#status').textContent='누름 → 젤리 성장 → 가루 폭발';};
+document.querySelector('#cancel').onclick=()=>{send('cancel');document.querySelector('#status').textContent='누름 취소';};
+window.addEventListener('prime:sudo-burst',()=>document.querySelector('#status').textContent='폭발 완료 · 스도 다시 부르기로 복구');
+</script></html>

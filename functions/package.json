@@ -1,0 +1,16 @@
+{
+  "name": "schems-functions",
+  "description": "Prime Edu AI chat (Firebase Cloud Functions)",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "firebase-functions": "^6.3.0"
+  },
+  "private": true
+}

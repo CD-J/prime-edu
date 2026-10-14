@@ -1,0 +1,358 @@
+/* Combined concept and problem workbook */
+#aiNotesPanel {
+  --workbook-paper: color-mix(in srgb, var(--shell-card) 96%, #fffaf0);
+  --workbook-line: color-mix(in srgb, var(--shell-blue) 9%, transparent);
+}
+
+#aiNotesPanel .ai-tool-menu {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#aiNotesPanel .study-book-spread {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 720px;
+  margin: 18px 0 0;
+  padding: 0 !important;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden !important;
+  border: 1px solid color-mix(in srgb, var(--shell-blue) 18%, var(--shell-line)) !important;
+  border-radius: 24px !important;
+  background: var(--workbook-paper) !important;
+  box-shadow:
+    0 22px 54px color-mix(in srgb, var(--shell-ink) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 80%, transparent) !important;
+}
+
+#aiNotesPanel .study-book-spread::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 20px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--shell-ink) 8%, transparent) 44%,
+    color-mix(in srgb, #fff 72%, transparent) 52%,
+    transparent
+  );
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+#aiNotesPanel .study-book-page {
+  position: relative;
+  min-width: 0;
+  padding: clamp(20px, 2.3vw, 30px);
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(90deg, transparent 0 38px, color-mix(in srgb, var(--shell-blue) 11%, transparent) 38px 39px, transparent 39px),
+    repeating-linear-gradient(0deg, transparent 0 35px, var(--workbook-line) 35px 36px),
+    var(--workbook-paper);
+}
+
+#aiNotesPanel .study-concept-page {
+  padding-right: clamp(25px, 3vw, 38px);
+}
+
+#aiNotesPanel .study-problem-page {
+  padding-left: clamp(25px, 3vw, 38px);
+}
+
+#aiNotesPanel .study-book-page-head {
+  min-height: 58px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid color-mix(in srgb, var(--shell-blue) 18%, var(--shell-line));
+}
+
+#aiNotesPanel .study-book-page-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  color: var(--shell-blue);
+  background: var(--shell-blue-soft);
+  font-size: 19px;
+  font-weight: 900;
+}
+
+#aiNotesPanel .study-book-page-head small {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--shell-muted);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .12em;
+}
+
+#aiNotesPanel .study-book-page-head h3 {
+  margin: 0;
+  color: var(--shell-ink);
+  font-size: clamp(21px, 2vw, 27px);
+  letter-spacing: -.04em;
+}
+
+#aiNotesPanel .study-book-count {
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: var(--shell-blue);
+  background: var(--shell-blue-soft);
+  font-size: 11px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+#aiNotesPanel .study-book-page > .ai-expand-trigger {
+  flex: 0 0 auto;
+}
+
+#aiNotesPanel .study-book-page .ai-collapsible {
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--shell-card) 90%, transparent);
+}
+
+#aiNotesPanel .study-book-page .study-form-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#aiNotesPanel .study-concept-list,
+#aiNotesPanel .quiz-library,
+#aiNotesPanel .quiz-workspace {
+  min-width: 0;
+  max-height: 700px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--shell-blue) 28%, transparent) transparent;
+}
+
+#aiNotesPanel .study-concept-list {
+  margin-top: 16px;
+  padding-right: 5px;
+}
+
+#aiNotesPanel .quiz-library {
+  margin-top: 0;
+  padding: 2px 5px 8px 0;
+}
+
+#aiNotesPanel .study-problem-page .quiz-book-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+}
+
+#aiNotesPanel .quiz-create-trigger {
+  margin-top: 16px;
+}
+
+#aiNotesPanel .quiz-workspace {
+  padding: 14px;
+  border-radius: 18px;
+}
+
+#aiNotesPanel .study-note-item {
+  padding: 17px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--shell-card) 94%, transparent);
+}
+
+.concept-visual-board {
+  margin: 16px 0;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--shell-blue) 20%, var(--shell-line));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--shell-blue-soft) 42%, var(--shell-card));
+}
+
+.concept-visual-board > header {
+  margin-bottom: 13px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--shell-blue);
+  font-size: 12px;
+}
+
+.concept-visual-map {
+  display: grid;
+  gap: 12px;
+}
+
+.concept-visual-center {
+  position: relative;
+  z-index: 2;
+  width: min(230px, 88%);
+  min-height: 72px;
+  margin: 0 auto;
+  padding: 12px;
+  display: grid;
+  place-content: center;
+  gap: 3px;
+  border: 2px solid color-mix(in srgb, var(--shell-blue) 44%, transparent);
+  border-radius: 22px;
+  color: var(--shell-ink);
+  background: var(--shell-card);
+  text-align: center;
+  box-shadow: 0 9px 22px color-mix(in srgb, var(--shell-blue) 12%, transparent);
+}
+
+.concept-visual-center small {
+  color: var(--shell-blue);
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.concept-visual-center strong {
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.concept-visual-branches {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.concept-visual-branches::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 1px;
+  height: 14px;
+  background: color-mix(in srgb, var(--shell-blue) 38%, var(--shell-line));
+}
+
+.concept-visual-branches article {
+  position: relative;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid color-mix(in srgb, var(--shell-blue) 16%, var(--shell-line));
+  border-radius: 15px;
+  background: var(--shell-card);
+}
+
+.concept-visual-branches article::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 1px;
+  height: 10px;
+  background: color-mix(in srgb, var(--shell-blue) 28%, var(--shell-line));
+}
+
+.concept-visual-branches article span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--shell-blue);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.concept-visual-branches article p {
+  margin: 0;
+  color: var(--shell-text);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+@media (max-width: 999px) {
+  #aiNotesPanel .study-book-spread {
+    min-height: 0;
+    overflow: visible !important;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #aiNotesPanel .study-book-spread::before {
+    display: none;
+  }
+
+  #aiNotesPanel .study-book-page,
+  #aiNotesPanel .study-concept-page,
+  #aiNotesPanel .study-problem-page {
+    padding: 20px 18px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--shell-blue) 18%, var(--shell-line));
+    border-radius: 22px;
+    box-shadow: 0 14px 32px color-mix(in srgb, var(--shell-ink) 7%, transparent);
+  }
+
+  #aiNotesPanel .study-concept-list,
+  #aiNotesPanel .quiz-library,
+  #aiNotesPanel .quiz-workspace {
+    max-height: none;
+    overflow: visible;
+  }
+
+  #aiNotesPanel .study-problem-page .quiz-book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  #aiNotesPanel .ai-tool-menu {
+    grid-template-columns: 1fr;
+  }
+
+  #aiNotesPanel .study-book-page,
+  #aiNotesPanel .study-concept-page,
+  #aiNotesPanel .study-problem-page {
+    padding: 17px 14px;
+    border-radius: 18px;
+  }
+
+  #aiNotesPanel .study-book-page-head {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 9px;
+  }
+
+  #aiNotesPanel .study-book-page-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+
+  #aiNotesPanel .study-book-page .study-form-row,
+  #aiNotesPanel .study-problem-page .quiz-book-grid,
+  .concept-visual-branches {
+    grid-template-columns: 1fr;
+  }
+
+  .concept-visual-branches article::before,
+  .concept-visual-branches::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concept-visual-board,
+  .concept-visual-board * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

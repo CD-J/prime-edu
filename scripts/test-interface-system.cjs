@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const css=fs.readFileSync('js/interface-system.css','utf8'),html=fs.readFileSync('index.html','utf8'),admin=fs.readFileSync('service-admin.html','utf8');
+assert.match(css,/--ui-space:16px/);assert.match(css,/--ui-radius:24px/);assert.match(css,/--ui-title:26px;--ui-section:18px/);
+assert.match(css,/background:var\(--ui-surface\)!important/);assert.match(css,/backdrop-filter:none!important/);
+assert.match(css,/prime-slide-bar:not\(\.ai-category-grid\)/,'notebook indexes are not turned into pill tabs');
+assert.match(css,/--node-color:color-mix\(in srgb,var\(--shell-blue\)/,'graph branches derive from the selected app theme');
+assert.match(css,/prefers-reduced-motion:reduce/);assert.match(css,/forced-colors:active/);
+assert.match(css,/grid-template-columns:minmax\(0,1fr\)!important/,'small-screen tools use the whole row');
+assert.match(css,/\.personal-document\{padding:14px!important;min-height:160px/,'mobile resource cards retain readable touch geometry');
+assert.match(css,/--ui-pad:16px;--ui-space:12px;--ui-title:24px/);
+assert(!/\bzoom\s*:/.test(css));assert(!/font-size:\s*\d+vw/.test(css));assert(!/transform:/.test(css),'existing press, lens drag and viewport positioning stay authoritative');
+assert(html.indexOf('interface-system.css')>html.indexOf('learning-continuity.css'));assert.match(admin,/interface-system.css\?v=20261014-83b/);
+assert.match(fs.readFileSync('js/connected-activity.js','utf8'),/activity-list-title.*section-icon/);
+console.log('PASS shared interface: one role-based surface/spacing/type system across app and admin, theme-derived map colors, consistent action geometry, retained notebook/index/graph structure and reduced-motion behavior.');

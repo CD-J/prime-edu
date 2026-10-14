@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8'),css=read('js/notebook-library-layout.css'),src=read('js/study-ai.js'),html=read('index.html');
+assert.match(css,/max-height:none!important/);assert.match(css,/overflow:visible!important/);assert.match(css,/#studyNoteList,#studyQuizLibrarySection\) \{\s+margin:16px 0 0!important/);assert.match(css,/gap:14px 12px!important/);assert.match(css,/width:100%!important; min-width:0; height:44px/);assert.match(css,/data-view=library/);assert.match(css,/scroll-margin-block:90px 100px/);
+assert(html.indexOf('notebook-library-layout.css')>html.indexOf('capsule-standby.css'));assert.match(html,/study-ai.js\?v=20261014-87/);
+const nodes=Object.fromEntries(['#studyNotebookTabs','#studyNotebookReader','#studyConceptReader','#aiNotesPanel .study-book-spread'].map(k=>[k,{hidden:false,innerHTML:'',attrs:{},setAttribute(k,v){this.attrs[k]=v;}}]));
+const state={notes:[{id:'a',subject:'수학'}],currentNoteId:null,currentQuiz:null},scope=vm.createContext({state,notebookHistoryOrigin:null,$:s=>nodes[s],window:{dispatchEvent(){}},CustomEvent:function(){},escapeHtml:s=>s});
+vm.runInContext(src.slice(src.indexOf('  function renderNotebookNavigation()'),src.indexOf('  function focusNotebookReader()')),scope);
+scope.renderNotebookNavigation();assert.equal(nodes['#studyNotebookTabs'].hidden,true);assert.equal(nodes['#aiNotesPanel .study-book-spread'].hidden,false);
+state.currentNoteId='a';scope.renderNotebookNavigation();assert.equal(nodes['#studyNotebookTabs'].hidden,false);assert.equal(nodes['#studyNotebookReader'].hidden,false);assert.equal(nodes['#aiNotesPanel .study-book-spread'].hidden,true);
+state.currentNoteId=null;state.currentQuiz={id:'q',title:'문제'};scope.renderNotebookNavigation();assert.equal(nodes['#studyConceptReader'].hidden,true);assert.equal(nodes['#studyNotebookTabs'].attrs['data-view'],'reader');
+assert.match(src,/\(button \|\| \$\("#aiNotesPanel \.study-book-spread"\)\)\?\.scrollIntoView/);
+const focusCalls=[];nodes['#studyNotebookTabs .notebook-current-tab']={focus:()=>focusCalls.push('title')};nodes['#studyNotebookTabs'].scrollIntoView=()=>focusCalls.push('reader');scope.requestAnimationFrame=f=>f();
+vm.runInContext(src.slice(src.indexOf('  function focusNotebookReader()'),src.indexOf('  function closeNotebookReader()')),scope);scope.focusNotebookReader();assert.deepEqual(focusCalls,['title','reader']);
+console.log('PASS notebook library layout: shared shelf offsets, natural scrolling, uniform footer/hit targets, reader-only return action, focus restoration, maximum-data QA route.');

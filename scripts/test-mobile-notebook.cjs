@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const read=p=>fs.readFileSync(path.join(__dirname,'..',p),'utf8'),html=read('index.html'),css=read('js/mobile-notebook.css');
+assert.equal((html.match(/class="[^"]*mobile-notebook-page"/g)||[]).length,2);
+assert.equal((html.match(/class="notebook-page-icon"/g)||[]).length,2);
+assert.match(html,/id="studyBookForm"[\s\S]*?mobile-notebook-section-head/);
+assert(html.indexOf('mobile-notebook.css')>html.indexOf('interface-quality.css'));
+assert.match(css,/@media\(max-width:999px\)/);assert.match(css,/\.notebook-page-icon,\.mobile-notebook-section-head \{ display:none/);
+assert.match(css,/#aiNotesPanel \.study-book-page,#studyBookForm,#studyBookResults \.book-recommendation-card/);
+assert.match(css,/notebook-accent:var\(--shell-blue\)/);assert.match(css,/notebook-accent:color-mix/);
+assert.match(css,/ai-category-card strong[^}]*color:inherit!important/);assert.match(css,/ai-category-icon svg[^}]*stroke:currentColor!important/);
+assert.match(css,/#aiNotesPanel \.study-form > button\[type=submit\],#studyBookForm > button\[type=submit\]/);
+for(const id of ['studyBookTopic','studyBookCategory','studyBookLevel','studyBookPreference','studyBookStatus','studyBookResults'])assert.equal((html.match(new RegExp(`id="${id}"`,'g'))||[]).length,1);
+console.log('PASS unified mobile notebook: paired page classes/icons, shared panels/header/cards, distinct accents, mobile-only scope, late CSS and unchanged recommendation IDs.');

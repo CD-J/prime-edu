@@ -1,0 +1,102 @@
+/* Surface finishing, not a new layout: nested curves share one radius scale.
+   No zoom, type reduction, clipping, new filters or changes to timetable cells. */
+:root {
+  --finish-radius-control: 14px;
+  --finish-radius-inset: 16px;
+  --finish-radius-card: 24px;
+  --finish-radius-dialog: 28px;
+  --finish-edge: color-mix(in srgb,var(--shell-ink) 12%,var(--shell-card));
+  --finish-edge-soft: color-mix(in srgb,var(--shell-ink) 8%,var(--shell-card));
+  --finish-fill: color-mix(in srgb,var(--shell-blue) 3%,var(--shell-card));
+  --finish-shadow: 0 2px 5px rgb(17 24 39 / .025),0 10px 26px rgb(17 24 39 / .035);
+  --finish-dialog-shadow: 0 4px 12px rgb(17 24 39 / .08),0 24px 64px rgb(17 24 39 / .14);
+}
+:root[data-theme="dark"] {
+  --finish-fill: color-mix(in srgb,var(--shell-blue) 5%,var(--shell-card));
+  --finish-shadow: inset 0 1px 0 rgb(255 255 255 / .035),0 3px 10px rgb(0 0 0 / .10),0 12px 28px rgb(0 0 0 / .12);
+  --finish-dialog-shadow: inset 0 1px 0 rgb(255 255 255 / .05),0 8px 20px rgb(0 0 0 / .18),0 24px 64px rgb(0 0 0 / .28);
+}
+
+/* Outer surfaces are softer than the smaller controls they contain. */
+:root :is(.panel-school,.panel-plan,.panel-progress,.panel-settings) .card,
+#aiNotesPanel .study-book-page,
+.notebook-selected-reader :is(.study-note-item,.quiz-workspace),
+#studyBookForm,#studyBookResults .book-recommendation-card {
+  border-radius: var(--finish-radius-card)!important;
+  border-color: var(--finish-edge-soft)!important;
+  box-shadow: var(--finish-shadow)!important;
+}
+:root[data-theme] .topbar { border-radius: 22px!important; border-color: var(--finish-edge-soft)!important; box-shadow: var(--finish-shadow)!important; }
+:is(.panel-school,.panel-plan,.panel-assistant,.panel-progress,.panel-settings,.modal-backdrop,.utility-modal) :is(.field,.btn),
+.grade-input-table input {
+  border-radius: var(--finish-radius-control)!important;
+}
+:is(.panel-plan,.panel-assistant,.panel-progress,.panel-settings,.modal-backdrop,.utility-modal) .field,
+.grade-input-table input {
+  border-color: var(--finish-edge)!important;
+  background-color: var(--finish-fill)!important;
+  box-shadow: inset 0 1px 2px rgb(17 24 39 / .02)!important;
+}
+:is(.panel-plan,.panel-assistant,.panel-progress,.panel-settings,.modal-backdrop,.utility-modal) .field:focus,
+.grade-input-table input:focus {
+  border-color: var(--shell-blue)!important;
+  outline: 2px solid color-mix(in srgb,var(--shell-blue) 35%,transparent);
+  outline-offset: 2px;
+  box-shadow: none!important;
+}
+.grade-input-table input:focus { outline-offset: -3px; }
+:is(.panel-plan,.panel-assistant,.panel-progress,.panel-settings,.modal-backdrop,.utility-modal) .btn:not(.primary) {
+  border-color: var(--finish-edge)!important;
+  box-shadow: 0 1px 2px rgb(17 24 39 / .025)!important;
+}
+:is(.panel-plan,.panel-assistant,.panel-progress,.panel-settings,.modal-backdrop,.utility-modal) .btn.primary {
+  box-shadow: 0 3px 8px color-mix(in srgb,var(--shell-blue) 15%,transparent)!important;
+}
+
+/* Internal surfaces have quieter outlines: avoid a box-inside-box cage. */
+:is(.daily-check-item,.concept-library-card,.book-recommendation-card,.grade-selected-target,.grade-feedback-card,.grade-feedback-loading,.grade-feedback-error,.planner-day-detail-section,.settings-user-box,.settings-link-button) {
+  border-radius: var(--finish-radius-inset)!important;
+  border-color: var(--finish-edge-soft)!important;
+}
+:is(.panel-school,.panel-plan,.panel-assistant,.panel-progress) :is(.empty,.planner-empty,.quiz-empty,.quiz-library-empty) {
+  border: 1px solid var(--finish-edge-soft)!important;
+  border-radius: var(--finish-radius-inset)!important;
+  background: var(--finish-fill)!important;
+}
+:is(.tab-heading-icon,.section-icon,.study-book-page-icon,.settings-link-icon,.feature-icon) { border-radius: 12px!important; }
+.planner-day:not(.planner-day-blank) { border-radius: 12px!important; }
+.planner-day.is-selected { border-color: color-mix(in srgb,var(--shell-blue) 65%,var(--finish-edge))!important; }
+.concept-library-card:hover,.concept-library-card:focus-visible { border-color: var(--shell-blue)!important; }
+.notebook-reader-tabs button { border-radius: var(--finish-radius-control)!important; }
+#aiNotesPanel .study-book-page > .ai-expand-trigger { border-radius: var(--finish-radius-control)!important; border-color: var(--finish-edge)!important; }
+
+/* Home keeps its glass illustration and circular clock, only the control seams change. */
+.home-ai-form { border-radius: 26px!important; border-color: var(--finish-edge)!important; }
+.home-ai-form button,.pomodoro-actions button { border-radius: var(--finish-radius-control)!important; }
+:root[data-theme] .modal-backdrop > [role="dialog"],:root[data-theme] .utility-modal,:root[data-theme] .sheet,
+#aiFabPanel,#homeSettingsPanel,.mobile-chat-drawer {
+  border-radius: var(--finish-radius-dialog)!important;
+  border-color: var(--finish-edge-soft)!important;
+  box-shadow: var(--finish-dialog-shadow)!important;
+}
+#aiFabPanel :is(.ai-chat-header,.ai-chat-form) { border-color: var(--finish-edge-soft)!important; }
+#aiFabPanel .ai-chat-input { border-radius: var(--finish-radius-control)!important; }
+
+/* Keep desktop paper-index tabs. On phones, each tab is a rounded control. */
+@media (max-width:999px) {
+  .panel-assistant .ai-category-card { border-radius: var(--finish-radius-control)!important; border-color: var(--finish-edge-soft)!important; box-shadow: none!important; }
+  .panel-assistant .ai-category-card.is-active { border-color: color-mix(in srgb,var(--shell-blue) 25%,var(--finish-edge-soft))!important; background: color-mix(in srgb,var(--shell-blue) 8%,var(--shell-card))!important; }
+  .bottom-nav { border-radius: 20px 20px 0 0; border-color: var(--finish-edge-soft)!important; box-shadow: 0 -2px 14px rgb(17 24 39 / .035)!important; }
+  .panel-school .calendar-note .list-item { border-radius: var(--finish-radius-inset)!important; }
+  .panel-school .schedule-card { border-radius: var(--finish-radius-inset)!important; }
+}
+@media (min-width:1000px) {
+  /* An open notebook has one outer contour, not two rounded overlapping pages. */
+  #aiNotesPanel .study-book-spread { border-radius: var(--finish-radius-card)!important; border-color: var(--finish-edge-soft)!important; box-shadow: var(--finish-shadow)!important; }
+  #aiNotesPanel .study-book-page { box-shadow: none!important; }
+  #aiNotesPanel .study-book-page:first-child { border-radius: var(--finish-radius-card) 0 0 var(--finish-radius-card)!important; }
+  #aiNotesPanel .study-book-page:last-child { border-radius: 0 var(--finish-radius-card) var(--finish-radius-card) 0!important; }
+}
+@media (prefers-reduced-motion:no-preference) {
+  :is(.field,.btn,.concept-library-card,.settings-link-button) { transition: border-color .16s ease,background-color .16s ease,box-shadow .16s ease,transform .12s ease; }
+}

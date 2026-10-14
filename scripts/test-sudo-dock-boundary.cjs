@@ -1,0 +1,25 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const source=fs.readFileSync(require.resolve('../js/app-shell.js'),'utf8'),code=source.slice(source.indexOf('  function initDraggableAiFab()'),source.indexOf('  function initAiWorkspace()'))+'\ninitDraggableAiFab();';
+function harness(width=390,height=844){
+  const classes=new Set(),bodyClasses=new Set(),listeners={},buttonEvents={},frames=[],animations=[],queries=[];let sync,saves=0;
+  const cl=s=>({add:k=>s.add(k),remove:k=>s.delete(k),contains:k=>s.has(k),toggle(k,on){if(on)s.add(k);else s.delete(k);}});
+  const body={dataset:{activeTab:'home'},classList:cl(bodyClasses)},panel={hidden:true};let headerBottom=64;
+  const wrap={style:{},classList:cl(classes),getBoundingClientRect(){return {left:parseFloat(this.style.left)||0,top:parseFloat(this.style.top)||0,width:70,height:70};},animate(keys){animations.push(keys);return {cancel(){}};}};
+  const button={offsetWidth:70,offsetHeight:70,attrs:{},setAttribute(k,v){this.attrs[k]=v;},addEventListener:(k,f)=>buttonEvents[k]=f,getBoundingClientRect(){const r=wrap.getBoundingClientRect(),s=parseFloat(wrap.style.transform?.match(/scale\(([^)]+)\)/)?.[1])||1;return {...r,width:70*s,height:70*s};}};
+  const profile={getBoundingClientRect:()=>({left:16,top:112,width:48,height:48})};
+  const document={body,hidden:false,addEventListener:(k,f)=>listeners[k]=f,querySelector:s=>{queries.push(s);return s==='.topbar'?{getBoundingClientRect:()=>({bottom:headerBottom})}:s==='.bottom-nav'?{getBoundingClientRect:()=>({top:window.innerHeight-66})}:s.includes('data-sudo-chat-dock')?profile:null;}};
+  const window={innerWidth:width,innerHeight:height,matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener:(k,f)=>listeners[k]=f,dispatchEvent(){}};
+  vm.runInNewContext(code,{window,document,$:s=>({'#aiFabWrap':wrap,'#aiFabButton':button,'#aiFabPanel':panel}[s]),readJson:()=>({x:0,y:-500,rx:.7,ry:0}),FAB_POSITION_KEY:'test',localStorage:{setItem(){saves++;}},performance:{now:()=>0},getComputedStyle:()=>({display:'block'}),requestAnimationFrame:f=>{frames.push(f);return frames.length;},cancelAnimationFrame(){},setTimeout,clearTimeout,CustomEvent:class{},MutationObserver:class{constructor(f){this.f=f;}observe(target){if(target===body)sync=this.f;}}});
+  return {window,wrap,button,body,bodyClasses,queries,animations,listeners,frames,switchTab(tab){body.dataset.activeTab=tab;sync([{attributeName:'data-active-tab'}]);},chat(open,desktop=false){body.classList.toggle(desktop?'desktop-home-chat-mode':'mobile-home-chat-mode',open);sync([{attributeName:'class'}]);},setHeader(v){headerBottom=v;},get saves(){return saves;}};
+}
+const mobile=harness();assert(mobile.wrap.getBoundingClientRect().top>=104,'restored stale position is below the header');
+for(const tab of ['school','plan','assistant','progress','settings','home']){mobile.switchTab(tab);assert(!mobile.bodyClasses.has('sudo-chat-docked'));assert(!mobile.bodyClasses.has('sudo-reading-docked'));assert.equal(mobile.wrap.style.transform,undefined);assert(mobile.wrap.getBoundingClientRect().top>=104);assert.equal(mobile.saves,0,'tab changes never overwrite saved free coordinates');}
+assert(!mobile.queries.some(q=>q.includes('.brand')||q.includes('restore-dot')),'brand is not queried as a dock');
+const free={...mobile.wrap.style};mobile.chat(true);assert(mobile.bodyClasses.has('sudo-chat-docked'));assert.equal(mobile.wrap.style.left,'16px');assert.equal(mobile.wrap.style.top,'112px');assert.equal(mobile.button.attrs['aria-label'],'스도에게 메시지 쓰기');assert(mobile.animations.length>0);assert.equal(mobile.saves,0);
+mobile.switchTab('school');assert(!mobile.bodyClasses.has('sudo-chat-docked'));assert.equal(mobile.wrap.style.transform,'scale(1)');assert.equal(mobile.wrap.style.left,free.left);assert.equal(mobile.wrap.style.top,free.top);assert.equal(mobile.button.attrs['aria-label'],'스도 AI 도우미 열기');assert.equal(mobile.saves,0);
+mobile.setHeader(28);mobile.listeners.scroll();mobile.frames.splice(0).forEach(f=>f());assert(mobile.wrap.getBoundingClientRect().top>=68);
+mobile.setHeader(64);mobile.listeners.scroll();mobile.frames.splice(0).forEach(f=>f());assert(mobile.wrap.getBoundingClientRect().top>=104);
+mobile.window.innerWidth=844;mobile.window.innerHeight=390;mobile.listeners.resize();assert(mobile.wrap.getBoundingClientRect().top>=104);mobile.window.innerWidth=390;mobile.window.innerHeight=844;mobile.listeners.resize();assert(mobile.wrap.getBoundingClientRect().top>=104);assert.equal(mobile.saves,0);
+const desktop=harness(1440,900);desktop.chat(true,true);assert(desktop.bodyClasses.has('sudo-chat-docked'));desktop.chat(false,true);assert(!desktop.bodyClasses.has('sudo-chat-docked'));assert.equal(desktop.wrap.style.transform,'scale(1)');
+assert.doesNotMatch(source,/readingSlot|sudo-reading-docked/);
+console.log('PASS actual Sudo dock owner: non-home tabs never dock to brand, stale mobile coordinates clamp below header, chat-only FLIP and free-position return, scroll/header/rotation safety, no navigation storage writes.');

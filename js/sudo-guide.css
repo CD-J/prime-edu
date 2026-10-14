@@ -1,0 +1,34 @@
+/* Original NPC-inspired dialogue, with one rounded, feathered SVG cutout. */
+.sudo-guide{position:fixed;inset:0;z-index:20000;pointer-events:none;color:var(--ink,#171717);font-family:inherit}
+.sudo-guide[hidden]{display:none!important}
+.sudo-guide-mask{position:absolute;inset:0;width:100%;height:100%;pointer-events:auto}
+.sudo-guide-spotlight{position:absolute;border:1px solid rgb(255 255 255 / .65);border-radius:22px;pointer-events:none;box-sizing:border-box}
+.sudo-guide-bubble{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom) + var(--guide-bottom,0px));left:50%;transform:translateX(-50%);width:min(640px,calc(100% - 32px));padding:26px 32px 22px;box-sizing:border-box;border:1px solid color-mix(in srgb,var(--ink,#111) 12%,transparent);border-radius:48px 42px 46px 38px / 36px 42px 36px 42px;background:color-mix(in srgb,var(--surface,#fff) 97%,var(--blue,#777));pointer-events:auto;max-height:calc(100dvh - 160px);overflow:visible;touch-action:pan-y}
+.sudo-guide-bubble:before{content:'';position:absolute;left:70px;top:-9px;width:20px;height:20px;background:inherit;transform:rotate(45deg);border-radius:5px;z-index:-1}
+.sudo-guide-bubble header{display:flex;align-items:center;gap:8px;margin:-43px 0 16px}
+.sudo-guide-avatar{position:absolute;right:24px;top:-102px;width:120px;height:120px;pointer-events:none;--sudo-fill:color-mix(in srgb,var(--blue,#777) 5%,white);--sudo-ink:#111;animation:sudo-guide-arrive 360ms ease-out both}
+.sudo-guide-avatar svg{width:100%;height:100%;overflow:visible}
+.sudo-guide-bubble header>div{display:flex;flex:1;align-items:center;gap:12px;min-width:0}
+.sudo-guide-bubble header strong{padding:7px 24px;background:var(--ink,#111);color:var(--surface,#fff);border-radius:18px 18px 15px 10px;font-size:15px;transform:rotate(-2deg)}
+#sudoGuideCount{font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted,#666);white-space:nowrap;background:var(--surface,#fff);padding:4px 8px;border-radius:20px}
+.sudo-guide-bubble button{font:inherit;min-height:44px;min-width:44px;cursor:pointer;border:0;background:transparent;border-radius:24px;color:inherit;padding:8px 14px;touch-action:manipulation}
+.sudo-guide-bubble [data-guide=close]{font-size:24px;padding:4px;background:var(--surface,#fff);width:40px;height:40px;min-height:40px;min-width:40px;position:absolute;right:4px;top:-18px}
+.sudo-guide-copy h2{font-size:20px;line-height:1.5;margin:0 0 10px;font-weight:750;word-break:keep-all;overflow-wrap:anywhere;letter-spacing:-.03em}
+.sudo-guide-copy p{font-size:16px;line-height:1.75;margin:0 0 18px;word-break:keep-all;overflow-wrap:anywhere;color:var(--ink,#222)}
+.sudo-guide-copy{animation:sudo-dialogue-arrive 240ms ease-out both}
+.sudo-guide-progress{display:flex;gap:4px;margin-bottom:12px;max-width:160px}
+.sudo-guide-progress i{height:3px;background:color-mix(in srgb,var(--ink,#111) 12%,transparent);flex:1;border-radius:2px}
+.sudo-guide-progress i.is-active{background:var(--ink,#111)}
+.sudo-guide-bubble footer,.sudo-guide-bubble footer>div{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.sudo-guide-bubble [data-guide=auto],.sudo-guide-bubble [data-guide=prev]{font-size:13px}
+.sudo-guide-bubble [data-guide=next]{background:var(--ink,#111);color:var(--surface,#fff);font-weight:650;padding-inline:20px}
+.sudo-guide-bubble button:disabled{opacity:.3;cursor:default}
+.sudo-guide-bubble button:focus-visible{outline:2px solid var(--blue,#555);outline-offset:3px}
+body.sudo-guide-open,body.sudo-guide-open *{scroll-behavior:auto!important}
+body.sudo-guide-open #aiFabWrap,body.sudo-guide-open .sudo-dizzy-notice,body.sudo-guide-open .sudo-return{visibility:hidden!important}
+.sudo-guide-scroll-space[hidden]{display:none!important}
+@keyframes sudo-guide-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sudo-dialogue-arrive{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.sudo-guide-bubble{padding:24px 20px 18px;border-radius:32px 30px 34px 28px;bottom:calc(12px + env(safe-area-inset-bottom) + var(--guide-bottom,0px))}.sudo-guide-copy h2{font-size:18px}.sudo-guide-avatar{width:96px;height:96px;top:-82px;right:14px}.sudo-guide-copy p{font-size:14px;line-height:1.7}.sudo-guide-bubble footer{gap:4px}.sudo-guide-bubble button{padding:8px 10px}.sudo-guide-bubble header{margin-top:-40px}.sudo-guide-bubble [data-guide=next]{padding-inline:14px}}
+@media(max-height:500px){.sudo-guide-bubble{padding:16px 24px;max-height:calc(100dvh - 64px);overflow:auto}.sudo-guide-avatar{display:none}.sudo-guide-bubble header{margin:0 0 8px}.sudo-guide-bubble [data-guide=close]{position:static}.sudo-guide-copy h2{font-size:16px;margin-bottom:4px}.sudo-guide-copy p{font-size:13px;line-height:1.5;margin-bottom:8px}.sudo-guide-progress{display:none}.sudo-guide-bubble:before{display:none}}
+@media(prefers-reduced-motion:reduce){.sudo-guide-avatar,.sudo-guide-copy{animation:none}}

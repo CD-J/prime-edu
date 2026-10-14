@@ -1,0 +1,30 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const read=name=>fs.readFileSync(path.join(__dirname,'..',name),'utf8');
+const html=read('index.html'),css=read('js/mobile-experience.css'),controls=read('js/mobile-experience.js'),shell=read('js/app-shell.js'),standby=read('js/standby.js');
+const model=require('../js/standby.js'),ruler=require('../js/mobile-experience.js');
+assert.equal(model.pageIndex(-1),0);assert.equal(model.pageIndex(7),4);assert.equal(model.pageIndex(NaN),0);
+assert.equal(model.secondsText(-1),'00:00');assert.equal(model.secondsText(61),'01:01');assert.equal(model.secondsText(7200),'120:00');assert.equal(model.secondsText(Infinity),'00:00');
+assert(model.eventOnDate({date:'2026-09-30',endDate:'2026-10-02'},'2026-10-01'));assert(!model.eventOnDate({date:'2026-09-30',endDate:'2026-10-02'},'2026-10-03'));assert(!model.eventOnDate({},'2026-10-01'));
+const values=ruler.rulerValues(5,360,37);assert(values.includes(37));assert.equal(values[0],5);assert.equal(values.at(-1),360);assert.equal(new Set(values).size,values.length);assert.equal(ruler.rulerValues(20,300,3)[0],20);
+assert(html.indexOf('mobile-experience.css')>html.indexOf('mobile-notebook.css'));
+assert.match(css,/\.topbar\.is-header-transitioning \* \{ pointer-events:none!important/);
+assert.match(css,/\.topbar\.is-collapsed::before \{ opacity:0/);
+assert.match(css,/quiz-book-item \.quiz-book-delete[^}]*position:static!important/);
+assert.match(css,/planner-detail-row\.event[^}]*grid-template-columns:32px minmax\(0,1fr\) auto/);
+for(const id of ['manualChecklistMinutes','manualChecklistDifficulty','studyAvailableMinutes','examStrategyMinutes'])assert.equal((html.match(new RegExp(`id="${id}"`,'g'))||[]).length,1);
+assert.match(controls,/scroll-snap|scrollToValue/);assert.match(controls,/prime:controls-sync/);assert.match(controls,/ResizeObserver/);assert.match(controls,/role','slider/);assert.match(controls,/role','radiogroup/);
+assert.match(standby,/source\?\.closest\('\.mobile-pomodoro-widget,\.home-pomodoro'\)&&window\.PrimeEduPomodoro\.getState\(\)\.running\)open\(source\)/);
+assert.match(standby,/inertBefore\.set/);assert.match(standby,/node\.inert=value\.inert/);assert.match(standby,/event\.key==='Escape'/);assert.match(standby,/event\.key==='Tab'/);
+assert.match(standby,/wakeLock\?\.release/);assert(!standby.includes('addStudySession'));assert(!standby.includes('localStorage.setItem'));
+assert.match(shell,/if \(chatDocked\) return/);assert.match(shell,/Docking never saves coordinates/);assert.match(shell,/duration:620/);assert.match(shell,/getTodayItems: \(\) => getChecklistItems\(todayKey\(\)\)/);
+// Execute the actual header controller: no clickable descendants during either
+// transition, and no clickable hidden full bar once the capsule has settled.
+const source=html.slice(html.indexOf('    let topbarCollapsed ='),html.indexOf('    function updateScrollFadeHeads()'));
+let pending=null,classes=new Set();const full=[{inert:false},{inert:false},{inert:false}],pill={inert:true,setAttribute(){}};
+const head={classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle:(c,v)=>v?classes.add(c):classes.delete(c)},querySelectorAll:()=>full,querySelector:()=>pill,contains:()=>false};
+const context={window:{scrollY:0},document:{activeElement:null},$$:()=>[head],$:id=>id==='#topbarRestoreDot'?pill:null,clearTimeout(){},setTimeout:f=>{pending=f;return 1;},matchMedia:()=>({matches:false})};
+vm.createContext(context);vm.runInContext(source+'\nsetTopbarCollapsed(true);',context);assert(full.every(n=>n.inert));assert(pill.inert);assert(classes.has('is-header-transitioning'));pending();assert(full.every(n=>n.inert));assert(!pill.inert);
+vm.runInContext('setTopbarCollapsed(false);',context);assert(full.every(n=>n.inert));assert(pill.inert);pending();assert(full.every(n=>!n.inert));assert(pill.inert);assert(!classes.has('is-header-transitioning'));
+for(const file of ['js/mobile-experience.js','js/standby.js','js/app-shell.js','js/sudo-home-art.js'])new Function(read(file));
+const inline=[...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).filter(s=>s.trim());inline.forEach(s=>new Function(s));
+console.log('PASS mobile experience: real header inert transitions; bounded ruler, custom values/reset/edit sync; countdown/date ranges; one-feature stack, sole timer ownership, focus/wake-lock cleanup; chat FLIP without saved-position mutation and aligned delete metadata.');

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Prime Edu 스도</title>
+  <!-- Purpose-drawn app mark: solid ink tile, generous optical padding,
+       simplified jelly silhouette, and enlarged eyes for tiny tab sizes. -->
+  <rect width="256" height="256" rx="58" fill="#171918"/>
+  <path d="M124 38C155 33 188 48 204 78C220 108 218 146 201 175C185 203 155 219 124 218C91 220 61 206 46 178C31 150 31 114 43 86C56 57 85 41 124 38Z" fill="#fafbf8"/>
+  <path d="M70 72C82 57 102 50 122 50" fill="none" stroke="#d8dcd7" stroke-width="5" stroke-linecap="round"/>
+  <g fill="#171918" transform="rotate(-12 128 124)">
+    <rect x="91" y="91" width="20" height="52" rx="10"/>
+    <rect x="143" y="91" width="20" height="52" rx="10"/>
+  </g>
+  <path d="M111 163Q128 178 145 162" fill="none" stroke="#171918" stroke-width="7" stroke-linecap="round"/>
+</svg>

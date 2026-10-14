@@ -1,0 +1,69 @@
+# Class Hub — 정적 사이트 (빌드 없음)
+[build]
+  publish = "."
+  command = ""
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# AI 채팅: Netlify 대시보드 → Site settings → Environment variables
+# OPENAI_API_KEY = (필수)
+# OPENAI_MODEL = gpt-4o-mini (선택)
+
+# 깔끔한 URL (선택)
+[[redirects]]
+  from = "/api/chat"
+  to = "/.netlify/functions/chat"
+  status = 200
+
+[[redirects]]
+  from = "/api/generateStudyPlan"
+  to = "/.netlify/functions/generateStudyPlan"
+  status = 200
+
+[[redirects]]
+  from = "/api/generateQuiz"
+  to = "/.netlify/functions/generateQuiz"
+  status = 200
+
+[[redirects]]
+  from = "/api/gradeQuiz"
+  to = "/.netlify/functions/gradeQuiz"
+  status = 200
+
+[[redirects]]
+  from = "/api/generateLearningDiagnosis"
+  to = "/.netlify/functions/generateLearningDiagnosis"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/api/schoolCatalog"
+  to = "/.netlify/functions/schoolCatalog"
+  status = 200
+
+[[redirects]]
+  from = "/api/gradeFeedback"
+  to = "/.netlify/functions/gradeFeedback"
+  status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"

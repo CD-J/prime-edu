@@ -1,0 +1,89 @@
+/* Keep complete titles in a real row; WebKit shrink-to-fit is not a label width. */
+.tab-heading-row { display:flex; width:100%; min-width:0; }
+.tab-heading-row > h2 { flex:1 1 auto; min-width:0; word-break:keep-all; overflow-wrap:normal; }
+.planner-calendar-head > div { flex:1 1 0%; width:100%; min-width:0; }
+.planner-calendar-head > div > div { flex:1 1 0%; min-width:0; word-break:keep-all; }
+.planner-calendar-head h2 { margin:0; }
+
+@media (max-width:999px) {
+  body:not([data-active-tab=home]) #mobileHomeChatView { display:none!important; }
+  body[data-active-tab=home].mobile-home-chat-mode { overflow:hidden; overscroll-behavior:none; }
+  /* At least 16px prevents focus auto-zoom. User pinch zoom remains enabled. */
+  :root[data-theme] body input:not([type=checkbox]):not([type=radio]):not([type=range]),
+  :root[data-theme] body textarea,
+  :root[data-theme] body select { font-size:16px!important; }
+  body[data-active-tab=home].mobile-home-chat-mode #mobileHomeChatView:not([hidden]) {
+    position:fixed; top:var(--mobile-visible-top,0px); left:var(--mobile-visible-left,0px);
+    width:var(--mobile-visible-width,100%); max-width:100%;
+    height:calc(var(--mobile-visible-height,100vh) - 82px - env(safe-area-inset-bottom,0px));
+    box-sizing:border-box; z-index:90; margin:0; min-height:0;
+  }
+  #mobileHomeChatView .mobile-home-chat-head { flex:0 0 auto; }
+  #mobileHomeChatView .mobile-home-chat-messages { flex:1 1 0%; min-height:0; }
+  #mobileHomeChatView .mobile-home-chat-form { min-width:0; box-sizing:border-box; }
+  body.mobile-keyboard-open .bottom-nav { visibility:hidden!important; pointer-events:none!important; }
+  body[data-active-tab=home].mobile-home-chat-mode.mobile-keyboard-open #mobileHomeChatView:not([hidden]) {
+    height:var(--mobile-visible-height,100vh);
+  }
+  body.mobile-keyboard-open #mobileHomeChatView .mobile-home-chat-form { margin-bottom:8px; }
+}
+
+/* A native layout path when independent translate/scale are unavailable. */
+@supports not (translate:1px) {
+  :root[data-theme] body .prime-slide-bar .prime-tab-lens {
+    transform:translate(var(--tab-x,0px),var(--tab-y,0px)) scale(var(--tab-scale-x,1),var(--tab-scale-y,1))!important;
+    transition:transform 340ms cubic-bezier(.2,.8,.25,1),width 340ms ease,height 340ms ease,box-shadow 240ms ease;
+  }
+  :root[data-theme] body .prime-slide-bar.is-tab-dragging .prime-tab-lens { transition:box-shadow 150ms ease; }
+}
+
+/* Older WebKit gets the same theme and hierarchy with premixed, opaque surfaces. */
+@supports not (color:color-mix(in srgb,white,black)) {
+  :root[data-theme] body { background-color:var(--shell-bg); background-image:none; }
+  :root[data-theme] body :is(.card,.study-book-page,.planner-calendar-main,.mobile-home-chat-view,.prime-journey) {
+    background-color:var(--shell-card)!important; color:var(--shell-ink); border-color:var(--shell-line)!important;
+  }
+  :root[data-theme] body :is(input,textarea,select,.field,.mobile-study-search) {
+    background:var(--glass-inset)!important; color:var(--shell-ink)!important; border-color:var(--shell-line)!important;
+  }
+  :root[data-theme] body .prime-slide-bar .prime-tab-lens { background:var(--capsule-lens)!important; border-color:var(--glass-edge); }
+  :root[data-theme] body .btn.primary { background:var(--glass-control-fill)!important; color:var(--glass-on-accent)!important; }
+  :root[data-theme] body .btn { border-color:var(--shell-line)!important; }
+  :root[data-theme] body .table-wrap :is(th,td) { border-color:var(--finish-edge-soft)!important; }
+  :root[data-theme] body .table-wrap :is(th,td).is-today-col {
+    background:var(--legacy-active-fill)!important; border-color:var(--legacy-active-edge)!important;
+  }
+  :root[data-theme] body .table-wrap th:first-child { border-color:transparent!important; }
+  :root[data-theme] body .sudo-glass-portrait {
+    --glass-body:var(--legacy-glass-body); --glass-tone:var(--legacy-glass-tone);
+    --glass-deep:var(--legacy-glass-deep); --glass-prism:var(--legacy-glass-prism);
+  }
+  :root[data-theme] body :is(#aiFabButton,.sudo-ai-character,.sudo-guide-avatar,.sudo-return-seed) { --sudo-fill:var(--legacy-sudo-fill)!important; }
+  :root[data-theme] body #primeStandby { --standby-accent:var(--legacy-standby-accent); background:#090c10!important; }
+  #primeStandby .standby-timer-glass-top { stop-color:#1b2425; }
+  #primeStandby .standby-timer-glass-bottom { stop-color:#101619; }
+  #primeStandby .standby-timer-track { stroke:#273a3b; }
+  #primeStandby .standby-timer-remaining { stroke:var(--standby-accent); }
+  :root[data-theme] body .pomodoro-ring { --clock-tone:var(--shell-blue); }
+}
+@supports not (aspect-ratio:1) {
+  :root[data-theme] body .pomodoro-ring { width:360px!important; height:360px!important; max-width:100%; }
+  @media (max-width:999px) {
+    :root[data-theme] body .pomodoro-ring {
+      width:min(268px,calc(100vw - 96px))!important; height:min(268px,calc(100vw - 96px))!important;
+    }
+  }
+}
+/* Safari 14.0 ignores inset even when width/height are valid. Anchor the
+   actual artwork and clock face too, not only the surrounding ring. */
+@supports not (inset:0) {
+  :root[data-theme] body .topbar::before { top:0; right:0; bottom:0; left:0; }
+  #aiFabButton { overflow:visible!important; }
+  .pomodoro-dial-track { top:0; right:0; bottom:0; left:0; }
+  .pomodoro-clock-face { top:15%; right:15%; bottom:15%; left:15%; }
+  .pomodoro-ring::before { top:30px; right:30px; bottom:30px; left:30px; }
+  .sudo-home-logo.sudo-glass-portrait { top:0; right:0; bottom:0; left:0; }
+  .sudo-return-seed svg { top:-5%; left:-5%; }
+  #primeStandby,.prime-journey,.modal-backdrop,.sheet-backdrop,.utility-modal-backdrop { right:0; left:0; }
+  #primeStandby { top:0; bottom:0; }
+}

@@ -1,0 +1,123 @@
+/* Prime Edu interface contract. Shared roles, not identical feature layouts.
+   Last visual layer; positioning, input ownership and press/drag transforms stay
+   with their existing components. Reading surfaces deliberately have no blur. */
+:root{
+  --ui-space:16px;--ui-pad:20px;--ui-radius:24px;--ui-inset-radius:16px;--ui-control-radius:14px;
+  --ui-surface:var(--shell-card);--ui-inset:color-mix(in srgb,var(--shell-blue) 3%,var(--shell-card));
+  --ui-edge:color-mix(in srgb,var(--shell-ink) 8%,var(--shell-card));
+  --ui-shadow:0 2px 8px #10182803;--ui-overlay-shadow:0 18px 60px #00000024;
+  --ui-title:26px;--ui-section:18px;--ui-body:14px;--ui-caption:12px;
+}
+:root[data-theme=dark]{--ui-edge:color-mix(in srgb,var(--shell-ink) 10%,var(--shell-card));--ui-shadow:inset 0 1px 0 #ffffff05;--ui-overlay-shadow:0 18px 60px #00000055}
+:root[data-theme] body :is(.panel,.prime-journey,#primeActivityView,#personalMindView,.personal-record-dialog,.personal-edit-dialog,.book-action-dialog,.modal-backdrop,.manage-shell,.manage-modal){font-family:var(--app-font,'Apple SD Gothic Neo',system-ui,sans-serif);letter-spacing:-.02em}
+
+/* One page / section / body hierarchy, including formerly standalone records. */
+:root[data-theme] body .panel>.page-heading{padding:14px 0 4px!important;margin:0!important;min-width:0}
+:root[data-theme] body .panel>.page-heading h2{font-size:var(--ui-title)!important;font-weight:650!important;line-height:1.3!important;letter-spacing:-.04em}
+:root[data-theme] body .manage-shell h1{font-size:var(--ui-title)!important;font-weight:650;line-height:1.3;letter-spacing:-.04em}
+:root[data-theme] body .manage-card>header h2{font-size:var(--ui-section)!important;font-weight:600;line-height:1.4}
+:root[data-theme] body :is(.tab-heading-row,.settings-card-title,.planner-section-title,.section-card-head,.review-card-head>div,.activity-list-title){display:flex;align-items:center;gap:10px!important;min-width:0}
+:root[data-theme] body :is(.planner-section-title,.section-card-head,.review-card-head,.settings-card-title,.connected-activities>header){margin:0 0 16px!important;min-height:44px;align-items:center}
+:root[data-theme] body :is(.panel-school,.panel-plan,.panel-progress,.panel-settings) .card :is(h2,h3),
+:root[data-theme] body .personal-library-head h2{font-size:var(--ui-section)!important;font-weight:600!important;line-height:1.4!important;letter-spacing:-.025em;margin:0!important}
+:root[data-theme] body :is(.ai-category-head,.study-book-page-head){align-items:center!important;gap:10px!important}
+:root[data-theme] body :is(.ai-category-head,.study-book-page-head) :is(h2,h3){font-size:var(--ui-section)!important;font-weight:600!important;line-height:1.4!important;letter-spacing:-.025em}
+:root[data-theme] body :is(.section-icon,.tab-heading-icon,.home-widget-icon,.feature-icon,.notebook-page-icon,.study-book-page-icon){display:inline-grid!important;place-items:center;flex:none;width:36px!important;height:36px!important;min-width:36px;min-height:36px;border-radius:12px!important;color:var(--shell-blue)!important;background:var(--shell-blue-soft)!important;box-shadow:none!important}
+:root[data-theme] body :is(.section-icon,.tab-heading-icon,.home-widget-icon,.feature-icon,.notebook-page-icon,.study-book-page-icon) .prime-icon{width:20px!important;height:20px!important}
+
+/* Quiet common paper, consistent gutters. Keep notebook covers/indexes and
+   the circular timer; they describe different content, not another UI system. */
+:root[data-theme] body :is(.panel-school,.panel-plan,.panel-progress,.panel-settings) .card,
+:root[data-theme] body #studyBookResults .book-recommendation-card,
+:root[data-theme] body .manage-shell .manage-card,
+:root[data-theme] body :is(.personal-document,.book-recommendation-card,.manage-card){
+  box-sizing:border-box;min-width:0;border:1px solid var(--ui-edge)!important;border-radius:var(--ui-radius)!important;
+  padding:var(--ui-pad)!important;background:var(--ui-surface)!important;box-shadow:var(--ui-shadow)!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+:root[data-theme] body :is(.plan-action-overview,.plan-tools-grid,.settings-grid,.personal-library-grid,.study-dashboard-grid){gap:var(--ui-space)!important;align-items:start}
+:root[data-theme] body .panel.is-active:not(.panel-home){gap:var(--ui-space)!important}
+:root[data-theme] body :is(.home-pomodoro.card,.home-dashboard-widget){border-color:var(--ui-edge)!important;border-radius:var(--ui-radius)!important;background:var(--ui-surface)!important;box-shadow:var(--ui-shadow)!important}
+:root[data-theme] body #studyBookResults .book-recommendation-card,
+:root[data-theme] body :is(.personal-document,.book-recommendation-card){border-radius:var(--ui-inset-radius)!important}
+:root[data-theme] body .panel-assistant .ai-category-panel{border-color:var(--ui-edge)!important;border-radius:var(--ui-radius)!important;background:var(--ui-surface)!important;box-shadow:var(--ui-shadow)!important}
+:root[data-theme] body .notebook-selected-reader :is(.study-note-item,.quiz-workspace){border-color:var(--ui-edge)!important;border-radius:var(--ui-inset-radius)!important;background:var(--ui-inset)!important;box-shadow:none!important}
+:root[data-theme] body #studyBookResults .book-recommendation-card h3{font-size:16px!important;font-weight:600!important;line-height:1.5!important}
+:root[data-theme] body #studyBookResults .book-recommendation-card p{font-size:14px;line-height:1.7}
+:root[data-theme] body :is(.personal-document strong,.book-recommendation-title,.activity-list-item strong){font-size:16px!important;font-weight:600!important;line-height:1.5!important}
+:root[data-theme] body :is(.personal-document-preview,.book-recommendation-description,.activity-list-item small,.activity-list-item em,.review-card p){font-size:13px!important;line-height:1.6;color:var(--shell-muted)}
+.connected-activities .activity-list-item:first-child{padding-top:0}
+.connected-activities .activity-list-item:last-child{padding-bottom:0;border-bottom:0}
+:root[data-theme] body :is(.daily-check-item,.settings-user-box,.settings-link-button,.planner-day-detail-section,.grade-selected-target,.grade-feedback-card,.meal-block){border:1px solid var(--ui-edge)!important;border-radius:var(--ui-inset-radius)!important;background:var(--ui-inset)!important;box-shadow:none!important}
+:root[data-theme] body :is(.personal-library-empty,.study-empty,.planner-empty,.dashboard-empty){font-size:var(--ui-body)!important;color:var(--shell-muted);line-height:1.6}
+.personal-library-head{margin:0 0 16px;gap:12px}
+.personal-library-head>div{min-width:0;display:grid;gap:4px}
+.personal-library-head p{font-size:var(--ui-caption);line-height:1.4}
+.personal-library-search{border-color:var(--ui-edge);background:var(--ui-surface);border-radius:var(--ui-control-radius);margin-bottom:16px!important}
+.personal-library-toolbar{margin:16px 0 12px}
+.personal-document-top,.personal-document-foot,.personal-record-meta{font-size:var(--ui-caption);line-height:1.5}
+
+/* The same selected lens across navigation, filters and settings. Do not
+   flatten the notebook's paper-index tabs or replace the scrub interaction. */
+:root[data-theme] body .prime-slide-bar:not(.ai-category-grid){border-color:var(--ui-edge)!important;background:var(--ui-inset)!important;box-shadow:none!important}
+:root[data-theme] body .prime-slide-bar .prime-tab-lens{background:color-mix(in srgb,var(--shell-blue) 9%,var(--ui-surface));border-color:color-mix(in srgb,var(--shell-blue) 18%,var(--ui-edge));box-shadow:0 2px 6px #00000008;backdrop-filter:none;-webkit-backdrop-filter:none}
+:root[data-theme] body .prime-slide-bar.is-tab-held .prime-tab-lens{background:color-mix(in srgb,var(--shell-blue) 15%,var(--ui-surface));box-shadow:0 3px 12px color-mix(in srgb,var(--shell-blue) 12%,transparent)}
+:root[data-theme] body :is(#personalMindCategories,#personalLibraryCollections,.study-history-filters) button{font-size:12px!important;font-weight:500;line-height:1.4!important;white-space:nowrap}
+:root[data-theme] body :is(#personalLibraryCollections,.study-history-filters).prime-slide-bar{width:fit-content;max-width:100%;box-sizing:border-box;padding:4px;border:1px solid var(--ui-edge)!important;border-radius:999px!important}
+
+/* Icon actions share a 44px circular touch target; labelled CTAs share a
+   14px contour. No transform overrides: press/release and dragging still work. */
+:root[data-theme] body :is(.icon-btn,.calendar-icon-btn,.prime-icon-button,.journey-launch,.journey-icon-action,.personal-record-close,.personal-fact-controls button,.personal-mind-head button,.personal-mind-foot button,.activity-view-head button,.journey-header button,.personal-edit-dialog header button){box-sizing:border-box;display:inline-grid;place-items:center;flex:none;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;padding:10px!important;border-radius:50%!important;line-height:1;box-shadow:none!important}
+:root[data-theme] body :is(.personal-record-close,.personal-fact-controls button,.personal-mind-head button,.personal-mind-foot button,.activity-view-head button,.journey-header button,.personal-edit-dialog header button){border:1px solid var(--ui-edge)!important;background:var(--ui-inset)!important;color:var(--shell-ink)!important}
+:root[data-theme] body .connected-activities>header>.btn,
+:root[data-theme] body .topbar #notificationButton{width:44px!important;height:44px!important;min-width:44px!important;padding:10px!important;border-radius:50%!important}
+:root[data-theme] body :is(#closeProfileButton,#closeAuthButton,#closeMoreSheetButton,#closeHomeSettingsButton){border-radius:50%!important}
+:root[data-theme] body :is(#profileModal,#authModal) .field{border-radius:var(--ui-control-radius)!important;background:var(--ui-inset)!important;border-color:var(--ui-edge)!important;box-shadow:none!important}
+:root[data-theme] body :is(#profileModal,#authModal) .prime-select-segments{border-radius:999px!important}
+:root[data-theme] body :is(.btn,.personal-data-launch,.personal-record-source,.personal-library-more,.grade-feedback-badge,.grade-feedback-retry,.manage-shell .primary-button,.manage-modal .primary-button){font-family:inherit;font-size:14px;font-weight:600;min-height:44px;border-radius:var(--ui-control-radius)!important}
+:root[data-theme] body .prime-icon-button.prime-icon-button.prime-icon-button{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;padding:10px!important;border-radius:50%!important}
+:root[data-theme] body :is(.personal-data-launch,.personal-record-source,.personal-library-more,.grade-feedback-badge,.grade-feedback-retry){color:var(--shell-blue);background:var(--shell-blue-soft);box-shadow:none}
+:root[data-theme] body :is(.btn.primary,.personal-record-source,.journey-navigation [data-journey-next],.manage-shell .primary-button,.manage-modal .primary-button){font-family:inherit;font-size:14px;font-weight:600;border-radius:var(--ui-control-radius)!important;background:var(--glass-control-fill,var(--shell-blue))!important;color:var(--glass-on-accent,#fff)!important;border-color:var(--ui-edge)!important;box-shadow:none!important}
+:root[data-theme] body .prime-journey :is(.field,.prime-time-picker),
+:root[data-theme] body :is(.personal-edit-dialog,.book-action-dialog,.manage-modal) :is(input,textarea){font-family:inherit;border-radius:var(--ui-control-radius)!important;background:var(--ui-inset)!important;border-color:var(--ui-edge)!important;box-shadow:none!important}
+
+/* Full-screen detail destinations and overlays use the same chrome/material. */
+:root[data-theme] body :is(#personalMindView,#primeActivityView,.prime-journey){background:radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--shell-blue) 4%,transparent),transparent 65%),var(--shell-bg)}
+:root[data-theme] body :is(.personal-mind-head,.activity-view-head,.journey-header) h2{font-size:20px!important;font-weight:600!important;letter-spacing:-.035em;line-height:1.35}
+:root[data-theme] body :is(.personal-record-dialog,.personal-edit-dialog,.book-action-dialog,.modal-backdrop>[role=dialog],.modal-backdrop>.auth-modal,.modal-backdrop>.modal,.utility-modal,.sheet,.manage-modal .modal-sheet){border-radius:var(--ui-radius)!important;border:1px solid var(--ui-edge)!important;background:var(--ui-surface)!important;box-shadow:var(--ui-overlay-shadow)!important}
+:root[data-theme] body :is(#notificationPopover,#homeSettingsPanel){border-color:var(--ui-edge)!important;border-radius:var(--ui-radius)!important;background:var(--ui-surface)!important;box-shadow:var(--ui-overlay-shadow)!important}
+:root[data-theme] body :is(.personal-record-dialog,.personal-edit-dialog,.book-action-dialog,.manage-modal) h2{font-family:inherit;font-size:20px;font-weight:600;line-height:1.4;letter-spacing:-.03em}
+.personal-record-dialog{padding:28px 20px 20px}
+.personal-record-text{font-size:14px;line-height:1.75}
+.personal-record-links{margin-top:20px;padding-top:16px}
+.personal-record-source{margin-top:16px}
+.personal-record-close{top:12px;right:12px}
+.personal-mind-head p{font-size:12px;line-height:1.5}
+:root[data-theme] body #personalMindStage .personal-graph-controls{background:var(--ui-inset);border-color:var(--ui-edge);box-shadow:none}
+:root[data-theme] body #personalMindStage .personal-graph-controls button{width:44px;height:44px;border-radius:50%}
+#personalMindStage .personal-network-node{--node-color:var(--shell-blue)}
+#personalMindStage .personal-network-node[data-kind=goals]{--node-color:color-mix(in srgb,var(--shell-blue) 80%,var(--shell-muted))}
+#personalMindStage .personal-network-node[data-kind=habits]{--node-color:color-mix(in srgb,var(--shell-blue) 70%,var(--shell-muted))}
+#personalMindStage .personal-network-node[data-kind=traits]{--node-color:color-mix(in srgb,var(--shell-blue) 65%,var(--shell-ink))}
+#personalMindStage .personal-network-node[data-kind=school]{--node-color:color-mix(in srgb,var(--shell-blue) 85%,var(--shell-ink))}
+#personalMindStage .personal-network-node[data-kind=interests]{--node-color:color-mix(in srgb,var(--shell-blue) 75%,var(--shell-muted))}
+.personal-graph-node text{font-family:var(--app-font,'Apple SD Gothic Neo',system-ui,sans-serif)}
+
+@media(max-width:999px){
+  :root{--ui-pad:16px;--ui-space:12px;--ui-title:24px;--ui-radius:22px}
+  :root[data-theme] body .plan-tools-grid .planner-section-title .section-icon{display:inline-grid!important;width:36px!important;height:36px!important;min-width:36px;min-height:36px;border-radius:12px!important}
+  :root[data-theme] body .plan-tools-grid .planner-section-title{gap:8px!important;flex-wrap:nowrap}
+  :root[data-theme] body .plan-tools-grid .planner-section-title h2{font-size:var(--ui-section)!important}
+  :root[data-theme] body .plan-tools-grid .journey-launch{width:44px!important;height:44px!important;min-width:44px!important;padding:10px!important}
+  :root[data-theme] body .panel-progress .personal-library-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ui-space)!important}
+  :root[data-theme] body .personal-document{padding:14px!important;min-height:160px;gap:10px}
+  :root[data-theme] body .personal-library-head h2{font-size:18px!important}
+  :root[data-theme] body :is(.personal-library-search input,.personal-edit-dialog textarea,.prime-journey input,.prime-journey textarea){font-size:16px!important}
+  .personal-data-launch{font-size:12px!important;padding:10px;gap:6px}
+  .personal-library-head .personal-data-launch{max-width:55%;white-space:normal;line-height:1.4}
+  :root[data-theme] body #personalLibraryCollections.prime-slide-bar{width:100%;border-radius:24px!important}
+}
+@media(max-width:599px){:root[data-theme] body .plan-tools-grid{grid-template-columns:minmax(0,1fr)!important}}
+@media(max-width:359px){:root[data-theme] body .panel-progress .personal-library-grid{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.personal-document{transition:none!important}}
+@media(forced-colors:active){:root[data-theme] body .prime-slide-bar .prime-tab-lens{background:Highlight;border-color:Highlight}}

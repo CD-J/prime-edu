@@ -1,0 +1,42 @@
+/* One clear row per choice. Values/events stay owned by the original fields. */
+:root[data-theme] body :is(#profileModal,#authModal) .student-profile-fields {
+  min-width:0;margin:0;padding:0;border:0;border-radius:0;background:none;gap:14px;
+}
+:root[data-theme] body :is(#profileModal,#authModal) .student-profile-fields legend {
+  float:left;width:100%;box-sizing:border-box;margin:0 0 12px;padding:0;font-size:15px;font-weight:600;line-height:1.4;
+}
+:root[data-theme] body :is(#profileModal,#authModal) .student-school-row {
+  clear:both;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:12px;min-width:0;
+}
+:root[data-theme] body :is(#profileModal,#authModal) .student-level-field { grid-column:1/-1; }
+:root[data-theme] body :is(#profileModal,#authModal) :is(.student-school-row label,.school-search-control label,.profile-name-field) {
+  display:grid;grid-template-columns:minmax(0,1fr);min-width:0;gap:6px;margin:0;font-weight:500;font-size:13px;line-height:1.4;color:var(--shell-muted);
+}
+:root[data-theme] body :is(#profileModal,#authModal) .student-school-row .field { grid-column:auto; }
+:root[data-theme] body :is(#profileModal,#authModal) .prime-select-segments { min-height:52px;border-radius:16px!important; }
+:root[data-theme] body :is(#profileModal,#authModal) .prime-select-segments>button {
+  white-space:nowrap;overflow-wrap:normal;word-break:keep-all;font-size:15px!important;padding:8px 3px!important;min-height:44px!important;
+}
+:root[data-theme] body :is(#profileModal,#authModal) :is(.field,.prime-styled-select) { box-sizing:border-box;width:100%;min-width:0; }
+:root[data-theme] body :is(#profileModal,#authModal) .field { min-height:52px;border-radius:16px!important;font-size:16px!important;padding:12px 14px!important;line-height:1.4; }
+:root[data-theme] body :is(#profileModal,#authModal) .school-search-control { min-width:0;grid-template-columns:minmax(0,1fr) 48px;gap:8px;align-items:end; }
+:root[data-theme] body :is(#profileModal,#authModal) .school-search-control>.btn { width:48px;min-width:48px;min-height:52px;height:52px;padding:12px!important;align-self:end;border-radius:16px!important; }
+:root[data-theme] body :is(#profileModal,#authModal) .school-search-results:empty { display:none; }
+:root[data-theme] body :is(#profileModal,#authModal) .selected-school { margin:0;padding:12px 14px;border-radius:14px;background:var(--shell-bg);font-size:13px;line-height:1.5;overflow-wrap:anywhere; }
+:root[data-theme] body #profileModal { padding:12px;box-sizing:border-box;top:var(--mobile-visible-top,0px);bottom:auto;height:var(--mobile-visible-height,100dvh); }
+:root[data-theme] body #profileModal>.auth-modal { width:min(460px,100%);max-width:100%;max-height:100%;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;padding:20px!important; }
+:root[data-theme] body #profileModal .modal-head { align-items:start;gap:12px;margin-bottom:16px;flex:none; }
+:root[data-theme] body #profileModal .modal-head>div { min-width:0; }
+:root[data-theme] body #profileModal .modal-head h2 { font-size:20px!important;font-weight:600!important;line-height:1.4;margin:0; }
+:root[data-theme] body #profileEmailHint { font-size:13px!important;font-weight:400!important;line-height:1.5;margin:5px 0 0;overflow-wrap:anywhere; }
+:root[data-theme] body #closeProfileButton { flex:none;display:grid;place-items:center;width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;padding:10px!important;border-radius:14px!important; }
+:root[data-theme] body #profileForm { margin:0;gap:18px;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:0 1px 1px; }
+#profileForm::-webkit-scrollbar { display:none; }
+:root[data-theme] body #profileForm>button[type=submit] { position:sticky;bottom:0;z-index:1;min-height:48px;border-radius:16px!important;flex:none; }
+:root[data-theme] body #profileStatus { flex:none;margin:10px 0 0;font-size:12px;line-height:1.4; }
+:root[data-theme] body #profileStatus:empty { display:none; }
+@media(max-width:359px) {
+  :root[data-theme] body #profileModal>.auth-modal { padding:16px!important; }
+  :root[data-theme] body :is(#profileModal,#authModal) .student-school-row { grid-template-columns:minmax(0,1fr) 58px;gap:8px; }
+  :root[data-theme] body :is(#profileModal,#authModal) .prime-select-segments>button { font-size:13px!important; }
+}

@@ -1,0 +1,41 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const path = require('node:path');
+const read = file => fs.readFileSync(path.join(__dirname,'..',file),'utf8');
+const css = read('js/mobile-layout.css'), html = read('index.html'), study = read('js/study-ai.js');
+const { visibleViewport } = require('../js/mobile-layout.js');
+for (const h of [0,180,320,640,844,1000]) for (const visible of [undefined,0,180,400,1000]) for (const top of [undefined,-20,0,70,1200]) {
+  const size = visibleViewport(h,visible,top);
+  assert(Number.isFinite(size.top) && Number.isFinite(size.height));
+  assert(size.top >= 0 && size.height >= 0 && size.top + size.height <= h);
+}
+assert.deepEqual(visibleViewport(844,420,30),{top:30,height:420});
+assert.deepEqual(visibleViewport(844,undefined,0),{top:0,height:844});
+assert(html.indexOf('js/mobile-layout.css') > html.indexOf('js/interface-density.css'));
+assert.match(html,/study-ai\.js\?v=20261014-87/);
+assert.match(css,/@media \(max-width: 999px\)/);
+assert.doesNotMatch(css,/zoom\s*:|transform\s*:\s*scale\(|font-size\s*:\s*(?:9|10|11|12|13)px/);
+assert.match(css,/font-size: 16px!important; line-height: 1\.4!important/);
+assert.match(css,/height: 44px!important; min-height: 44px!important/);
+assert.match(css,/env\(safe-area-inset-bottom,0px\)/);
+assert.match(css,/--mobile-visible-height/);
+assert.match(css,/background: currentColor!important/,'Compact event dots must remain visibly colored');
+assert.match(css,/planner-event::after \{ content: none!important/,'Legacy text bullet must not duplicate the compact dot');
+assert.match(html,/mobile-layout\.css\?v=20261006-24/);
+assert(css.includes('.modal-backdrop > [role="dialog"]'),'Actual auth/calendar/planner dialog classes must be bounded');
+assert.match(css,/notebook-reader-tabs\[data-view="library"\]/);
+assert.match(study,/setAttribute\("data-view", open \? "reader" : "library"\)/);
+assert.match(css,/sudo-chat-open,.sudo-guide-open/);
+assert.match(css,/grade-input-table \{ min-width: 0; \}/);
+assert.doesNotMatch(css,/table-wrap|timetable-dayoff|rowspan/,'Timetable design must not change');
+// Simulate viewport events: one frame coalesces repeated updates; no app data APIs.
+const handlers={}, frames=[], properties={}, visualHandlers={};
+const scope=vm.createContext({window:{innerHeight:844,visualViewport:{height:420,offsetTop:30,addEventListener:(name,cb)=>{visualHandlers[name]=cb;}},addEventListener:(name,cb)=>{handlers[name]=cb;}},document:{documentElement:{style:{setProperty:(name,value)=>{properties[name]=value;}}}},requestAnimationFrame:cb=>{frames.push(cb);return frames.length;}});
+vm.runInContext(read('js/mobile-layout.js'),scope);
+assert.equal(properties['--mobile-visible-height'],'420px');
+assert.equal(properties['--mobile-visible-top'],'30px');
+handlers.resize();visualHandlers.resize();visualHandlers.scroll();assert.equal(frames.length,1);
+scope.window.visualViewport.height=300;frames.shift()();assert.equal(properties['--mobile-visible-height'],'300px');
+assert.doesNotMatch(read('js/mobile-layout.js'),/localStorage|firebase|fetch\(|setInterval/);
+console.log('PASS mobile layout: spacing-only responsive scope, readable 16px inputs/44px targets, existing timetable preserved, natural notebook library, safe overlays and bounded coalesced keyboard/rotation geometry.');

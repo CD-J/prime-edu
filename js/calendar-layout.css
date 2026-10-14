@@ -1,0 +1,49 @@
+/* One quiet cell rhythm: date, two-line preview, then compact metadata.
+   Original buttons, date keys, detail views and weekend colors are retained. */
+:root[data-theme] body :is(#plannerCalendarGrid,#calendarGrid) { gap:5px!important;grid-auto-rows:auto!important;min-height:0!important; }
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day,#calendarGrid .cal-day:not(.empty)) {
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:28px 28px minmax(14px,auto)!important;align-content:start!important;
+  justify-items:center!important;align-items:start!important;gap:4px!important;
+  padding:6px!important;min-height:92px!important;min-width:0;box-sizing:border-box;text-align:center!important;
+}
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day time,#calendarGrid .cal-num) {
+  display:grid!important;place-items:center!important;justify-self:center!important;align-self:start!important;
+  width:28px!important;height:28px!important;min-height:28px!important;margin:0!important;padding:0!important;
+  border-radius:50%!important;font-size:16px!important;line-height:1!important;font-weight:650!important;
+  font-variant-numeric:tabular-nums;text-align:center!important;box-sizing:border-box;
+}
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day.is-today time,#calendarGrid .cal-day.is-today .cal-num) { background:var(--shell-blue)!important;color:var(--on-accent,#fff)!important; }
+:root[data-theme] body :is(.planner-day-items,.cal-cell-events) { display:block!important;width:100%;min-width:0;height:28px;margin:0!important; }
+:root[data-theme] body :is(#plannerCalendarGrid .planner-event,#calendarGrid .cal-dot:not(.meal-dot):not(.more)) {
+  display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+  width:100%!important;max-width:100%;height:auto!important;max-height:28px;min-height:0!important;
+  margin:0!important;padding:0!important;border-radius:0!important;background:none!important;
+  font-size:11px!important;line-height:14px!important;font-weight:500!important;text-align:center!important;
+  white-space:normal!important;overflow:hidden!important;overflow-wrap:anywhere;word-break:normal;
+}
+:root[data-theme] body :is(.planner-day-meta,.cal-cell-meta) { display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:3px;min-width:0;width:100%;min-height:14px; }
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day-progress,#plannerCalendarGrid .planner-day-more,#calendarGrid .cal-dot.more) {
+  margin:0!important;padding:0!important;min-height:0!important;height:auto!important;width:auto!important;
+  font-size:10px!important;line-height:14px!important;font-weight:500!important;color:var(--shell-muted)!important;
+  font-variant-numeric:tabular-nums;text-align:center!important;white-space:nowrap;overflow-wrap:anywhere;
+}
+:root[data-theme] body #calendarGrid .cal-dot.meal-dot {
+  display:block!important;flex:none!important;width:5px!important;height:5px!important;min-height:5px!important;
+  padding:0!important;margin:0!important;border-radius:50%!important;background:#be852d!important;font-size:0!important;
+}
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day-blank,#calendarGrid .cal-day.empty) { min-height:0!important;background:none!important;border:0!important;box-shadow:none!important; }
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day,#calendarGrid .cal-day):focus-visible { outline:2px solid var(--shell-blue);outline-offset:2px; }
+/* Keep StandBy numbers and their captions in the center of the same cell. */
+#primeStandby .standby-month-grid>span:not(.standby-weekday) { align-items:center;justify-content:center;text-align:center;gap:4px;padding:4px;min-width:0; }
+#primeStandby .standby-month-grid small { margin:0;max-width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+#primeStandby .standby-month-grid .is-today:not([data-weekday="0"]):not([data-weekday="6"]) small { color:#0b0d12; }
+@media(max-width:600px) {
+  :root[data-theme] body :is(#plannerCalendarGrid,#calendarGrid) { gap:4px!important; }
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-day,#calendarGrid .cal-day:not(.empty)) { grid-template-rows:24px 24px minmax(12px,auto)!important;gap:3px!important;padding:5px 3px!important;min-height:78px!important;border-radius:12px!important; }
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-day time,#calendarGrid .cal-num) { width:24px!important;height:24px!important;min-height:24px!important;font-size:14px!important; }
+  :root[data-theme] body :is(.planner-day-items,.cal-cell-events) { height:24px; }
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-event,#calendarGrid .cal-dot:not(.meal-dot):not(.more)) { font-size:10px!important;line-height:12px!important;max-height:24px; }
+  :root[data-theme] body :is(.planner-day-meta,.cal-cell-meta) { min-height:12px;gap:2px; }
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-day-progress,#plannerCalendarGrid .planner-day-more,#calendarGrid .cal-dot.more) { font-size:9px!important;line-height:12px!important; }
+}

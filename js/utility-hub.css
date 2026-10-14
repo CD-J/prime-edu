@@ -1,0 +1,535 @@
+﻿.home-pomodoro {
+  width: min(100%, 1180px);
+  margin: 28px auto 0;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.home-pomodoro-copy h2,
+.utility-modal h2,
+.utility-modal h3,
+.utility-settings-title {
+  margin: 0;
+}
+
+.home-pomodoro-copy p,
+.pomodoro-detail-copy p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.pomodoro-ring {
+  --pomodoro-progress: 0deg;
+  width: 124px;
+  aspect-ratio: 1;
+  padding: 9px;
+  border-radius: 50%;
+  background: conic-gradient(var(--shell-blue) var(--pomodoro-progress), color-mix(in srgb, var(--shell-blue) 11%, var(--line)) 0);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--shell-blue) 12%, transparent);
+}
+
+.pomodoro-ring > div {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--surface);
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.pomodoro-ring strong {
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.04em;
+}
+
+.pomodoro-ring span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.pomodoro-ring-large {
+  width: min(260px, 55vw);
+}
+
+.pomodoro-actions,
+.pomodoro-presets,
+.pomodoro-custom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.utility-launch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.utility-launch-card {
+  min-width: 0;
+  min-height: 164px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.utility-launch-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--shell-blue) 42%, var(--line));
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--shell-blue) 10%, transparent);
+}
+
+.utility-launch-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--shell-blue) 32%, transparent);
+  outline-offset: 2px;
+}
+
+.utility-launch-card strong {
+  font-size: 1.08rem;
+}
+
+.utility-launch-card small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.utility-launch-icon {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 8px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--shell-blue) 13%, var(--surface));
+  font-size: 1.35rem;
+}
+
+.utility-settings-title {
+  margin-bottom: 14px;
+  font-size: 1.15rem;
+}
+
+.utility-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  background: rgb(15 23 42 / 38%);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+.utility-modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.utility-modal {
+  width: min(920px, 100%);
+  max-height: min(820px, calc(100dvh - 48px));
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(12px);
+  transition: transform .2s ease;
+}
+
+.utility-modal-backdrop.is-open .utility-modal {
+  transform: translateY(0);
+}
+
+.utility-modal-head {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.utility-panel {
+  min-height: 340px;
+  padding: 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.utility-chat-panel {
+  display: grid;
+  grid-template-rows: minmax(320px, 1fr) auto;
+  gap: 14px;
+}
+
+.utility-chat-panel[hidden],
+.utility-panel[hidden] {
+  display: none;
+}
+
+.utility-chat-messages {
+  min-height: 360px;
+  max-height: 58dvh;
+  padding: 18px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--shell-blue) 4%, var(--surface));
+}
+
+.utility-chat-form {
+  position: sticky;
+  bottom: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.utility-checklist-form,
+.admission-form-grid {
+  display: grid;
+  grid-template-columns: minmax(160px, .65fr) minmax(220px, 1.35fr) auto;
+  align-items: end;
+  gap: 12px;
+}
+
+.utility-checklist-form label,
+.admission-form label,
+.pomodoro-custom label {
+  display: grid;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.utility-checklist-list {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.utility-check-row {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+}
+
+.utility-check-row label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.utility-check-row.is-done strong {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.utility-check-row button {
+  border: 0;
+  background: transparent;
+  color: #e5484d;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pomodoro-detail-layout {
+  min-height: 420px;
+  display: grid;
+  grid-template-columns: minmax(240px, .85fr) minmax(300px, 1.15fr);
+  align-items: center;
+  justify-items: center;
+  gap: 36px;
+}
+
+.pomodoro-detail-copy {
+  width: 100%;
+  display: grid;
+  gap: 18px;
+}
+
+.pomodoro-presets button,
+.admission-mode-tabs button,
+.admissions-mode-tabs button {
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.pomodoro-presets button.is-active,
+.admission-mode-tabs button.is-active,
+.admissions-mode-tabs button.is-active {
+  border-color: var(--shell-blue);
+  background: color-mix(in srgb, var(--shell-blue) 13%, var(--surface));
+  color: var(--shell-blue);
+}
+
+.pomodoro-custom {
+  align-items: end;
+}
+
+.pomodoro-custom label {
+  width: 110px;
+}
+
+.admission-form,
+.admissions-form {
+  display: grid;
+  gap: 18px;
+}
+
+.admission-mode-tabs,
+.admissions-mode-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.admission-form-grid,
+.admissions-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admission-form-grid label,
+.admissions-grid label,
+.admission-detail-fields label,
+.admissions-detailed label {
+  display: grid;
+  gap: 7px;
+}
+
+.admission-detail-fields,
+.admissions-detailed {
+  padding: 18px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--shell-blue) 5%, var(--surface));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admission-detail-fields label:first-child,
+.admissions-detailed label:first-child {
+  grid-column: 1 / -1;
+}
+
+.admission-summary,
+.admissions-summary {
+  margin-top: 22px;
+}
+
+.admission-result-list,
+.admissions-results {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admission-result-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.admission-result-card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admission-result-card h3 {
+  overflow-wrap: anywhere;
+}
+
+.admission-band {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--shell-blue) 12%, var(--surface));
+  color: var(--shell-blue);
+  font-size: .75rem;
+  font-weight: 850;
+}
+
+.admission-probability {
+  margin: 18px 0 8px;
+  font-size: 1.5rem;
+  font-weight: 850;
+  letter-spacing: -.04em;
+}
+
+.admission-result-card p,
+.admission-result-card li {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.admission-result-card ul {
+  padding-left: 18px;
+}
+
+.admission-confidence {
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+.admission-disclaimer {
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, #f59e0b 9%, var(--surface));
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .utility-launch-grid,
+  .admission-result-list,
+  .admissions-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admission-form-grid,
+  .admissions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .home-pomodoro {
+    width: calc(100% - 24px);
+    margin-top: 18px;
+    padding: 20px;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+  }
+
+  .home-pomodoro .pomodoro-ring {
+    width: 94px;
+  }
+
+  .home-pomodoro .pomodoro-actions {
+    grid-column: 1 / -1;
+  }
+
+  .utility-launch-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .utility-launch-card {
+    min-height: 142px;
+    padding: 17px;
+    border-radius: 20px;
+  }
+
+  .utility-modal-backdrop {
+    padding: 0;
+    place-items: end center;
+  }
+
+  .utility-modal {
+    width: 100%;
+    max-height: 92dvh;
+    border-radius: 26px 26px 0 0;
+    transform: translateY(24px);
+  }
+
+  .utility-modal-head,
+  .utility-panel {
+    padding: 18px;
+  }
+
+  .utility-modal-head::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 42px;
+    height: 5px;
+    border-radius: 99px;
+    background: var(--line);
+    transform: translateX(-50%);
+  }
+
+  .utility-modal-head {
+    position: relative;
+    padding-top: 24px;
+  }
+
+  .utility-chat-panel {
+    grid-template-rows: minmax(44dvh, 1fr) auto;
+  }
+
+  .utility-chat-messages {
+    min-height: 44dvh;
+  }
+
+  .utility-checklist-form,
+  .admission-form-grid,
+  .admissions-grid,
+  .admission-detail-fields,
+  .admissions-detailed,
+  .admission-result-list,
+  .admissions-results,
+  .pomodoro-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admission-detail-fields label:first-child,
+  .admissions-detailed label:first-child {
+    grid-column: auto;
+  }
+
+  .pomodoro-detail-layout {
+    justify-items: center;
+    gap: 22px;
+  }
+
+  .pomodoro-ring-large {
+    width: 190px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .utility-modal,
+  .utility-modal-backdrop,
+  .utility-launch-card {
+    transition: none;
+  }
+}
+

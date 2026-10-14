@@ -1,0 +1,84 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function setupOpen() {
+      return !exists(/databases/$(database)/documents/meta/setup);
+    }
+
+    function isAdmin() {
+      return signedIn() && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    match /meta/setup {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && setupOpen()
+        && request.resource.data.done == true
+        && request.resource.data.by == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    match /classes/{classId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role in ['student', 'admin']
+        && (request.resource.data.role == 'student' || setupOpen());
+      allow update: if signedIn()
+        && request.auth.uid == userId
+        && (
+          request.resource.data.role == resource.data.role
+          || (
+            setupOpen()
+            && resource.data.role == 'student'
+            && request.resource.data.role == 'admin'
+          )
+        );
+      allow delete: if false;
+
+      match /personalEvents/{eventId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /studyTasks/{taskId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /studySessions/{sessionId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /notes/{noteId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /quizzes/{quizId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /quizAttempts/{attemptId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /learningDiagnostics/{diagnosisId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      match /gradeRecords/{recordId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+    }
+  }
+}

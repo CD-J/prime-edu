@@ -1,0 +1,22 @@
+/* A real 44px thumb, not a rotated full-clock focus/hit box. */
+:root[data-theme] body .pomodoro-ring { touch-action:pan-y pinch-zoom; }
+:root[data-theme] body .pomodoro-ring .pomodoro-ring-handle {
+  inset:auto!important;left:var(--pomodoro-handle-x,50%)!important;top:var(--pomodoro-handle-y,5.3%)!important;
+  width:44px!important;height:44px!important;transform:translate(-50%,-50%)!important;
+  pointer-events:auto;touch-action:none;cursor:grab;outline:none!important;z-index:3;
+}
+:root[data-theme] body .pomodoro-ring .pomodoro-ring-handle::after {
+  left:50%;top:50%;transform:translate(-50%,-50%);opacity:1;
+}
+:root[data-theme] body .pomodoro-ring-handle:focus-visible::after { outline:2px solid var(--clock-tone);outline-offset:4px; }
+:root[data-theme] body .pomodoro-ring.is-adjusting { transform:none; }
+:root[data-theme] body .pomodoro-ring.is-adjusting .pomodoro-ring-handle { cursor:grabbing; }
+:root[data-theme] body .pomodoro-ring.is-adjusting .dial-progress {
+  stroke-dasharray:var(--pomodoro-setting-arc,75) 360;transition:none;
+}
+:root[data-theme] body .pomodoro-ring.is-running .pomodoro-ring-handle { pointer-events:none; }
+/* Keep the movable companion's saved position, but clear active timer controls. */
+:root[data-theme] body:has(.pomodoro-ring.is-adjusting,.mobile-pomodoro-widget:focus-within,.home-pomodoro:focus-within,.utility-pomodoro-panel:focus-within) :is(#aiFabWrap,.sudo-dizzy-notice) {
+  opacity:0!important;pointer-events:none!important;
+}
+:root[data-theme] body:has(.pomodoro-ring.is-adjusting,.mobile-pomodoro-widget:focus-within,.home-pomodoro:focus-within,.utility-pomodoro-panel:focus-within) #aiFabButton { pointer-events:none!important; }

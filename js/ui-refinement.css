@@ -1,0 +1,180 @@
+/* Active notebook content participates in layout: one natural vertical scroll. */
+.panel-assistant #aiNotebookPages { height:auto!important; min-height:0; overflow:visible; touch-action:pan-y; transition:none; }
+.panel-assistant #aiNotebookPages > .ai-category-panel { height:auto!important; min-height:0; overflow:visible; }
+.panel-assistant #aiNotebookPages > .ai-category-panel.is-current { position:relative; inset:auto; }
+.panel-assistant #aiNotebookPages > .ai-category-panel:not(.is-current) { position:absolute; inset:0; pointer-events:none; overflow:hidden; max-height:100%; }
+#aiNotesPanel .ai-tool-menu { display:none; }
+#aiNotesPanel .study-book-spread { min-height:0; align-items:start; }
+#aiNotesPanel .study-book-page { min-width:0; }
+/* A single paper surface: independent page backgrounds used to end at
+   different heights, misaligning ruled lines and the extra centre fold. */
+#aiNotesPanel .study-book-spread {
+ align-items:stretch; background:var(--workbook-paper)!important; box-shadow:none!important;
+}
+#aiNotesPanel .study-book-spread::before { display:none; }
+#aiNotesPanel .study-book-page { background:transparent; }
+#aiNotesPanel .study-book-page-head { border-bottom-width:1px; }
+@media(min-width:1000px) {
+ #aiNotesPanel .study-problem-page { border-left:1px solid var(--shell-line); }
+}
+@media(max-width:999px) {
+ #aiNotesPanel .study-book-page { background:var(--workbook-paper); box-shadow:none; }
+}
+#aiNotesPanel .study-concept-page .study-form-row { grid-template-columns:1fr; }
+#aiNotesPanel .study-note-item, #aiNotesPanel .quiz-workspace, .book-recommendation-card { overflow-wrap:anywhere; }
+#aiNotesPanel .quiz-book-cover { aspect-ratio:auto; min-height:180px; padding:64px 14px 16px 22px; }
+#aiNotesPanel .quiz-book-cover strong { flex:0 0 auto; font-size:15px; line-height:1.45; }
+#aiNotesPanel .quiz-book-meta strong { white-space:normal; overflow-wrap:anywhere; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-height:1.45; }
+.note-original { white-space:pre-wrap; }
+.ai-chat-bubble strong { font-weight:750; color:inherit; }
+.ai-chat-bubble pre { max-width:100%; overflow-x:auto; white-space:pre; margin:12px 0; padding:12px; border-radius:12px; background:color-mix(in srgb,currentColor 5%,transparent); }
+.ai-chat-bubble code { font-family:ui-monospace,monospace; font-size:.9em; }
+.sudo-typing-dots { display:flex; align-items:center; gap:5px; min-height:20px; padding:3px 4px; }
+.sudo-typing-dots i { width:6px; height:6px; border-radius:50%; background:currentColor; animation:sudoTyping 1.2s ease-in-out infinite; }
+.sudo-typing-dots i:nth-child(2) { animation-delay:.15s; }
+.sudo-typing-dots i:nth-child(3) { animation-delay:.3s; }
+@keyframes sudoTyping { 0%,80%,100% {opacity:.35;transform:translateY(0)} 40% {opacity:1;transform:translateY(-3px)} }
+.status-text:empty, .status-text.operation-state:empty { display:none; }
+.status-text.operation-state { display:grid; gap:12px; padding:16px; margin:14px 0 0; border:1px solid var(--shell-line); border-radius:16px; background:var(--shell-card); font-size:14px; line-height:1.65; color:var(--shell-ink); }
+.operation-state .operation-heading { display:flex; align-items:center; gap:10px; font-weight:650; }
+.operation-state .operation-spinner { width:18px; height:18px; border:2px solid var(--shell-line); border-top-color:var(--shell-blue); border-radius:50%; animation:operationSpin .9s linear infinite; flex:none; }
+.operation-state .operation-skeleton { display:grid; gap:8px; }
+.operation-skeleton i { display:block; height:8px; border-radius:6px; background:color-mix(in srgb,var(--shell-ink) 9%,transparent); animation:operationPulse 1.6s ease-in-out infinite; }
+.operation-skeleton i:last-child { width:65%; }
+.operation-state.is-error { border-color:#b94747; }
+.operation-state.is-info { border-left:3px solid var(--shell-blue); }
+.study-form[aria-busy=true] button[type=submit] { opacity:.65; cursor:wait; }
+.operation-toast { position:fixed; z-index:500; left:50%; bottom:calc(80px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); width:max-content; max-width:calc(100vw - 32px); padding:12px 20px; border-radius:20px; color:var(--shell-card,#fff); background:var(--shell-ink,#111); font:600 14px/1.5 system-ui,sans-serif; pointer-events:none; }
+@keyframes operationSpin { to {transform:rotate(360deg)} }
+@keyframes operationPulse { 50% {opacity:.4} }
+/* The bell belongs behind an open conversation, never above its close button. */
+body.sudo-chat-open #aiFabWrap { z-index:390!important; }
+body.sudo-chat-open #notificationButton { visibility:hidden; pointer-events:none; }
+#aiFabPanel .ai-fab-head { flex-shrink:0; min-height:60px; padding:12px 16px; }
+#aiFabClose { width:44px; height:44px; padding:0; display:grid; place-items:center; font-size:20px; flex:none; }
+#aiFabPanel .ai-chat-bubble { font-family:inherit; font-size:16px; line-height:1.7; overflow-wrap:anywhere; }
+#aiFabPanel .ai-chat-messages { min-height:0; overscroll-behavior:contain; scrollbar-width:thin; }
+@media(max-width:999px) {
+ .panel-assistant #aiNotebookPages { width:100%; }
+ .panel-assistant #aiNotebookPages > .ai-category-panel { padding:18px 10px; }
+ #aiNotesPanel .study-book-page, #aiNotesPanel .study-concept-list, #aiNotesPanel .quiz-library, #aiNotesPanel .quiz-workspace { max-height:none!important; overflow:visible!important; touch-action:pan-y; }
+ #aiNotesPanel .study-book-page { padding:18px 14px; }
+ .concept-visual-branches article p { font-size:14px; line-height:1.65; }
+ .concept-visual-branches article span { font-size:14px; }
+ body .bottom-nav, body[data-active-tab=home] .bottom-nav { --nav-h:54px; height:calc(54px + env(safe-area-inset-bottom,0px)); padding:0 4px env(safe-area-inset-bottom,0px); }
+ body .bottom-nav .nav-item { min-height:44px; padding:4px 0; }
+ body .bottom-nav .nav-item svg { width:29px; height:29px; }
+ #aiFabPanel { border-radius:24px; }
+}
+@media(prefers-reduced-motion:reduce) { .sudo-typing-dots i,.operation-spinner,.operation-skeleton i { animation:none!important; } }
+/* One index edge, not a rounded container behind two more rounded tabs. */
+.panel-assistant .ai-workspace { isolation:isolate; }
+.panel-assistant .ai-category-grid {
+ width:min(900px,calc(100% - 32px)); margin:0 auto; padding:0 12px;
+ display:flex; align-items:stretch; gap:4px; box-sizing:border-box;
+ border:0; border-radius:0; background:transparent; box-shadow:none;
+ position:relative; z-index:2; overflow:visible;
+}
+.panel-assistant .ai-category-card:not([hidden]) {
+ min-height:46px; border-bottom:0; transform:none!important;
+ background:var(--shell-card); box-shadow:none;
+}
+.panel-assistant .ai-category-card.is-active {
+ background:color-mix(in srgb,var(--shell-blue) 10%,var(--shell-card));
+ border-color:color-mix(in srgb,var(--shell-blue) 26%,var(--shell-line));
+ color:var(--shell-blue);
+}
+.panel-assistant #aiNotebookPages { position:relative; z-index:1; isolation:isolate; }
+.panel-assistant #aiNotebookPages > .ai-category-panel:not(.is-current) {
+ visibility:hidden!important; opacity:0!important; animation:none!important;
+}
+.panel-assistant #aiNotebookPages > .ai-category-panel.is-page-arriving {
+ animation:notebookSurfaceIn 180ms ease-out both;
+}
+@keyframes notebookSurfaceIn { from {opacity:.55;filter:blur(3px)} to {opacity:1;filter:blur(0)} }
+/* Form hierarchy: labels explain, placeholders only illustrate. */
+.study-form label, .student-profile-form label, .checklist-form-field, .auth-form label {
+ display:flex; flex-direction:column; align-items:stretch; gap:9px;
+ font-size:14px; line-height:1.5; font-weight:650; color:var(--shell-ink);
+}
+.field {
+ box-sizing:border-box; min-width:0; width:100%; min-height:52px;
+ padding:14px 16px!important;
+ font-family:inherit; font-size:16px; font-weight:400; line-height:1.55;
+ color:var(--shell-ink); text-align:left; border:1px solid var(--shell-line);
+}
+.field::placeholder { color:color-mix(in srgb,var(--shell-ink) 58%,var(--shell-card)); font-weight:400; opacity:1; }
+textarea.field { min-height:140px; height:auto; resize:vertical; }
+select.field { padding-right:32px!important; }
+.field:focus-visible { outline:2px solid var(--shell-blue); outline-offset:2px; }
+.field-optional { display:inline; color:var(--shell-muted); font-size:12px; font-weight:400; }
+.field-label { display:flex; align-items:baseline; gap:8px; }
+.auth-form > label { grid-column:1/-1; }
+.field-with-unit { display:block; position:relative; font-weight:400; }
+.field-with-unit .field { padding-right:52px!important; }
+.field-with-unit > span { position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--shell-muted); font-size:14px; pointer-events:none; }
+.plan-mode-description { font-size:14px; line-height:1.65; color:var(--shell-muted); margin:12px 0 20px; }
+.plan-tools-grid { align-items:start; }
+#examStrategyForm { display:flex!important; flex-direction:column; gap:20px; }
+#examStrategyForm .study-form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+#examStrategyForm .study-form-row > label:first-child { grid-column:1/-1; }
+#examStrategyForm label { min-width:0; }
+.calendar-day-modal .meal-menu { font-size:15px; line-height:1.8; font-weight:400; overflow-wrap:anywhere; }
+.calendar-day-modal .list-item { padding:16px; }
+/* One weekly summary. Fixed order, with explicit access to unclipped details. */
+.weekday-grid { align-items:stretch; }
+button.weekday-card { font-family:inherit; color:var(--shell-ink); text-align:left; cursor:pointer; display:flex; flex-direction:column; height:auto!important; min-height:0; }
+.weekday-head { display:flex; flex-direction:column; }
+.weekday-card .weekday-body-split { display:grid!important; grid-template-columns:1fr!important; grid-template-rows:auto auto; gap:8px; height:auto!important; flex:1; }
+.weekday-card .weekday-block { min-width:0; min-height:0; height:auto!important; padding:10px; }
+.weekday-card .weekday-schedule { min-height:78px; }
+.weekday-card .weekday-meal { min-height:110px; }
+.weekday-card .weekday-event, .weekday-card .weekday-meal-text {
+ height:auto; font-size:13px; line-height:1.55; white-space:pre-line;
+ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;
+ overflow:hidden; overflow-wrap:anywhere;
+}
+.weekday-card .weekday-block-label { display:block; margin-bottom:5px; font-size:12px; font-weight:650; }
+.weekday-detail-link { display:block; padding:10px 2px 0; font-size:12px; color:var(--shell-blue); text-align:right; }
+button.weekday-card:focus-visible { outline:2px solid var(--shell-blue); outline-offset:3px; }
+#aiBooksPanel, #studyBookResults { max-height:none!important; height:auto!important; overflow:visible!important; touch-action:pan-y; }
+#studyBookResults { scroll-margin-top:100px; }
+.book-results-title { font-size:20px; margin:24px 0 16px; }
+.book-result-jump { margin:16px 0 0; }
+/* A quiet, precise dial. No full-turn handle animation across the seam. */
+.pomodoro-ring { box-shadow:none!important; padding:6px!important; }
+.pomodoro-ring > div { box-shadow:none!important; border:1px solid var(--shell-line); }
+.pomodoro-ring [data-pomodoro-time] { font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:-.035em; }
+.pomodoro-ring-handle { inset:3px; width:auto!important; height:auto!important; box-shadow:none!important; transition:none!important; }
+.pomodoro-ring-handle::after, .pomodoro-ring.is-adjusting .pomodoro-ring-handle::after {
+ top:0; width:20px; height:20px; box-sizing:border-box; border-width:3px;
+ box-shadow:none; transform:translate(-50%,-50%); transition:none;
+}
+.pomodoro-ring.is-adjusting { cursor:grabbing; }
+.pomodoro-inline-settings { display:flex; flex-wrap:wrap; justify-content:center; align-items:end; gap:12px; }
+.pomodoro-inline-settings label { display:grid; gap:6px; font-size:13px; font-weight:600; color:var(--shell-ink); }
+.pomodoro-inline-settings label > span { display:flex; align-items:center; gap:6px; font-weight:400; }
+.pomodoro-inline-settings .field { width:78px; min-height:44px; padding:10px!important; text-align:center; }
+@media(max-width:600px) {
+ .weekday-grid { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
+ .weekday-card:last-child { grid-column:1/-1; }
+ .study-form-row { grid-template-columns:1fr!important; }
+ .pomodoro-inline-settings { gap:10px; }
+}
+/* All blocking surfaces sit above fullscreen chat and floating controls. */
+.modal-backdrop,.sheet-backdrop,.utility-modal-backdrop { z-index:4000!important; }
+#homeSettingsPanel,#mobileChatDrawer,#desktopChatHistory { z-index:4500!important; }
+#homeSettingsBackdrop,#mobileChatDrawerBackdrop,#desktopChatHistoryBackdrop { z-index:4490!important; }
+body.has-blocking-overlay #aiFabWrap,
+body.has-blocking-overlay .sudo-dizzy-notice,
+body.has-blocking-overlay .sudo-powder,
+body.has-blocking-overlay .sudo-return,
+body.has-blocking-overlay .bottom-nav { visibility:hidden!important; pointer-events:none!important; }
+#homeSettingsPanel { position:fixed; right:24px; top:86px; bottom:auto; max-height:calc(100dvh - 110px); overflow-y:auto; }
+@media(max-width:999px) {
+ .panel-assistant .ai-category-grid { width:100%; padding:0 12px; }
+ #homeSettingsPanel { top:auto; right:0; left:0; bottom:0; max-height:90dvh; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .panel-assistant #aiNotebookPages > .ai-category-panel.is-page-arriving { animation:none!important; }
+}

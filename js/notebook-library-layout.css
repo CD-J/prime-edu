@@ -1,0 +1,41 @@
+/* Library geometry is shared by concept and problem books. Only the document
+   scrolls: an overflowing shelf must not crop covers, footers or focus rings. */
+:root[data-theme] body .panel-assistant .ai-category-grid { margin-bottom:14px!important; }
+:root[data-theme] body #aiNotesPanel #studyNotebookTabs[data-view=library],
+:root[data-theme] body #aiNotesPanel #studyNotebookTabs[hidden] { display:none!important; }
+:root[data-theme] body #aiNotesPanel :is(#studyNoteList,#studyQuizLibrarySection,#studyQuizLibrary) {
+  min-width:0; height:auto!important; max-height:none!important;
+  overflow:visible!important; overscroll-behavior:auto; flex:0 0 auto;
+}
+:root[data-theme] body #aiNotesPanel :is(#studyNoteList,#studyQuizLibrarySection) {
+  margin:16px 0 0!important; padding:0!important; border:0!important;
+  border-radius:0!important; background:none!important; box-shadow:none!important;
+}
+:root[data-theme] body #aiNotesPanel #studyQuizLibrary { margin:0!important;padding:0!important; }
+:root[data-theme] body #aiNotesPanel :is(#studyNoteList,#studyQuizLibrary) {
+  gap:14px 12px!important; align-items:start!important; grid-auto-rows:max-content;
+}
+:root[data-theme] body #aiNotesPanel :is(.concept-library-card,.quiz-book-item) {
+  margin:0!important; min-width:0; align-self:start; height:auto!important;
+}
+:root[data-theme] body #aiNotesPanel .quiz-book-item { display:grid!important;grid-template-columns:minmax(0,1fr) 44px!important;grid-template-rows:auto 44px;gap:0!important; }
+:root[data-theme] body #aiNotesPanel .quiz-book { margin:0!important;grid-column:1 / -1; }
+:root[data-theme] body #aiNotesPanel .stored-book-footer {
+  width:100%!important; min-width:0; height:44px; min-height:44px;
+  flex:0 0 auto!important; justify-content:flex-start!important;
+  padding:4px 2px 4px 24px!important; margin:0!important;
+}
+:root[data-theme] body #aiNotesPanel .quiz-book-item .stored-book-footer { grid-column:1;grid-row:2;padding-right:0!important; }
+:root[data-theme] body #aiNotesPanel .stored-book-footer time { min-width:0; white-space:nowrap; }
+:root[data-theme] body #aiNotesPanel .quiz-book-delete { position:static!important;grid-column:2;grid-row:2;margin:0!important;width:44px!important;height:44px!important; }
+/* Natural page scroll margins include the collapsed header. */
+#aiNotesPanel :is(.concept-library-card,.quiz-book,#studyNotebookTabs) { scroll-margin-block:90px 100px; }
+@media(max-width:999px) {
+  :root[data-theme] body #aiNotesPanel :is(#studyNoteList,#studyQuizLibrary) { gap:12px 10px!important; }
+  :root[data-theme] body #aiNotesPanel :is(#studyNoteList,#studyQuizLibrarySection) { margin-top:12px!important; }
+  :root[data-theme] body #aiNotesPanel .stored-book-footer { padding-left:19px!important; }
+}
+@media(max-width:430px) {
+  :root[data-theme] body #aiNotesPanel .stored-book-footer { padding-left:0!important; }
+  :root[data-theme] body #aiNotesPanel .stored-book-footer time { font-size:11px!important; }
+}

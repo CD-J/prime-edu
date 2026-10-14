@@ -1,0 +1,117 @@
+/* User-supplied font files, hosted with the app rather than a third-party CDN. */
+@font-face{font-family:'Prime Apple Gothic';src:url('../assets/fonts/apple-gothic-regular.woff2') format('woff2');font-weight:100 500;font-style:normal;font-display:swap}
+@font-face{font-family:'Prime Apple Gothic';src:url('../assets/fonts/apple-gothic-semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Prime Apple Gothic';src:url('../assets/fonts/apple-gothic-bold.woff2') format('woff2');font-weight:700 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Prime Grade Header';src:url('../assets/fonts/pretendard-medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+:root{--app-font:'Prime Apple Gothic','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;--prime-font:var(--app-font)}
+html,body,body :where(p,div,span,h1,h2,h3,h4,label,time,small,button,input,select,textarea),.panel-assistant .ai-tool-panel,#aiFabPanel .ai-chat-bubble,.sudo-dizzy-notice,.operation-toast{font-family:var(--app-font)!important}
+body{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+p{font-size:max(15px,1em)!important;line-height:1.7}
+li,.muted,.empty,.hint,.study-status,.field-label{font-size:15px;line-height:1.7}
+small{font-size:14px!important;line-height:1.6}
+label,.checklist-form-field,.checklist-form-field>span:first-child{font-size:15px!important;line-height:1.5!important;font-weight:600}
+.date-text,.planner-selected-date,.planner-calendar-head p,.planner-day-modal-title p,.planner-day-modal-title span,.planner-detail-copy p,.planner-detail-kind,.planner-row-action,.planner-detail-empty,.mobile-chat-history-item time,.mobile-chat-drawer>header span,.privacy-stat-grid span,.privacy-chart-value,.privacy-chart-column strong,.sudo-dizzy-notice,.operation-toast{font-size:14px!important;line-height:1.5!important;color:color-mix(in srgb,var(--shell-ink) 78%,var(--shell-card))}
+.planner-day time{font-size:16px!important;line-height:1.5!important}
+.planner-event{font-size:13px!important;padding:2px 4px!important;line-height:1.4!important}
+.field::placeholder{color:color-mix(in srgb,var(--shell-ink,#17191c) 56%,var(--shell-card,#fff))!important;font-weight:400}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
+/* The illustration is a background layer, not a boxed image in the content flow. */
+.sudo-home-logo.sudo-glass-portrait{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0;border-radius:inherit;--glass-body:color-mix(in srgb,var(--shell-blue,#71968b) 24%,var(--shell-card,#fff));--glass-tone:color-mix(in srgb,var(--shell-blue,#71968b) 55%,var(--shell-card,#fff));--glass-deep:color-mix(in srgb,var(--shell-blue,#71968b) 78%,var(--shell-card,#fff));--glass-prism:color-mix(in srgb,var(--shell-blue,#71968b) 50%,#b9dbea);color:color-mix(in srgb,var(--shell-ink,#171c1a) 86%,var(--shell-card,#fff))}
+.sudo-glass-portrait svg{width:100%;height:100%;display:block;overflow:visible}
+.sudo-glass-white{stop-color:var(--shell-card,#fff)}
+.sudo-glass-body{stop-color:var(--glass-body)}
+.sudo-glass-tone{stop-color:var(--glass-tone)}
+.sudo-glass-deep{stop-color:var(--glass-deep)}
+.sudo-glass-prism{stop-color:var(--glass-prism)}
+.sudo-glass-rim{stop-color:var(--shell-blue,#71968b);stop-opacity:.65}
+.home-ai-hero:not(.has-conversation){position:relative;isolation:isolate;min-height:460px!important;padding:62px 56px 38px!important;gap:30px!important;justify-content:space-between!important;background:var(--shell-card,#fff)!important;overflow:hidden}
+.home-ai-hero-copy{position:relative;z-index:1;width:100%;gap:6px!important;align-items:flex-start!important;text-align:left!important;min-height:240px;justify-content:center!important}
+.home-ai-hero-copy>div{width:min(100%,650px);justify-items:start!important}
+.home-ai-hero:not(.has-conversation) .home-ai-hero-copy{max-height:none;overflow:visible}
+.home-ai-hero.has-conversation .home-ai-hero-copy{min-height:0}
+.home-ai-hero.has-conversation>.sudo-glass-portrait{display:none!important}
+.home-ai-messages,.home-ai-form{position:relative;z-index:1}
+.desktop-history-trigger,.desktop-chat-back{z-index:3!important}
+.home-ai-hero::before,.home-ai-hero::after{display:none!important}
+.home-ai-form{width:100%!important;margin:0!important;padding:7px!important;gap:8px!important;border:1px solid var(--shell-line)!important;border-radius:22px!important;background:var(--shell-card)!important;box-shadow:none!important;align-items:center!important}
+.home-ai-form .field{min-height:48px!important;border:0!important;background:transparent!important;padding:12px 16px!important;font-size:17px!important;box-shadow:none!important}
+.home-ai-form button{min-height:46px!important;min-width:60px!important;border-radius:16px!important;background:var(--shell-ink)!important;color:var(--shell-card)!important;font-size:16px!important;box-shadow:none!important}
+.home-ai-hero-copy h2{font-size:clamp(34px,4.2vw,54px)!important;line-height:1.25!important;letter-spacing:-.045em!important;font-weight:700!important;color:var(--shell-ink)!important}
+.sudo-home-name{font-size:15px!important;font-weight:600!important;color:var(--shell-blue)!important}
+/* Soft hardware-like volume, not an anthropomorphic clock.
+   The center switches mode; the rounded progress rim remains the time control. */
+.pomodoro-ring{--clock-tone:var(--shell-blue,#187755);--clock-soft:color-mix(in srgb,var(--clock-tone) 5%,var(--shell-card,#fff));color:var(--clock-tone);background:linear-gradient(145deg,var(--shell-card) 20%,color-mix(in srgb,var(--clock-tone) 9%,var(--shell-card)))!important;width:320px!important;height:320px!important;flex-shrink:0;padding:0!important;overflow:visible!important;isolation:isolate;border:1px solid color-mix(in srgb,var(--clock-tone) 12%,var(--shell-card));box-shadow:0 0 44px color-mix(in srgb,var(--clock-tone) 14%,transparent),inset 0 2px 2px color-mix(in srgb,var(--shell-card) 85%,transparent)!important;transition:box-shadow .2s,color .2s,transform .15s}
+.pomodoro-ring[data-mode=break]{--clock-tone:color-mix(in srgb,var(--shell-blue,#187755) 28%,#c58054)}
+.pomodoro-ring::before{inset:30px;z-index:1;opacity:1;-webkit-mask:none;mask:none;background:radial-gradient(circle at 35% 20%,var(--shell-card) 30%,var(--clock-soft) 100%)!important;box-shadow:inset 0 2px 6px color-mix(in srgb,var(--clock-tone) 4%,transparent),inset 0 -6px 16px color-mix(in srgb,var(--clock-tone) 5%,transparent)!important;border:1px solid color-mix(in srgb,var(--clock-tone) 8%,var(--shell-card))!important}
+.pomodoro-dial-track{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:2;transform:rotate(-90deg)}
+.pomodoro-dial-track circle{fill:none;stroke-width:18}
+.pomodoro-dial-track .dial-track{stroke:color-mix(in srgb,var(--clock-tone) 10%,var(--shell-card))}
+.pomodoro-dial-track .dial-progress{stroke:var(--clock-tone);stroke-linecap:round;stroke-dasharray:var(--pomodoro-arc,360) 360;opacity:var(--pomodoro-stroke-visible,1);filter:drop-shadow(0 0 4px color-mix(in srgb,var(--clock-tone) 25%,transparent));transition:stroke-dasharray var(--pomodoro-stroke-duration,900ms) linear,opacity 180ms ease}
+.pomodoro-ring.is-countdown-full .dial-progress{stroke-dasharray:none}
+.pomodoro-ring .pomodoro-ring-handle{inset:5.3%;z-index:3}
+.pomodoro-ring .pomodoro-ring-handle::after,.pomodoro-ring.is-adjusting .pomodoro-ring-handle::after{width:24px!important;height:24px!important;background:var(--clock-tone)!important;border:4px solid var(--shell-card)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--clock-tone) 16%,transparent)!important}
+.pomodoro-ring .pomodoro-ring-handle::after{opacity:0;transition:opacity 160ms ease}
+.pomodoro-ring:not(.is-running):is(:hover,:focus-within,.is-adjusting) .pomodoro-ring-handle::after{opacity:1}
+.pomodoro-ring.is-running .pomodoro-ring-handle::after{opacity:0!important}
+.pomodoro-ring.is-adjustable:hover,.pomodoro-ring.is-adjusting{box-shadow:0 0 52px color-mix(in srgb,var(--clock-tone) 21%,transparent),inset 0 2px 2px color-mix(in srgb,var(--shell-card) 85%,transparent)!important}
+.pomodoro-ring.is-adjusting{transform:scale(1.008)}
+.pomodoro-ring-handle:focus-visible{outline:2px solid var(--clock-tone);outline-offset:12px;border-radius:50%}
+.pomodoro-clock-face{position:absolute;inset:15%;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:0!important;background:transparent!important;color:var(--clock-tone)!important;padding:0!important;border-radius:50%;cursor:pointer;touch-action:manipulation;min-width:0;box-shadow:none!important;transition:transform .15s}
+.pomodoro-clock-face:focus-visible{outline:2px solid var(--clock-tone);outline-offset:8px}
+.pomodoro-clock-face:active:not(:disabled){transform:scale(.97)}
+.pomodoro-clock-face:disabled{cursor:default;opacity:1}
+.pomodoro-clock-face [data-pomodoro-time]{font-size:64px!important;line-height:1.08!important;font-weight:400!important;font-variant-numeric:tabular-nums;letter-spacing:-.045em;color:var(--shell-ink);white-space:nowrap}
+:root[data-theme] .panel-home .pomodoro-clock-face [data-pomodoro-time]{font-family:var(--app-font)!important;font-weight:400!important;font-variation-settings:normal;letter-spacing:-.035em!important}
+/* Exam headers are a separate, quiet typography role; values retain the app face. */
+:root[data-theme] body .grade-input-table thead th{font-family:'Prime Grade Header',system-ui,sans-serif!important;font-weight:500!important;letter-spacing:0!important}
+:root[data-theme] body .grade-input-table thead tr:first-child th[scope=colgroup]{color:var(--glass-muted,var(--shell-ink))!important}
+/* A theme-tinted send control, sized like the neighbouring camera icon. */
+:root[data-theme] body .panel-home :is(.mobile-study-submit,.home-ai-form button[type=submit]){display:grid;place-items:center;min-width:46px!important;min-height:46px!important;width:46px;height:46px;padding:11px!important;border-radius:50%!important;background:var(--glass-control-fill,color-mix(in srgb,var(--shell-blue) 54%,#f4f1fb))!important;color:var(--glass-on-accent,#10131b)!important;border:0!important;box-shadow:inset 0 1px 0 #ffffff55,0 3px 10px color-mix(in srgb,var(--shell-blue) 10%,transparent)!important}
+:root[data-theme] body .panel-home :is(.mobile-study-submit,.home-ai-form button[type=submit]) .prime-icon{width:24px!important;height:24px!important;stroke-width:2;flex:none}
+.pomodoro-clock-face [data-pomodoro-mode]{font-size:16px!important;font-weight:600;color:var(--clock-tone);background:color-mix(in srgb,var(--clock-tone) 8%,var(--shell-card));padding:5px 16px;border-radius:999px;line-height:1.4;margin:0}
+.pomodoro-mode-hint{font-size:14px!important;line-height:1.5;color:color-mix(in srgb,var(--shell-ink) 65%,var(--shell-card));white-space:nowrap}
+.pomodoro-clock-face:disabled .pomodoro-mode-hint{visibility:hidden}
+@media(prefers-reduced-motion:reduce){.pomodoro-ring,.pomodoro-clock-face,.pomodoro-dial-track .dial-progress,.pomodoro-ring .pomodoro-ring-handle::after{transition:none!important}.pomodoro-ring.is-adjusting,.pomodoro-clock-face:active:not(:disabled){transform:none}}
+.panel-home .home-pomodoro{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:32px!important;padding:46px 34px 34px!important;width:100%!important;max-width:none!important;margin-inline:auto!important}
+.pomodoro-actions{display:flex!important;align-items:center;justify-content:center;gap:10px!important;width:auto!important;flex-wrap:nowrap!important}
+.panel-home .home-pomodoro>.pomodoro-actions .btn{flex:0 0 auto!important;width:auto!important}
+.home-pomodoro .pomodoro-actions button,.mobile-pomodoro-copy .pomodoro-actions button{min-width:112px;min-height:46px;padding:11px 24px!important;border-radius:16px!important;border:1px solid var(--shell-line)!important;background:var(--shell-card)!important;color:var(--shell-ink)!important;font-size:16px!important;font-weight:600!important;box-shadow:none!important}
+body .panel-home .home-pomodoro .pomodoro-actions [data-pomodoro-toggle],.panel-home .mobile-pomodoro-copy .pomodoro-actions [data-pomodoro-toggle]{background:var(--shell-ink)!important;color:var(--shell-card)!important;border-color:var(--shell-ink)!important}
+/* Compact event cards: fixed date hierarchy, wrapping title, real detail action. */
+#monthEventTitle,#calendarMonthTitle{font-size:20px!important;line-height:1.4!important;font-weight:600!important;color:var(--shell-ink)!important}
+#monthEventTitle{margin:24px 0 16px!important}
+.school-calendar-card #monthEventList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%;overflow:visible!important}
+.school-calendar-card #monthEventList>.academic-event-card{position:relative;display:grid!important;grid-template-columns:minmax(0,1fr) 20px;gap:8px 12px;align-content:center;align-items:start;min-height:96px;padding:18px!important;background:var(--shell-card)!important;border:1px solid var(--shell-line)!important;border-radius:18px!important;text-align:left;color:var(--shell-ink);box-shadow:none;cursor:pointer;min-width:0;transition:border-color .15s,background-color .15s}
+.academic-event-card:hover,.academic-event-card:focus-visible{border-color:var(--shell-blue)!important;background:color-mix(in srgb,var(--shell-blue) 5%,var(--shell-card))!important;outline-offset:3px}
+.academic-event-card .academic-event-date{grid-column:1;grid-row:1;font-size:16px!important;font-weight:600!important;color:var(--shell-blue)!important;line-height:1.25;white-space:nowrap}
+.academic-event-card .academic-event-name{grid-column:1;grid-row:2;font-size:18px!important;line-height:1.45!important;font-weight:600!important;white-space:normal!important;overflow-wrap:anywhere;word-break:keep-all}
+.academic-event-arrow{grid-column:2;grid-row:1/3;align-self:center;font-size:21px;color:var(--shell-muted);font-weight:400}
+/* Meal lines keep the food readable; calories are visually secondary, not tiny. */
+.meal-menu,.calendar-day-modal .meal-menu,.list-item .meal-menu{font-size:16px!important;font-weight:400!important;line-height:1.85!important;color:var(--shell-ink)!important;margin-top:8px!important;overflow-wrap:anywhere}
+.meal-calorie{display:block;font-size:14px!important;line-height:1.6!important;margin-top:8px;color:color-mix(in srgb,var(--shell-ink) 72%,var(--shell-card))!important}
+.list-item:has(.meal-menu)>strong{font-size:17px!important;font-weight:600!important}
+#monthEventList>.empty{grid-column:1/-1}
+@media(max-width:999px){
+ body[data-active-tab=home] .mobile-home-landing.mobile-only{position:relative;isolation:isolate;padding:56px 20px 28px!important;gap:32px;background:var(--shell-card)!important;overflow:hidden}
+ .mobile-home-landing>.sudo-home-logo.sudo-glass-portrait{inset:0 0 auto;height:460px;border-radius:0}
+ .mobile-home-main{position:relative;z-index:1;padding-top:118px;gap:10px!important}
+ .mobile-landing-history{z-index:3!important}
+ .mobile-home-timer,.mobile-home-change{position:relative;z-index:1}
+ .mobile-home-main>h2{font-size:clamp(30px,5.4vw,40px)!important;line-height:1.26!important;font-weight:700;letter-spacing:-.04em!important}
+ .mobile-study-search{margin-top:28px!important;background:var(--shell-card)!important}
+ .mobile-home-timer .mobile-pomodoro-widget{gap:30px!important;padding:18px 0 8px!important;overflow:visible}
+ .mobile-pomodoro-copy{gap:0!important}
+ .pomodoro-ring{width:290px!important;height:290px!important}
+ .pomodoro-clock-face [data-pomodoro-time]{font-size:60px!important}
+}
+@media(max-width:420px){
+ .planner-event{font-size:0!important;padding:0 3px!important;background:transparent!important}
+ .planner-event::after{content:'•';font-size:18px;line-height:1}
+ .school-calendar-card #monthEventList{grid-template-columns:1fr!important;gap:10px!important}
+ .school-calendar-card #monthEventList>.academic-event-card{grid-template-columns:94px minmax(0,1fr) 18px;min-height:68px;padding:16px!important;gap:12px;align-items:center}
+ .academic-event-card .academic-event-date{grid-column:1;grid-row:1;font-size:15px!important;white-space:normal}
+ .academic-event-card .academic-event-name{grid-column:2;grid-row:1;font-size:17px!important}
+ .academic-event-arrow{grid-column:3;grid-row:1}
+ .pomodoro-ring{width:268px!important;height:268px!important}
+ .pomodoro-clock-face [data-pomodoro-time]{font-size:56px!important}
+}

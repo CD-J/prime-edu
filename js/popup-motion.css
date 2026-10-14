@@ -1,0 +1,21 @@
+/* Keep dialog semantics, focus restoration and top-layer ownership intact. */
+@supports (transition-behavior:allow-discrete) {
+  :is(.modal-backdrop,.sheet-backdrop,.utility-modal-backdrop) {
+    opacity:0;filter:blur(7px);
+    transition:opacity 220ms ease,filter 220ms ease,display 220ms allow-discrete;
+  }
+  :is(.modal-backdrop,.sheet-backdrop,.utility-modal-backdrop).is-open { opacity:1;filter:blur(0); }
+  :is(.modal-backdrop,.sheet-backdrop,.utility-modal-backdrop):not(.is-open) { pointer-events:none; }
+  #notificationPopover { opacity:1;filter:blur(0);transition:opacity 220ms ease,filter 220ms ease,display 220ms allow-discrete; }
+  #notificationPopover[hidden] { opacity:0;filter:blur(7px);pointer-events:none; }
+  :is(#homeSettingsPanel,#mobileChatDrawer,#desktopChatHistory).is-closing { filter:blur(7px);opacity:0;pointer-events:none;transition:opacity 210ms ease,filter 210ms ease; }
+  dialog {
+    opacity:0;filter:blur(7px);
+    transition:opacity 220ms ease,filter 220ms ease,display 220ms allow-discrete,overlay 220ms allow-discrete;
+  }
+  dialog[open] { opacity:1;filter:blur(0); }
+  dialog::backdrop { background-color:transparent;backdrop-filter:blur(0);transition:background-color 220ms ease,backdrop-filter 220ms ease,display 220ms allow-discrete,overlay 220ms allow-discrete; }
+  dialog[open]::backdrop { background-color:#070b1838;backdrop-filter:blur(5px); }
+  @starting-style { dialog[open] { opacity:0;filter:blur(7px); }dialog[open]::backdrop { background-color:transparent;backdrop-filter:blur(0); } }
+}
+@media(prefers-reduced-motion:reduce) { dialog,dialog::backdrop,.modal-backdrop,.sheet-backdrop,.utility-modal-backdrop,#notificationPopover,#homeSettingsPanel,#mobileChatDrawer,#desktopChatHistory { transition:none!important;filter:none!important; } }

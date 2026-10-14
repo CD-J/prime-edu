@@ -1,0 +1,27 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');const T=require('../js/liquid-tabs.js');
+assert.equal(T.intent(5,2),'pending');assert.equal(T.intent(20,2),'horizontal');assert.equal(T.intent(4,22),'vertical');
+assert.equal(T.nearest([{center:20},{center:100}],90).center,100);
+const cls=()=>{const s=new Set();return {add:k=>s.add(k),remove:k=>s.delete(k),contains:k=>s.has(k)};};
+const bs=[],handlers={},frames=[];let clicks=0,prevented=0,capture=null;
+const span={classList:cls(),setAttribute(){},style:{setProperty(k,v){this[k]=v;},removeProperty(k){delete this[k];}}};
+const bar={ownerDocument:{createElement:()=>span},classList:cls(),append(){},closest:()=>null,matches:()=>false,querySelectorAll:()=>bs,getClientRects:()=>[1],getBoundingClientRect:()=>({left:10,top:20}),scrollLeft:0,scrollTop:0,clientWidth:300,clientHeight:56,
+  addEventListener:(k,f)=>handlers[k]=f,setPointerCapture:id=>capture=id,hasPointerCapture:id=>capture===id,releasePointerCapture:()=>capture=null};
+for(let i=0;i<3;i++)bs.push({disabled:false,attrs:{'aria-selected':String(i===0)},classList:cls(),getAttribute(k){return this.attrs[k]??null;},closest(s){return s==='button'?this:null;},getClientRects:()=>[1],getBoundingClientRect:()=>({left:10+i*100,right:110+i*100,top:20,bottom:64,width:100,height:44}),matches:()=>true,focus(){},click(){clicks++;bs.forEach(b=>b.attrs['aria-selected']=String(b===this));}});
+const win={performance:{now:()=>10},requestAnimationFrame:f=>{frames.push(f);return frames.length;},MutationObserver:class{observe(){}},ResizeObserver:class{observe(){}},addEventListener(){}};
+const c=T.create(bar,'button',win),e=(x,y,type='pointerup')=>({pointerId:1,button:0,target:bs[0],clientX:x,clientY:y,type,preventDefault(){prevented++;}});
+c.down(e(50,30));c.move(e(260,31,'pointermove'));assert.equal(clicks,0,'preview never commits settings');c.end(e(260,31));assert.equal(clicks,1);assert.equal(bs[2].attrs['aria-selected'],'true');assert.equal(capture,null);
+let stopped=0;handlers.click({detail:1,preventDefault(){},stopImmediatePropagation(){stopped++;}});assert.equal(stopped,1,'suppress only the trailing native click');handlers.click({detail:0});assert.equal(stopped,1,'keyboard/programmatic click remains supported');
+c.down(e(50,30));c.move(e(120,31,'pointermove'));c.end(e(120,31),true);assert.equal(clicks,1,'cancel never changes selection');
+c.down(e(50,30));c.move(e(54,70,'pointermove'));c.end(e(54,70));assert.equal(clicks,1,'vertical motion remains page scrolling');
+bs[1].disabled=true;handlers.keydown({key:'ArrowRight',target:bs[0],preventDefault(){}});assert.equal(bs[2].attrs['aria-selected'],'true');assert.equal(clicks,2,'keyboard skips disabled choices');
+assert(T.configs.some(x=>x[0]==='.bottom-nav'));assert(T.configs.some(x=>x[0]==='.desktop-primary-nav'));assert(T.configs.some(x=>x[0]==='.segmented-control'));assert(T.configs.some(x=>x[0]==='.ai-category-grid'));
+const read=f=>fs.readFileSync(require.resolve('../'+f),'utf8'),css=read('js/experience-finish.css'),html=read('index.html'),standby=read('js/standby.js');
+assert.match(css,/data-theme=dark[^}]+--sudo-fill:[^}]+--sudo-ink:#edeef5/s);assert.match(css,/prefers-reduced-motion:reduce[^}]+transition:none/);
+assert.match(css,/animation:standby-mood 32s/);assert.match(css,/animation-play-state:paused/);assert.match(css,/standby-timer-frame[^}]+inset:8px/);
+assert.match(css,/bottom-nav.prime-slide-bar \{ position:fixed/);
+assert.match(standby,/timerDisplay.before\(timerFrame\)/);assert.match(standby,/rectangle\(timerFrame.clientWidth,timerFrame.clientHeight\)/);assert.match(standby,/observe\(timerFrame\)/);
+assert.match(html,/meal-menu meal-menu-items/);assert.match(html,/li>\$\{escapeHtml\(line\)\}/);assert.match(html,/liquid-tabs.js\?v=20261014-79/);
+c.down(e(50,30));c.end(e(50,30));assert.equal(clicks,3,'captured tap dispatches exactly one action');assert.equal(capture,null);
+c.destroy();c.down(e(50,30));c.end(e(50,30));assert.equal(clicks,3,'removed dynamic selectors cannot start new gestures');
+assert(html.indexOf('experience-finish.css')>html.indexOf('icon-consistency.css'));
+console.log('PASS liquid experience: drag previews/commit once, native click suppression/keyboard, cancel/vertical scroll, disabled choices, all category bars, dark character, complete meal layout, screen frame and quiet reduced-motion mood.');

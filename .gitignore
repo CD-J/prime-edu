@@ -1,0 +1,11 @@
+scripts/node_modules/
+node_modules/
+.env*
+.firebase/
+.vercel/
+*.log
+*.zip
+_legacy-prototype/
+js/firebase-config.local.js
+
+.vercel

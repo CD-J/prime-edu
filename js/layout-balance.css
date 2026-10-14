@@ -1,0 +1,173 @@
+/* Balance space, not font size. Loaded after the shared readable type scale. */
+.topbar { min-height: 64px!important; padding-block: 12px!important; }
+.topbar .brand h1 { font-size: 21px!important; line-height: 1.3; font-weight: 700; white-space: nowrap; }
+.topbar .brand .mark { width: 36px; height: 36px; flex-shrink: 0; }
+.main > .panel:not(.panel-home) > .page-heading { padding: 14px 4px 10px!important; margin: 0!important; }
+.main > .panel:not(.panel-home) > .page-heading h2 { font-size: 30px!important; line-height: 1.3!important; }
+.tab-heading-row { gap: 12px!important; }
+.tab-heading-icon { width: 40px!important; height: 40px!important; border-radius: 14px!important; }
+.panel-plan { gap: 16px!important; }
+.panel-plan .planner-checklist-card, .panel-plan .planner-workspace,
+.panel-plan .plan-generator, .panel-plan .exam-strategy-card { padding: 20px!important; box-shadow: none!important; border-radius: 22px!important; }
+.panel-plan .planner-section-title, .panel-plan .planner-calendar-head { margin-bottom: 12px!important; }
+.panel-plan .planner-section-title .section-icon, .panel-plan .planner-calendar-head .section-icon { width: 36px; height: 36px; }
+.panel-plan .planner-section-title > div { flex-wrap: wrap; gap: 4px 10px; }
+.panel-plan .planner-section-title h2 { flex: 1; white-space: nowrap; }
+.panel-plan #manualChecklistForm { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin: 10px 0 12px; }
+.panel-plan .checklist-title-field { grid-column: 1/-1; }
+.panel-plan .checklist-form-field { gap: 5px; }
+.panel-plan .checklist-form-actions { align-self: end; }
+.panel-plan .checklist-form-actions .btn { flex: 1; min-width: 0; padding-inline: 10px; }
+.panel-plan .field, .panel-assistant .study-form .field { min-height: 46px!important; padding: 10px 14px!important; font-size: var(--type-body)!important; }
+.panel-plan .field-with-unit .field, .panel-plan .checklist-number-field .field { padding-right: 42px!important; }
+.panel-plan textarea.field { min-height: 110px!important; line-height: 1.6; }
+.panel-plan .study-form, .panel-plan #examStrategyForm { gap: 14px!important; }
+.panel-plan .study-form label { gap: 6px!important; }
+.panel-plan .study-form-row { gap: 12px!important; }
+.panel-plan .study-actions, .panel-plan .plan-mode-tabs { margin-block: 10px!important; }
+.panel-plan .plan-mode-description { margin: 0 0 12px!important; }
+.panel-plan .status-text:empty { display: none; }
+.panel-plan .daily-progress-track { margin-bottom: 12px!important; }
+.panel-plan .daily-checklist { grid-template-columns: 1fr; gap: 8px; }
+.panel-plan .daily-checklist > .empty, .panel-plan .planner-empty { min-height: 0!important; padding: 16px!important; }
+.panel-plan .planner-empty p { margin: 0; }
+.panel-plan .planner-calendar-main { min-height: 0!important; padding: 0!important; }
+.panel-plan .planner-calendar-grid { min-height: 0!important; grid-auto-rows: minmax(72px,auto)!important; gap: 6px; }
+.panel-plan .planner-day, .panel-plan .planner-day-blank { min-height: 72px!important; padding: 8px!important; }
+.panel-plan .planner-month-toolbar { margin-bottom: 10px!important; }
+.panel-plan .planner-legend { flex-wrap: wrap; gap: 8px 14px; margin-top: 12px!important; }
+.panel-plan .plan-tools-grid { gap: 16px; }
+
+/* Retain the attached paper indexes and natural page scrolling. */
+.panel-assistant .ai-workspace { gap: 0!important; }
+.panel-assistant #aiNotebookPages { width: 100%; }
+.panel-assistant .ai-category-grid { width: 100%; }
+.panel-assistant .ai-category-panel { padding: 22px!important; }
+.panel-assistant .ai-category-head { margin-bottom: 12px!important; padding-bottom: 10px!important; }
+.panel-assistant .ai-category-head h2 { font-size: 24px!important; }
+#aiNotesPanel .study-book-spread { margin-top: 12px!important; min-height: 0; }
+#aiNotesPanel .study-book-page { padding: 20px!important; }
+#aiNotesPanel .study-book-page-head { min-height: 44px; grid-template-columns: 36px minmax(0,1fr) auto; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; }
+#aiNotesPanel .study-book-page-icon { width: 36px; height: 36px; border-radius: 12px; }
+#aiNotesPanel .study-book-page-head h3 { font-size: 22px; }
+#aiNotesPanel .study-book-page > .ai-expand-trigger { min-height: 48px; padding: 12px 16px; }
+#aiNotesPanel .study-book-page .ai-collapsible { padding: 12px; }
+#aiNotesPanel .study-concept-list > .empty, #aiNotesPanel .quiz-library > .empty { min-height: 0!important; padding: 18px!important; }
+#aiNotesPanel .study-concept-list { grid-auto-rows: max-content; }
+#aiNotesPanel .study-note-item { min-height: auto; height: auto; padding: 16px; }
+.panel-assistant .study-form { gap: 14px; }
+.panel-assistant .study-form label { gap: 6px; }
+.panel-assistant .study-form textarea.field { min-height: 180px!important; }
+.panel-assistant .study-form .study-actions { margin-top: 8px; }
+
+/* A day is the action. No extra 'view all' row or oversized empty sub-box. */
+button.weekday-card { padding: 12px!important; gap: 10px; text-align: left; }
+.weekday-card .weekday-head { flex-direction: row!important; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 8px; }
+.weekday-card .weekday-body-split { gap: 8px!important; align-content: start; flex: 0 0 auto; }
+.weekday-card .weekday-block { min-height: 0!important; padding: 10px!important; border-radius: 12px!important; }
+.weekday-card .weekday-event, .weekday-card .weekday-meal-text { -webkit-line-clamp: 3; }
+.weekday-card .weekday-block-label { margin-bottom: 4px; }
+.calendar-day-modal { width: min(620px,calc(100vw - 32px))!important; padding: 24px!important; border-radius: 24px!important; }
+.calendar-day-modal .modal-head { margin-bottom: 16px; align-items: center; }
+.calendar-day-modal .modal-head h2 { font-size: 22px!important; }
+.calendar-day-modal .cal-section-title { margin: 16px 0 8px; font-size: 17px; }
+.calendar-day-modal .list { gap: 8px; }
+.calendar-day-modal .list-item { padding: 14px!important; border-radius: 16px; background: var(--surface-strong)!important; }
+.calendar-day-modal .empty { min-height: 0; padding: 12px 14px; text-align: left; background: transparent!important; border: 1px dashed var(--shell-line); }
+.calendar-day-modal .meal-detail-card > strong { display: block; font-size: 17px; font-weight: 600; }
+.meal-detail-items { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 18px; list-style: none; margin: 12px 0 0; padding: 0; }
+.meal-detail-items li { color: var(--shell-ink); font-size: var(--type-body); line-height: 1.6; overflow-wrap: anywhere; word-break: keep-all; }
+.calendar-day-modal .meal-calorie { padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--shell-line); }
+#calendarDayPersonalHint { margin: 14px 0 0; }
+.planner-event-modal { width: min(760px,calc(100vw - 32px)); padding: 20px; border-radius: 24px; }
+.planner-day-modal-head { grid-template-columns: minmax(0,1fr) auto; gap: 12px; padding-bottom: 12px; }
+.planner-big-date, .planner-day-modal-title p { display: none; }
+.planner-day-modal-title h2 { font-size: 22px; }
+.planner-day-modal-head > .btn { grid-column: auto; width: auto; min-height: 44px; }
+.planner-day-modal-grid { gap: 12px; margin-top: 12px; }
+.planner-day-detail-section { padding: 12px; border-radius: 16px; }
+.planner-detail-empty { padding: 12px 8px; }
+.planner-event-modal .planner-quick-form { margin-top: 12px; padding: 14px; gap: 12px; }
+.planner-event-modal .field { min-height: 46px!important; padding: 10px 14px!important; font-size: var(--type-body)!important; }
+.planner-event-modal textarea.field { min-height: 90px!important; }
+.planner-event-modal .planner-row-action { min-height: 44px; }
+
+/* Keep Sudo's NPC dialogue, with less obstruction of the actual feature. */
+.sudo-guide-bubble { width: min(600px,calc(100% - 32px)); padding: 20px 26px 18px; }
+.sudo-guide-avatar { width: 92px; height: 92px; top: -78px; right: 22px; }
+.sudo-guide-bubble header { margin: -37px 0 12px; }
+.sudo-guide-bubble header strong { padding: 6px 20px; }
+.sudo-guide-copy h2 { margin-bottom: 6px; }
+.sudo-guide-copy p { margin-bottom: 12px; line-height: 1.65; }
+.sudo-guide-progress { margin-bottom: 8px; }
+.sudo-guide-bubble [data-guide=close] { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+
+/* One coherent graphite palette; accents remain local, not a purple wash. */
+:root[data-theme="dark"][data-accent] {
+  --shell-bg: #111419; --shell-card: #1c2027; --surface-strong: #252a33;
+  --shell-ink: #f1f3f7; --shell-text: #c7cdd7; --shell-muted: #a0a9b6; --shell-line: #3a424f;
+  --shell-blue-soft: color-mix(in srgb,var(--shell-blue) 12%,var(--shell-card));
+  --blue-soft: var(--shell-blue-soft); --bg: var(--shell-bg); --surface: var(--shell-card);
+  --ink: var(--shell-ink); --text: var(--shell-text); --muted: var(--shell-muted); --line: var(--shell-line);
+  --bg-grad-a: transparent; --bg-grad-b: transparent; --shell-shadow: 0 12px 32px rgb(0 0 0 / .16);
+}
+:root[data-theme="dark"] body { background: var(--shell-bg)!important; }
+:root[data-theme="dark"] .topbar { background: var(--shell-card)!important; box-shadow: none!important; }
+:root[data-theme="dark"] :is(.card,.ai-category-panel,.planner-day-modal,.settings-support-card) { background: var(--shell-card)!important; color: var(--shell-ink); border-color: var(--shell-line)!important; box-shadow: none!important; }
+:root[data-theme="dark"] :is(.field,.study-note-card,.quiz-empty,.book-recommendation-card,.daily-check-item,.weekday-card,.planner-day) { background: var(--surface-strong)!important; color: var(--shell-ink)!important; border-color: var(--shell-line)!important; }
+:root[data-theme="dark"] .field::placeholder { color: var(--shell-muted)!important; }
+:root[data-theme="dark"] #aiNotesPanel { --workbook-paper: var(--shell-card); --workbook-line: rgb(255 255 255 / .035); }
+:root[data-theme="dark"] :is(.weekday-schedule,.planner-day.is-selected,.ai-category-card.is-active,.note-summary,.concept-visual-board) { background: var(--shell-blue-soft)!important; }
+:root[data-theme="dark"] .weekday-meal { background: color-mix(in srgb,#c59b75 10%,var(--shell-card))!important; border-color: var(--shell-line)!important; }
+:root[data-theme="dark"] :is(.weekday-event,.weekday-meal-text,.concept-visual-branches article p,.book-recommendation-card dd) { color: var(--shell-text)!important; }
+:root[data-theme="dark"] :is(.empty,.planner-empty,.privacy-stat,.study-stat,.settings-link-button) { background: var(--surface-strong)!important; color: var(--shell-text); border-color: var(--shell-line)!important; }
+:root[data-theme="dark"] .concept-visual-branches article, :root[data-theme="dark"] .concept-visual-center { background: var(--shell-card)!important; border-color: var(--shell-line)!important; }
+:root[data-theme="dark"] .weekday-card.is-today { background: var(--shell-blue-soft)!important; }
+:root[data-theme="dark"] .sudo-glass-portrait { --glass-body: color-mix(in srgb,var(--shell-blue) 10%,var(--shell-card)); --glass-tone: color-mix(in srgb,var(--shell-blue) 30%,var(--shell-card)); --glass-deep: color-mix(in srgb,var(--shell-blue) 55%,var(--shell-card)); --glass-prism: color-mix(in srgb,var(--shell-blue) 40%,#43515d); }
+:root[data-theme="dark"] .pomodoro-ring { --clock-soft: var(--surface-strong); box-shadow: 0 0 38px color-mix(in srgb,var(--clock-tone) 12%,transparent)!important; }
+:root[data-theme="dark"] .sudo-guide-bubble { background: var(--surface-strong); border-color: var(--shell-line); }
+:root[data-theme="dark"] .ai-category-card { background: var(--surface-strong)!important; border-color: var(--shell-line)!important; }
+:root[data-theme="dark"] .ai-category-card[aria-selected="true"] { background: var(--shell-blue-soft)!important; }
+:root[data-theme="dark"] :is(.panel-plan,.panel-assistant,.panel-settings,.planner-event-modal) :is(.btn.primary,.plan-mode-tabs button.is-active) { color: #17191c!important; }
+:root[data-theme="dark"] :is(.planner-day-detail-section,.planner-detail-kind.personal) { background: var(--surface-strong); color: var(--shell-text); }
+
+@media(min-width:1100px) {
+  .panel-plan.is-active { display: grid; grid-template-columns: minmax(0,.95fr) minmax(0,1.05fr); align-items: start; }
+  .panel-plan > .page-heading, .panel-plan > .plan-tools-grid { grid-column: 1/-1; }
+  #studyPlanForm .study-form-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #studyPlanForm .study-form-row > label:last-child { grid-column: 1/-1; }
+}
+@media(max-width:600px) {
+  .topbar { min-height: 60px!important; padding: 10px 12px!important; }
+  .topbar .brand h1 { font-size: 19px!important; }
+  .main > .panel:not(.panel-home) > .page-heading { padding: 8px 2px!important; }
+  .main > .panel:not(.panel-home) > .page-heading h2 { font-size: 28px!important; }
+  .tab-heading-icon { width: 34px!important; height: 34px!important; }
+  .panel-plan { gap: 12px!important; }
+  .panel-plan .planner-checklist-card, .panel-plan .planner-workspace,
+  .panel-plan .plan-generator, .panel-plan .exam-strategy-card { padding: 16px!important; border-radius: 20px!important; }
+  .panel-plan .planner-calendar-grid { grid-auto-rows: minmax(54px,auto)!important; gap: 4px; }
+  .panel-plan .planner-day, .panel-plan .planner-day-blank { min-height: 54px!important; padding: 6px!important; }
+  .panel-assistant .ai-category-panel { padding: 16px 12px!important; }
+  #aiNotesPanel .study-book-page { padding: 14px!important; }
+  #aiNotesPanel .study-book-page-head h3 { font-size: 21px; }
+  #aiNotesPanel .study-note-item { padding: 14px; }
+  .weekday-grid { gap: 10px!important; align-items: start; }
+  .weekday-grid .weekday-card:last-child { grid-column: auto!important; }
+  .calendar-day-modal { width: 100%!important; padding: 20px!important; border-radius: 24px 24px 0 0!important; }
+  .sudo-guide-bubble { padding: 20px 18px 16px; }
+  .sudo-guide-avatar { width: 76px; height: 76px; top: -64px; right: 16px; }
+  .sudo-guide-bubble header { margin: -36px 0 10px; }
+}
+@media(max-width:360px) {
+  button.weekday-card { padding: 8px!important; }
+  .weekday-card .weekday-block { padding: 8px!important; }
+  .meal-detail-items { grid-template-columns: 1fr; }
+}
+@media(max-height:500px) {
+  .sudo-guide-bubble { padding: 14px 20px; }
+  .sudo-guide-bubble header { margin: 0 0 8px; }
+}
+@media(max-width:999px) {
+  :root[data-theme="dark"] body[data-active-tab="home"] .topbar { background: transparent!important; }
+}

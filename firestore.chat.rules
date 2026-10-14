@@ -1,0 +1,37 @@
+rules_version = '2';
+// Snapshot of the ACTIVE rules retrieved on 2026-10-05, with only chatConversations added.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owns(userId) { return request.auth != null && request.auth.uid == userId; }
+    match /users/{userId} {
+      allow read: if owns(userId);
+      allow create: if owns(userId) && request.resource.data.role == 'student';
+      allow update: if owns(userId) && (
+        (resource.data.keys().hasAny(['role']) && request.resource.data.role == resource.data.role)
+        || (!resource.data.keys().hasAny(['role']) && (!request.resource.data.keys().hasAny(['role']) || request.resource.data.role == 'student'))
+      );
+      allow delete: if false;
+      match /personalEvents/{documentId} { allow read, write: if owns(userId); }
+      match /studyTasks/{documentId} { allow read, write: if owns(userId); }
+      match /studySessions/{documentId} { allow read, write: if owns(userId); }
+      match /notes/{documentId} { allow read, write: if owns(userId); }
+      match /quizzes/{documentId} { allow read, write: if owns(userId); }
+      match /quizAttempts/{documentId} { allow read, write: if owns(userId); }
+      match /learningDiagnostics/{documentId} { allow read, write: if owns(userId); }
+      match /gradeRecords/{documentId} { allow read, write: if owns(userId); }
+      match /preferences/{documentId} { allow read, write: if owns(userId); }
+      match /chatConversations/{documentId} {
+        allow read: if owns(userId);
+        allow create, update: if owns(userId)
+          && request.resource.data.keys().hasOnly(['id', 'title', 'createdAt', 'updatedAt', 'messages', 'deleted'])
+          && request.resource.data.id == documentId
+          && request.resource.data.title is string && request.resource.data.title.size() <= 120
+          && request.resource.data.createdAt is string && request.resource.data.updatedAt is string
+          && request.resource.data.messages is list && request.resource.data.messages.size() <= 120
+          && request.resource.data.deleted is bool;
+        allow delete: if owns(userId);
+      }
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

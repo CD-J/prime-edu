@@ -1,0 +1,91 @@
+/* Distance-first presentation, informed by Apple's official StandBy imagery.
+   Original web implementation: native SF is used only when installed by the OS. */
+#primeStandby {
+  --standby-accent:color-mix(in srgb,var(--shell-blue) 48%,#f3edeb);
+  --standby-ink:#f5f4f2;
+  --standby-muted:#93949b;
+  background:#030405;
+}
+#primeStandby .standby-landscape::before {
+  inset:-12%;
+  background:radial-gradient(ellipse at 20% 26%,color-mix(in srgb,var(--standby-accent) var(--standby-mood-strength,10%),transparent),transparent 58%),#030405;
+  animation:standby-mood-drift 42s ease-in-out infinite alternate;
+  animation-play-state:paused;
+}
+#primeStandby .standby-landscape::after {
+  background:radial-gradient(ellipse at 82% 76%,color-mix(in srgb,var(--standby-accent) calc(var(--standby-mood-strength,10%) * .7),transparent),transparent 60%);
+  animation-duration:51s;
+}
+#primeStandby.is-open:not(.is-mood-paused) .standby-landscape::before { animation-play-state:running; }
+#primeStandby .standby-close { color:#b3b3b8;background:#ffffff08;border:0; }
+#primeStandby .standby-dots button[aria-current=true]::after { height:6px;width:6px; }
+#primeStandby .standby-clock-content { gap:12px; }
+#primeStandby #standbyClockValue {
+  font-family:ui-rounded,'Prime Clock Rounded',system-ui,sans-serif!important;
+  font-weight:850!important;font-variation-settings:'wght' 850;
+  letter-spacing:-.035em!important;
+  font-size:clamp(56px,min(24cqw,56cqh),330px)!important;
+  color:var(--standby-ink);text-shadow:none;
+}
+#primeStandby #standbyClockValue .standby-number:last-child { color:var(--standby-accent); }
+#primeStandby #standbyClockValue .standby-colon { font-size:.65em!important;padding:0 .075em;color:var(--standby-ink); }
+#primeStandby .standby-clock-date { color:#a6a6ac;font-weight:500;font-size:clamp(14px,3.6cqh,22px);letter-spacing:0; }
+#primeStandby .standby-period { color:var(--standby-muted);font-size:clamp(12px,3.2cqh,18px);letter-spacing:.08em; }
+/* Countdown is a quieter instrument, not a second decorative clock. */
+#primeStandby #standbyTimerValue { color:var(--standby-ink);text-shadow:none;letter-spacing:-.035em!important; }
+#primeStandby .standby-timer-heading { justify-self:center;color:var(--standby-accent);gap:8px; }
+#primeStandby .standby-timer-heading .standby-eyebrow { color:#ababb2;font-weight:500; }
+#primeStandby .standby-timer-glass-top { stop-color:#0c0d10; }
+#primeStandby .standby-timer-glass-bottom { stop-color:#050608; }
+#primeStandby[data-frame=edge] .standby-timer-surface { fill:transparent; }
+#primeStandby .standby-timer-track { stroke:#ffffff07; }
+#primeStandby .standby-timer-remaining {
+  filter:drop-shadow(0 0 4px color-mix(in srgb,var(--standby-accent) 45%,transparent)) drop-shadow(0 0 18px color-mix(in srgb,var(--standby-accent) 24%,transparent));
+}
+#primeStandby .standby-timer-actions button { background:#ffffff0d;border:0;width:50px;height:50px; }
+#primeStandby .standby-timer-actions button:first-child { color:var(--standby-accent);background:color-mix(in srgb,var(--standby-accent) 14%,#0b0c0f); }
+#primeStandby .standby-timer-actions .prime-icon { stroke-width:1.8; }
+/* Equal, quiet halves: a complete dial and an unboxed miniature calendar. */
+#primeStandby .standby-clock-content.is-duo { width:min(100%,980px);gap:clamp(20px,7cqw,80px); }
+#primeStandby .standby-analog { width:min(70cqh,76cqw,390px); }
+#primeStandby .standby-duo-clock .standby-analog { width:min(72cqh,100%,370px); }
+#primeStandby .standby-analog-face { fill:none;stroke:none; }
+#primeStandby .standby-hour-mark { stroke:#77787c;stroke-width:1.5; }
+#primeStandby .standby-hour-mark.is-hour { stroke:#aaaab0;stroke-width:2; }
+#primeStandby .standby-analog text { fill:var(--standby-ink);font:500 23px system-ui,sans-serif; }
+#primeStandby .standby-clock-hand.hour { stroke-width:6; }
+#primeStandby .standby-clock-hand.minute { stroke-width:5; }
+#primeStandby .standby-clock-hand.second { stroke:var(--standby-accent);stroke-width:1.25; }
+#primeStandby .standby-clock-pivot { fill:#050608;stroke:var(--standby-accent);stroke-width:2; }
+#primeStandby .standby-duo-clock .standby-clock-date { display:none; }
+#primeStandby .standby-compact-month { color:var(--standby-accent);font-weight:600;margin-bottom:14px; }
+#primeStandby .standby-compact-grid { gap:4px; }
+#primeStandby .standby-compact-grid>span { border-radius:0;position:relative;gap:2px;min-height:clamp(24px,8cqh,54px); }
+#primeStandby .standby-compact-grid b { position:relative;display:grid;place-items:center;font-weight:500;width:1.8em;height:1.8em;border-radius:50%; }
+#primeStandby .standby-compact-grid .is-today { background:none;outline:0; }
+#primeStandby .standby-compact-grid .is-today b { background:var(--standby-accent);color:#090b0e; }
+#primeStandby .standby-event-point { position:absolute;bottom:0;width:3px;height:3px; }
+#primeStandby .standby-month-grid { gap:4px; }
+#primeStandby .standby-month-grid>span { align-items:center;justify-content:center;background:none;outline:0; }
+#primeStandby .standby-month-grid strong { display:grid;place-items:center;width:1.8em;height:1.8em;border-radius:50%;font-weight:500; }
+#primeStandby .standby-month-grid .is-today strong { background:var(--standby-accent);color:#090b0e!important; }
+#primeStandby .standby-month-grid .is-today:is([data-weekday="0"],[data-weekday="6"]) { outline:0;background:none; }
+#primeStandby .standby-month-grid>span { position:relative; }
+#primeStandby .standby-month-grid .standby-event-point { bottom:2px; }
+#primeStandby[data-clock-style=minimal] #standbyClockValue { font-family:'Prime Timer UI',system-ui!important;font-weight:600!important;font-variation-settings:normal; }
+#primeStandby[data-clock-style=float] #standbyClockValue { display:inline-flex;gap:0;font-size:clamp(56px,min(24cqw,56cqh),330px)!important; }
+#primeStandby[data-clock-style=float] #standbyClockValue .standby-colon { display:block;color:var(--standby-muted); }
+#primeStandby[data-clock-style=float] #standbyClockValue .standby-number { transform:rotate(-2deg);background:none;color:var(--standby-ink)!important; }
+#primeStandby[data-clock-style=float] #standbyClockValue .standby-number:last-child { color:var(--standby-accent)!important; }
+#primeStandby[data-clock-style=solar] .standby-clock-content::before { opacity:.28; }
+@container standby-frame (max-height:350px) {
+  #primeStandby .standby-clock-content { gap:8px; }
+  #primeStandby .standby-clock-content.is-duo { gap:24px; }
+  #primeStandby .standby-compact-month { margin-bottom:4px;font-size:20px; }
+  #primeStandby .standby-compact-grid { gap:0; }
+  #primeStandby .standby-compact-grid>span { min-height:26px;font-size:14px; }
+  #primeStandby .standby-timer-actions button { width:44px;height:44px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  #primeStandby .standby-landscape::before,#primeStandby .standby-landscape::after { animation:none!important; }
+}

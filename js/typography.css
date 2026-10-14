@@ -1,0 +1,132 @@
+/* Content typography belongs to roles, not to viewport width.
+   Never shrink real content to fit a timetable or a narrow card. */
+:root {
+  --type-body: 16px;
+  --type-secondary: 15px;
+  --type-compact: 14px;
+}
+
+/* Timetables scroll locally. A full subject name stays readable on phones. */
+.panel-school .table-wrap, .panel-home .table-wrap {
+  max-width: 100%; min-width: 0; overflow-x: auto!important;
+  overscroll-behavior-x: contain; scrollbar-width: thin;
+}
+.table-wrap:focus-visible { outline: 2px solid var(--shell-blue); outline-offset: 4px; }
+.panel-school .table-wrap table, .panel-home .table-wrap table {
+  width: 100%; min-width: 580px!important; table-layout: fixed;
+}
+.table-wrap thead th, .table-wrap tbody th {
+  font-size: var(--type-secondary)!important; line-height: 1.5;
+  padding: 12px 8px!important; color: var(--shell-text);
+}
+.table-wrap td {
+  font-size: var(--type-body)!important; line-height: 1.55;
+  padding: 14px 8px!important; color: var(--shell-ink);
+}
+.table-wrap th, .table-wrap td {
+  white-space: normal!important; text-overflow: clip!important;
+  overflow-wrap: anywhere; word-break: keep-all;
+}
+.table-wrap th:first-child {
+  width: 48px!important; position: sticky; left: 0; z-index: 1;
+  background: var(--shell-card); border-right: 1px solid var(--shell-line);
+}
+.table-wrap thead th:first-child { background: var(--surface-strong); z-index: 2; }
+
+/* Weekly preview and calendar: dates are content, not tiny captions. */
+.weekday-card .weekday-name { font-size: var(--type-body)!important; line-height: 1.5; }
+.weekday-card .weekday-date, .weekday-card .weekday-block-label,
+.weekday-card .weekday-detail-link { font-size: var(--type-compact)!important; line-height: 1.5; }
+.weekday-card .weekday-event, .weekday-card .weekday-meal-text,
+.weekday-card .weekday-empty { font-size: var(--type-secondary)!important; line-height: 1.65; }
+.weekday-card .weekday-block { padding: 12px!important; }
+.cal-weekday, .planner-weekdays span { font-size: var(--type-compact)!important; line-height: 1.5; }
+.cal-num { width: 26px; height: 26px; font-size: var(--type-body)!important; }
+.cal-dot { font-size: var(--type-compact)!important; line-height: 1.5; }
+
+/* Plan details, input units, dates and editable row actions. */
+.field-optional, .field-with-unit>span, .checklist-number-field>b,
+.daily-check-meta span, .planner-day-count, .daily-checklist-head span, .planner-legend>span,
+.planner-detail-copy p, .planner-detail-empty, .planner-row-action, .planner-detail-kind,
+.planner-big-date span {
+  font-size: var(--type-compact)!important; line-height: 1.5;
+}
+.daily-check-copy strong, .planner-detail-copy strong, .planner-empty strong,
+.daily-check-actions button { font-size: var(--type-secondary)!important; line-height: 1.5; }
+.daily-check-actions button, .planner-row-action { min-height: 40px; padding: 8px 12px; }
+.planner-day-modal-title span { font-size: var(--type-secondary)!important; line-height: 1.5; }
+@media(min-width: 421px) {
+  .planner-event { font-size: var(--type-compact)!important; line-height: 1.5; }
+}
+
+/* Notebook indexes, visual thinking, quiz books and recommendation results. */
+.panel-assistant .ai-category-card strong { font-size: var(--type-secondary)!important; line-height: 1.5; }
+.concept-visual-board>header, .concept-visual-board>header strong,
+.concept-visual-branches article span, .note-keywords>span,
+#aiNotesPanel .study-book-count, .quiz-book-cover em, .quiz-book-meta time,
+.book-recommendation-number, .book-recommendation-category, .book-recommendation-card dt,
+.quiz-instant-answer>strong, .quiz-instant-summary>span, .quiz-report-head span {
+  font-size: var(--type-compact)!important; line-height: 1.5;
+}
+.concept-visual-branches article p, .book-recommendation-card dd,
+.book-recommendation-author, .panel-assistant .ai-tool-menu button,
+.panel-assistant .study-form .btn, .quiz-book-cover strong {
+  font-size: var(--type-body)!important; line-height: 1.6;
+}
+.panel-assistant .quiz-book-delete {
+  font-size: var(--type-compact)!important; line-height: 1.5;
+  min-height: 40px; min-width: 54px; padding: 8px 12px; opacity: 1;
+}
+.quiz-book-meta { padding-bottom: 46px; }
+.note-keywords>span { padding: 6px 10px; }
+
+/* Growth charts: keep labels legible without enlarging the score hierarchy. */
+.dashboard-bars strong, .analysis-points span, .chart-empty strong,
+.privacy-stat-grid span, .privacy-chart-value, .privacy-chart-column strong,
+.study-stat span, .study-bar-row>span { font-size: var(--type-compact)!important; line-height: 1.5; }
+.grade-score, .grade-axis-label { font-size: var(--type-compact)!important; }
+.grade-record-row span, .grade-record-row button { font-size: var(--type-compact)!important; line-height: 1.5; }
+.grade-record-row button { min-height: 40px; padding: 8px; }
+.dashboard-bars { padding-top: 34px; }
+.dashboard-bars strong { top: -26px; }
+.privacy-chart-value { height: auto; min-height: 22px; }
+
+/* Settings, chat history and transient feedback use the same content scale. */
+#settingsUserEmail, [data-theme-choice], .home-settings-button>span,
+.dday-setup-btn,
+.page-eyebrow,
+.mobile-landing-history span, .mobile-chat-history-item strong,
+.mobile-chat-history-item time, .home-accent-palette button>span, .notification-item-icon,
+.sudo-dizzy-notice, .sudo-dizzy-notice.is-timer,
+.notification-item time, .notification-item strong, .notification-empty,
+.mobile-chat-history-empty, .auth-status, .status-text,
+.ai-module-recommendations>span, .ai-module-action, #sudoGuideCount,
+.sudo-guide-bubble [data-guide=auto], .sudo-guide-bubble [data-guide=prev] {
+  font-size: var(--type-compact)!important; line-height: 1.5;
+}
+#settingsUserEmail { display: block; overflow-wrap: anywhere; }
+[data-theme-choice] { min-height: 44px; }
+.ai-module-action { min-height: 42px; }
+.notification-badge { font-size: var(--type-compact); min-width: 22px; min-height: 22px; }
+.notification-popover>section>h3, .setting-toggle strong {
+  font-size: var(--type-body)!important; line-height: 1.5;
+}
+
+@media(max-width: 600px) {
+  /* Small calendar cells show marks, not unreadably scaled event names.
+     The original event text remains accessible; each date opens full details. */
+  .cal-day { min-height: 74px!important; padding: 6px 4px!important; }
+  .cal-dot, .cal-dot.more, .cal-dot.meal-dot {
+    font-size: 0!important; line-height: 0; width: 7px; height: 7px;
+    min-height: 7px; padding: 0; flex: 0 0 7px; border-radius: 50%;
+    background: var(--shell-blue); color: transparent;
+  }
+  .cal-dot.meal-dot { background: #b87418; }
+  .cal-dot.more { background: var(--shell-muted); }
+  .daily-check-row { gap: 8px; }
+  .daily-check-actions { flex-wrap: wrap; justify-content: flex-end; }
+}
+
+@media(forced-colors: active) {
+  .cal-dot, .cal-dot.more, .cal-dot.meal-dot { background: CanvasText; }
+}

@@ -1,0 +1,33 @@
+/* Viewport portal: a header transition must never size or clip this surface. */
+:root[data-theme] body #notificationPopover {
+  position:fixed!important; z-index:4100!important;
+  inset:auto!important; left:var(--notice-left,12px)!important; top:var(--notice-top,76px)!important;
+  width:var(--notice-width,calc(100vw - 24px))!important;
+  max-width:calc(100vw - 24px); max-height:var(--notice-height,calc(100dvh - 160px))!important;
+  box-sizing:border-box; padding:0 16px 16px; border-radius:24px;
+  overflow:auto; overscroll-behavior:contain; scrollbar-width:none;
+  transform:none!important; visibility:visible!important; opacity:1!important;
+  color:var(--shell-ink); background:var(--shell-card);
+  box-shadow:0 20px 60px rgb(0 0 0 / .18);
+}
+#notificationPopover::-webkit-scrollbar { display:none; }
+#notificationPopover > header {
+  position:sticky; top:0; z-index:1; min-height:68px; padding:12px 0;
+  background:var(--shell-card); border-bottom:1px solid var(--shell-line);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+#notificationPopover h2 { margin:0; font-size:20px!important; line-height:1.3!important; }
+#notificationPopover #notificationCloseButton { flex:0 0 40px; width:40px; height:40px; min-width:40px; padding:10px; border-radius:50%; }
+#notificationPopover #notificationCloseButton svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; }
+#notificationPopover > section { margin-top:16px; }
+#notificationPopover > section > h3 { font-size:12px!important; line-height:1.4; margin:0 0 8px; }
+#notificationPopover .notification-item { grid-template-columns:36px minmax(0,1fr); gap:10px; padding:10px; align-items:start; }
+#notificationPopover .notification-item-icon { width:36px; height:36px; font-size:11px!important; border-radius:12px; }
+#notificationPopover .notification-item > div { min-width:0; }
+#notificationPopover .notification-item strong { font-size:14px!important; line-height:1.45!important; overflow-wrap:anywhere; }
+#notificationPopover .notification-item p { margin:3px 0 0; font-size:12px!important; line-height:1.45!important; }
+#notificationPopover .notification-meal ul { font-size:13px; line-height:1.6; }
+#notificationPopover .notification-meal small { font-size:11px; }
+:root[data-theme="dark"] #notificationPopover .notification-item-icon {
+  background:color-mix(in srgb,var(--shell-blue) 16%,var(--shell-card)); color:var(--shell-blue);
+}

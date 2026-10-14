@@ -1,0 +1,13 @@
+/* Additive scale never rewrites positioning transforms or changes layout. */
+:where(button,[role="button"],summary,input[type="button"],input[type="submit"],input[type="reset"]):not(#aiFabButton) { -webkit-tap-highlight-color:transparent; }
+.is-button-held:not(#aiFabButton) { scale:.965!important; transition:scale 90ms ease-out!important; }
+.is-button-release:not(#aiFabButton) { animation:prime-button-release 240ms cubic-bezier(.16,.85,.25,1)!important; }
+@keyframes prime-button-release { from {scale:var(--prime-release-from,.965)} to {scale:1} }
+@media(hover:none) {
+  :is(.btn,.icon-btn,.nav-item,.sheet-btn,.cal-day):hover { transform:none!important; }
+  #aiNotesPanel :is(.concept-library-card,.quiz-book):hover .stored-book-cover { transform:none!important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .is-button-held:not(#aiFabButton) { scale:1!important; opacity:.78; transition:none!important; }
+  .is-button-release:not(#aiFabButton) { scale:1; opacity:1; animation:none!important; }
+}

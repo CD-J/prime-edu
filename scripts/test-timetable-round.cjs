@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const read=f=>fs.readFileSync(path.join(__dirname,'..',f),'utf8');
+const css=read('js/timetable-round.css'),html=read('index.html');
+assert(html.indexOf('js/timetable-round.css')>html.indexOf('js/surface-finish.css'));
+assert.match(html,/timetable-round\.css\?v=20261006-26/);
+assert.match(css,/border-collapse: separate!important; border-spacing: 4px!important/);
+assert.match(css,/border-radius: 12px!important/);
+assert.match(css,/border-radius: 10px!important/);
+assert.match(css,/border-radius: 20px!important/);
+assert.match(css,/font-size: 14px!important/);
+assert.match(css,/width: 18px!important/);
+assert.match(css,/overflow-x: auto!important/);
+assert.match(css,/outline-offset: 3px/);
+assert.match(css,/is-today-col/);
+assert.doesNotMatch(css,/zoom\s*:|transform\s*:|font-weight\s*:|display:\s*none|rowspan/);
+assert.equal((html.match(/class="table-wrap" role="region"[^>]+tabindex="0"/g)||[]).length,2);
+console.log('PASS rounded timetable: five-day semantic tables retained, all cell corners rounded, theme today emphasis, 14px mobile text, compact period gutter, keyboard and scroll access.');

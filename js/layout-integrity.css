@@ -1,0 +1,35 @@
+/* Geometry/legibility corrections. Do not scale the app or flatten its layouts. */
+:root[data-theme=light],:root[data-theme=light][data-accent]{--shell-muted:#596570;--muted:var(--shell-muted)}
+:root[data-theme=light][data-accent=blue]{--shell-blue:#245cd3;--blue:var(--shell-blue)}
+:root[data-theme=light][data-accent=red]{--shell-blue:#bf3943;--blue:var(--shell-blue)}
+:root[data-theme=light][data-accent=orange]{--shell-blue:#a94e0f;--blue:var(--shell-blue)}
+:root[data-theme] body :is(input,textarea)::placeholder{color:var(--shell-muted);opacity:1}
+:root[data-theme] body :is(#plannerCalendarGrid .planner-day.is-today time,#calendarGrid .cal-day.is-today .cal-num){background:var(--glass-control-fill)!important;color:var(--glass-on-accent,#10131b)!important}
+:root[data-theme] body .panel-home>.home-utility-bar{display:none!important}
+.home-hero-actions{position:absolute;top:16px;right:16px;z-index:4;display:flex;align-items:center;gap:8px;pointer-events:none}
+:root[data-theme] body .home-hero-actions>button{position:static!important;inset:auto!important;margin:0!important;display:inline-grid;place-items:center;pointer-events:auto;flex:none;width:44px;height:44px;min-height:44px;padding:10px;color:var(--shell-ink)!important;background:var(--shell-card)!important;border:1px solid var(--ui-edge)!important;box-shadow:none!important}
+.home-hero-actions button .prime-icon{width:20px;height:20px}
+:root[data-theme] body.desktop-home-chat-mode .home-hero-actions #homeSettingsButton{display:none!important}
+:root[data-theme] body #homeSettingsPanel{box-sizing:border-box}
+:root[data-theme] body #homeSettingsSaveButton{background:var(--glass-control-fill)!important;color:var(--glass-on-accent,#10131b)!important;font-weight:600}
+:root[data-theme] body #plannerEventModal .planner-detail-row.event{grid-template-columns:max-content minmax(0,1fr) auto;gap:8px;align-items:start}
+:root[data-theme] body #plannerEventModal .planner-detail-kind{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-width:32px;min-height:28px;padding:4px 6px;font-size:12px!important;line-height:1.4;white-space:nowrap;word-break:keep-all;overflow-wrap:normal;align-self:start}
+:root[data-theme] body #plannerEventModal .planner-detail-copy{min-width:0}
+:root[data-theme] body #plannerEventModal .planner-detail-copy strong{font-size:14px!important;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere}
+@media(min-width:1000px){
+  :root[data-theme] body #homeSettingsPanel{position:fixed!important;z-index:4100!important;inset:auto!important;left:var(--home-panel-left,12px)!important;top:var(--home-panel-top,88px)!important;bottom:auto!important;width:var(--home-panel-width,390px)!important;max-width:calc(100vw - 24px);max-height:var(--home-panel-height,calc(100dvh - 24px))!important;overflow-y:auto;transform-origin:top right}
+  :root[data-theme] body #homeSettingsBackdrop:not([hidden]){position:fixed;inset:0;z-index:4090;display:block;border:0;border-radius:0;background:transparent}
+}
+@media(max-width:999px){
+  .home-hero-actions.mobile-home-actions{left:16px;right:16px;justify-content:space-between}
+  :root[data-theme] body #homeSettingsPanel{max-height:calc(var(--mobile-visible-height,100dvh) - 16px)!important;overscroll-behavior:contain;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(max-width:600px){
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-day,#calendarGrid .cal-day:not(.empty)){grid-template-rows:24px 32px minmax(16px,auto)!important;min-height:90px!important}
+  :root[data-theme] body :is(.planner-day-items,.cal-cell-events){height:32px}
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-event,#calendarGrid .cal-dot:not(.meal-dot):not(.more)){font-size:11px!important;line-height:16px!important;max-height:32px}
+  :root[data-theme] body :is(#plannerCalendarGrid .planner-day-progress,#plannerCalendarGrid .planner-day-more,#calendarGrid .cal-dot.more){font-size:11px!important;line-height:16px!important}
+}
+@media(max-width:360px){
+  :root[data-theme] body #homeSettingsPanel .home-accent-palette{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+}

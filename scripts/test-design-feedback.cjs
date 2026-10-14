@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const read=f=>fs.readFileSync(require.resolve('../'+f),'utf8'),layout=require('../js/sudo-layout.js'),physics=require('../js/sudo-physics-core.js');
+const desired={x:100,y:100},size={width:40,height:40},bounds={minX:0,maxX:200,minY:0,maxY:200};
+const rect={left:90,top:90,right:180,bottom:170};
+const moved=layout.avoidControls(desired,size,bounds,[rect]);assert(moved&&!layout.overlaps(moved,size,rect));assert.deepEqual(desired,{x:100,y:100});
+const text={textContent:'읽을 내용',parentElement:{closest:()=>null,getClientRects:()=>[{}]}};
+const offscreen={textContent:'숨은 내용',parentElement:{closest:()=>null,getClientRects:()=>[{}]}};
+const source={ownerDocument:{createTreeWalker:()=>{let i=0;return{nextNode:()=>[text,offscreen][i++]};},createRange:()=>({selectNodeContents(n){this.n=n;},getClientRects(){return[{left:20,right:120,top:this.n===text?80:900,bottom:this.n===text?100:920,width:100,height:20}];}}),defaultView:{getComputedStyle:()=>({visibility:'visible'})}}};
+assert.equal(layout.readingRects(source,{top:0,bottom:500,width:320}).length,1);
+const overlay=physics.placeOverlay({left:150,top:200,width:60,height:60},{width:100,height:30},{width:400,height:500},{obstacles:[{left:0,right:400,top:0,bottom:180}]});assert(overlay&&overlay.side!=='top');
+assert.equal(physics.placeOverlay({left:150,top:200,width:60,height:60},{width:100,height:30},{width:400,height:500},{obstacles:[{left:0,right:400,top:0,bottom:500}]}),null);
+const study=read('js/study-ai.js'),snippet=study.slice(study.indexOf('    const summary = $("#studyDashboardSummary");'),study.indexOf('    const completion = $("#studyCompletionChart");'));
+for(const total of [0,1]){const summary={innerHTML:''};vm.runInNewContext(snippet,{profile:{studyMinutes:0,accuracy:0,total},state:{tasks:[]},$:()=>summary,window:{PrimeUI:{svg:()=>'<svg/>'}}});assert(summary.innerHTML.includes(total?'0%':'—'));}
+const journey=read('js/progressive-journey.js'),icons=read('js/ui-icons.js'),css=read('js/design-feedback.css'),html=read('index.html');
+assert.match(journey,/data-journey-next data-ui-keep-label/);assert.match(icons,/hasAttribute\('data-ui-keep-label'\)/);
+assert.match(journey,/caption.textContent='계획 종류'/);assert.match(journey,/requestSubmit\(current.submit\)/);
+assert.match(read('js/utility-hub.js'),/data-ui-keep-label data-journey="grades"/);
+assert.match(css,/repeat\(3,minmax\(0,1fr\)\)/);assert.match(css,/data-calendar-tone=holiday/);assert.match(css,/standbyTimerValue \.standby-colon/);
+assert.match(css,/\[data-journey-next\]\[hidden\] \{ display:none!important/);
+assert(html.indexOf('design-feedback.css')>html.indexOf('safari-layout.css'));
+console.log('PASS design feedback: text/corner avoidance, safe bubble suppression, missing vs zero accuracy, retained original journeys and labelled key actions, compact statistics, semantic calendar tones and scoped visual refinement.');

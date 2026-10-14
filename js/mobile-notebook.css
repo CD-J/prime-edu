@@ -1,0 +1,37 @@
+/* One mobile notebook language; desktop binding and feature handlers stay intact. */
+.notebook-page-icon,.mobile-notebook-section-head { display:none; }
+/* The same accent survives desktop, mobile and the portalled reading form. */
+#aiNotesPanel,[data-ai-category-target="notes"] { --notebook-accent:var(--shell-blue); }
+:is(#aiBooksPanel,#studyBookForm,#studyBookResults,[data-ai-category-target="books"]) { --notebook-accent:var(--shell-blue); }
+:is(.mobile-notebook-page,.ai-category-card,#studyBookForm,#studyBookResults) { --notebook-accent-ink:var(--shell-ink); }
+@supports(color:color-mix(in srgb,red,blue)) {
+  :is(#aiBooksPanel,#studyBookForm,#studyBookResults,[data-ai-category-target="books"]) { --notebook-accent:color-mix(in srgb,var(--shell-blue) 80%,#408b82); }
+  :is(.mobile-notebook-page,.ai-category-card,#studyBookForm,#studyBookResults) { --notebook-accent-ink:color-mix(in srgb,var(--notebook-accent) 45%,var(--shell-ink)); }
+}
+@media(max-width:999px) {
+  .panel-assistant .ai-category-grid { gap:6px!important; margin-bottom:0!important; padding:0 8px!important; }
+  .panel-assistant .ai-category-card:not([hidden]) { display:flex!important; align-items:center!important; justify-content:center!important; gap:8px!important; padding:9px 10px!important; min-height:44px!important; border:1px solid var(--finish-edge-soft)!important; border-bottom:0!important; border-radius:14px 14px 0 0!important; background:var(--shell-card)!important; color:var(--shell-muted)!important; box-shadow:none!important; margin:0!important; }
+  .panel-assistant .ai-category-card.is-active { color:var(--notebook-accent-ink)!important; background:color-mix(in srgb,var(--notebook-accent) 8%,var(--shell-card))!important; border-color:color-mix(in srgb,var(--notebook-accent) 26%,var(--shell-line))!important; }
+  .panel-assistant .ai-category-card strong { font-size:15px!important; line-height:1.4!important; font-weight:650!important; color:inherit!important; }
+  .panel-assistant .ai-category-card .ai-category-icon { width:26px!important; height:26px!important; border-radius:8px!important; background:color-mix(in srgb,var(--notebook-accent) 10%,var(--shell-card))!important; color:var(--notebook-accent)!important; }
+  .panel-assistant .ai-category-card .ai-category-icon svg { width:18px!important; height:18px!important; stroke:currentColor!important; color:inherit!important; fill:none!important; }
+  #aiNotebookPages > .ai-category-panel.mobile-notebook-page { box-sizing:border-box; padding:12px!important; border:1px solid var(--finish-edge-soft)!important; border-radius:18px!important; background:var(--shell-card)!important; box-shadow:var(--finish-shadow)!important; overflow:visible!important; min-height:0!important; }
+  #aiNotebookPages > .mobile-notebook-page > .ai-category-head { display:grid!important; grid-template-columns:28px minmax(0,1fr); align-items:center; gap:8px; min-height:36px; margin:0 0 12px!important; padding:0 0 10px!important; border-bottom:1px solid color-mix(in srgb,var(--notebook-accent) 18%,var(--shell-line))!important; }
+  #aiNotebookPages > .mobile-notebook-page > .ai-category-head h2 { margin:0!important; padding:0!important; color:var(--shell-ink)!important; font-size:20px!important; font-weight:700!important; line-height:1.4!important; }
+  .notebook-page-icon,.notebook-section-icon { display:grid; place-items:center; width:28px; height:28px; border-radius:9px; background:color-mix(in srgb,var(--notebook-accent) 10%,var(--shell-card)); color:var(--notebook-accent); }
+  :is(.notebook-page-icon,.notebook-section-icon) svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  #aiNotesPanel .study-book-spread,#aiBooksPanel .ai-book-panel { padding:0!important; margin:0!important; border:0!important; border-radius:0!important; background:none!important; box-shadow:none!important; min-width:0; gap:10px!important; }
+  #aiNotesPanel .study-book-page,#studyBookForm,#studyBookResults .book-recommendation-card { box-sizing:border-box; padding:10px!important; border:1px solid var(--finish-edge-soft)!important; border-radius:16px!important; background:var(--shell-card)!important; box-shadow:none!important; min-width:0; margin-top:0!important; }
+  #aiNotesPanel .study-book-page-head,#studyBookForm > .mobile-notebook-section-head { display:grid!important; grid-template-columns:28px minmax(0,1fr) auto; align-items:center; gap:8px!important; min-height:30px!important; margin:0 0 8px!important; padding:0 0 8px!important; border-bottom:1px solid var(--shell-line); }
+  #aiNotesPanel .study-book-page-head h3,#studyBookForm > .mobile-notebook-section-head h3 { font-size:18px!important; font-weight:650!important; line-height:1.4!important; margin:0!important; }
+  #aiNotesPanel .study-book-page-icon { color:var(--notebook-accent)!important; background:color-mix(in srgb,var(--notebook-accent) 10%,var(--shell-card))!important; }
+  #studyBookForm { gap:7px!important; }
+  #studyBookForm label { gap:3px!important; font-size:15px!important; line-height:1.4!important; }
+  #studyBookForm .study-form-row { grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:7px!important; }
+  #studyBookForm .field { box-sizing:border-box; width:100%; min-width:0; font-size:16px!important; padding:8px 10px!important; border-radius:14px!important; line-height:1.35!important; }
+  #studyBookForm :is(.field:focus-visible,button:focus-visible) { outline-color:var(--notebook-accent); }
+  #aiNotesPanel .study-form > button[type=submit],#studyBookForm > button[type=submit] { min-height:44px!important; padding:10px 14px!important; border-radius:14px!important; font-size:16px!important; font-weight:650!important; line-height:1.4!important; background:color-mix(in srgb,var(--notebook-accent) 17%,var(--shell-card))!important; color:var(--shell-ink)!important; border-color:color-mix(in srgb,var(--notebook-accent) 28%,var(--shell-line))!important; box-shadow:none!important; }
+  #studyBookResults .book-recommendation-number { color:var(--notebook-accent)!important; background:color-mix(in srgb,var(--notebook-accent) 12%,var(--shell-card))!important; }
+  #studyBookResults .book-recommendation-card { margin-top:10px!important; }
+  #studyBookResults .book-recommendation-card :is(.book-recommendation-category,dt) { color:var(--notebook-accent-ink)!important; }
+}

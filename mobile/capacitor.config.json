@@ -1,0 +1,13 @@
+{
+  "appId": "kr.schems.app",
+  "appName": "ScheMs",
+  "webDir": "www",
+  "server": {
+    "url": "https://scheplan.web.app",
+    "cleartext": false,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

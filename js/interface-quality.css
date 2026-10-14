@@ -1,0 +1,94 @@
+/* Final semantic hierarchy. Main actions keep labels; familiar utility actions
+   use named SVG buttons. No full-page zoom, fixed card height or clipped content. */
+.prime-icon { display:block; width:22px; height:22px; flex:none; }
+button.prime-icon-button { place-items:center!important; align-items:center; justify-content:center; width:44px!important; min-width:44px!important; max-width:44px!important; height:44px!important; min-height:44px!important; padding:10px!important; border-radius:14px!important; line-height:1!important; }
+button.prime-icon-button[hidden] { display:none!important; }
+button.prime-icon-button { transform:none!important; transition:background-color .15s,color .15s,border-color .15s!important; }
+.segmented-control [data-theme-choice] { min-height:44px!important; transform:none!important; transition:background-color .15s,color .15s,border-color .15s!important; }
+button.prime-icon-button .prime-icon { width:22px!important; height:22px!important; pointer-events:none; }
+button.prime-icon-button:focus-visible { outline:2px solid var(--shell-blue); outline-offset:3px; }
+.notification-badge { display:grid; place-items:center; min-width:18px!important; height:18px!important; min-height:18px!important; padding:0 4px!important; border-radius:999px!important; font-size:11px!important; line-height:18px!important; font-weight:700; right:2px!important; top:2px!important; box-sizing:border-box; }
+.notification-badge[hidden] { display:none!important; }
+.notification-badge { width:auto!important; color:#fff!important; }
+/* Make the countdown, not its editing control, the focus of this card. */
+#ddayCard,#ddayCardPage { position:relative; display:grid!important; grid-template-columns:minmax(0,1fr) 44px; gap:4px 10px; align-content:center; text-align:left!important; }
+:is(#ddayCard,#ddayCardPage) h2 { grid-column:1; font-size:17px!important; line-height:1.4!important; margin:0 0 8px!important; padding-right:0; }
+:is(#ddayCard,#ddayCardPage) .dday-value { grid-column:1; font-size:46px!important; font-weight:750!important; letter-spacing:-.04em; line-height:1.1!important; color:var(--shell-blue)!important; margin:0!important; font-variant-numeric:tabular-nums; }
+:is(#ddayCard,#ddayCardPage) .dday-date { grid-column:1; margin:4px 0 0!important; font-size:15px!important; line-height:1.5!important; color:var(--shell-text)!important; font-weight:500!important; }
+:is(#ddayCard,#ddayCardPage) :is(.dday-value,.dday-date) { text-align:left!important; }
+:is(#ddayCard,#ddayCardPage) .dday-setup-btn { grid-column:2; grid-row:1/4; align-self:start; margin:0!important; width:44px!important; background:var(--finish-fill)!important; color:var(--shell-muted)!important; }
+/* Keep every original subject beneath a gentle closure tint. */
+:is(.panel-school,.panel-home) .table-wrap :is(th,td).is-holiday-col { background:color-mix(in srgb,#ee717a 13%,var(--shell-card))!important; border-color:color-mix(in srgb,#ee717a 24%,var(--finish-edge-soft))!important; color:var(--shell-ink)!important; }
+:is(.panel-school,.panel-home) .table-wrap th.is-holiday-col { color:color-mix(in srgb,#c33e4f 76%,var(--shell-ink))!important; }
+.cal-dot { display:block!important; min-width:0; width:auto!important; max-width:100%; height:auto!important; min-height:14px!important; padding:0!important; margin:1px 0!important; border-radius:0!important; background:none!important; color:var(--shell-text)!important; font-size:11px!important; font-weight:500; line-height:1.25!important; text-align:left; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.cal-dot.meal-dot { color:color-mix(in srgb,#9a5d15 65%,var(--shell-ink))!important; }
+.cal-dot.meal-dot,.cal-dot.more { font-size:11px!important; line-height:1.25!important; width:auto!important; height:auto!important; min-height:14px!important; flex:initial!important; border-radius:0!important; background:none!important; }
+.cal-dot::before { content:none!important; }
+.cal-dot:not(.meal-dot):not(.more) { display:-webkit-box!important; -webkit-box-orient:vertical; -webkit-line-clamp:2; white-space:normal!important; overflow-wrap:anywhere; word-break:keep-all; }
+.cal-day { display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; min-width:0; gap:2px; }
+.cal-day .cal-num { align-self:flex-start; }
+.planner-day-items { display:grid!important; width:100%; gap:2px!important; min-width:0; }
+.planner-day .planner-event { display:block!important; width:auto!important; height:auto!important; font-size:10px!important; line-height:1.25!important; padding:0!important; background:none!important; border-radius:0!important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+.planner-day .planner-event::after { content:none!important; }
+.planner-day .planner-day-progress { font-size:10px!important; line-height:1.25!important; }
+.study-book-page-icon .prime-icon { width:22px; height:22px; }
+#aiNotesPanel .study-book-page > .notebook-create-trigger { margin:0!important; min-height:48px!important; padding:10px 14px!important; gap:10px; border:1px solid var(--finish-edge)!important; border-radius:14px!important; background:var(--finish-fill)!important; color:var(--shell-ink)!important; font-size:16px!important; font-weight:650!important; line-height:1.4!important; }
+#aiNotesPanel .notebook-create-trigger b { display:grid; place-items:center; width:22px; height:22px; flex:none; font-size:20px; line-height:1; font-weight:500; color:var(--shell-blue); }
+#aiNotesPanel .notebook-create-trigger.is-open { border-color:var(--shell-blue)!important; background:color-mix(in srgb,var(--shell-blue) 6%,var(--finish-fill))!important; }
+/* Restore the original coloured cover/spine library, not icon-list rows. */
+#aiNotesPanel :is(#studyNoteList,.study-problem-page .quiz-book-grid) { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:14px 12px!important; padding:0!important; align-items:start; }
+#aiNotesPanel :is(.concept-library-card,.quiz-book) { display:grid!important; grid-template-columns:minmax(0,1fr)!important; align-items:start!important; gap:0!important; width:100%; min-width:0; padding:0!important; border:0!important; background:none!important; box-shadow:none!important; color:var(--shell-ink); text-align:left; border-radius:16px!important; cursor:pointer; transform:none!important; }
+#aiNotesPanel .stored-book-cover { width:100%; box-sizing:border-box; aspect-ratio:auto!important; min-height:206px!important; display:grid!important; grid-template-columns:minmax(0,1fr)!important; grid-template-rows:18px 45px 36px; justify-content:stretch!important; justify-items:stretch; align-content:start; gap:5px; padding:74px 14px 16px 24px!important; border-radius:14px 18px 18px 14px!important; box-shadow:3px 4px 0 color-mix(in srgb,var(--book-color) 15%,var(--shell-card)),0 8px 18px color-mix(in srgb,var(--shell-ink) 7%,transparent); }
+#aiNotesPanel .stored-book-cover .quiz-book-spine { inset:0 auto 0 9px; width:6px; pointer-events:none; }
+#aiNotesPanel .stored-book-cover .quiz-book-badge { top:16px; right:0; width:46px; height:30px; color:var(--book-color); }
+#aiNotesPanel .quiz-book-badge .prime-icon { width:20px; height:20px; }
+#aiNotesPanel .stored-book-cover strong { display:-webkit-box; margin:0!important; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; overflow-wrap:anywhere; word-break:keep-all; font-size:16px!important; line-height:1.4!important; flex:none!important; }
+#aiNotesPanel .stored-book-cover :is(small,em) { display:block; margin:0!important; font-size:13px!important; line-height:1.4; color:var(--shell-text); overflow-wrap:anywhere; font-style:normal; }
+#aiNotesPanel .stored-book-cover small { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+#aiNotesPanel .stored-book-cover em { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+#aiNotesPanel .stored-book-footer { display:flex!important; align-items:center; min-height:44px; padding:4px 2px 4px 24px!important; box-sizing:border-box; }
+#aiNotesPanel .stored-book-footer time { font-size:12px!important; line-height:1.4; color:var(--shell-muted); font-variant-numeric:tabular-nums; }
+#aiNotesPanel .quiz-book-item { position:relative; min-width:0; padding:0!important; border:0!important; background:none!important; box-shadow:none!important; }
+#aiNotesPanel .quiz-book-item .stored-book-footer { padding-right:46px!important; }
+#aiNotesPanel .quiz-book-delete { position:absolute!important; right:0!important; top:auto!important; bottom:0!important; transform:none!important; color:var(--shell-muted); }
+#aiNotesPanel :is(.concept-library-card,.quiz-book):focus-visible { outline:2px solid var(--shell-blue); outline-offset:4px; }
+#aiNotesPanel :is(.concept-library-card,.quiz-book):is(:hover,:focus-visible) .stored-book-cover { transform:translateY(-2px); }
+#aiNotesPanel :is(#studyNoteList,.quiz-book-grid) > :is(.study-empty,.quiz-library-empty) { grid-column:1 / -1; }
+@media(prefers-reduced-motion:reduce) { #aiNotesPanel :is(.concept-library-card,.quiz-book) .stored-book-cover { transition:none!important; transform:none!important; } }
+.notebook-reader-tabs { display:flex; align-items:center; gap:8px; }
+.notebook-current-tab { flex:1; min-width:0; white-space:normal; overflow-wrap:anywhere; text-align:left; }
+#studyQuizWorkspace > header { display:none!important; }
+.pomodoro-mode-hint { display:none!important; }
+.notebook-current-tab { font-size:16px; font-weight:650; line-height:1.4; padding:6px 0; }
+.sudo-home-name { color:var(--shell-text)!important; text-decoration:none!important; font-size:14px!important; line-height:1.5!important; font-weight:600!important; }
+.sudo-guide-bubble [data-guide=prev] { width:44px; min-width:44px; }
+@media(max-width:999px){
+  #aiNotesPanel .study-book-page > .notebook-create-trigger { min-height:44px!important; padding:10px 12px!important; }
+  :is(#ddayCard,#ddayCardPage) .dday-value { font-size:42px!important; }
+  :is(#ddayCard,#ddayCardPage) { padding:16px!important; min-height:150px; }
+  #ddayCard h2,#ddayCardPage h2 { margin-bottom:4px!important; }
+  #calendarGrid { gap:4px!important; }
+  #calendarGrid .cal-day { min-height:72px!important; padding:5px 4px!important; border-radius:12px!important; }
+  .panel-plan .planner-calendar-grid { grid-auto-rows:minmax(60px,auto)!important; gap:3px!important; }
+  .panel-plan .planner-day { min-height:60px!important; padding:4px!important; }
+  .panel-plan .planner-day-items { margin-top:1px; }
+  #aiNotesPanel :is(#studyNoteList,.study-problem-page .quiz-book-grid) { gap:10px!important; }
+  #aiNotesPanel .stored-book-cover { min-height:184px!important; grid-template-rows:18px 42px 34px; padding:64px 10px 14px 19px!important; gap:4px; }
+  #aiNotesPanel .stored-book-footer { padding-left:19px!important; }
+  #aiNotesPanel .stored-book-cover .quiz-book-badge { top:12px; width:38px; height:27px; }
+  #aiNotesPanel .stored-book-cover .quiz-book-spine { left:6px; width:5px; }
+  #aiNotesPanel .stored-book-cover :is(small,em) { font-size:12px!important; }
+  #aiNotesPanel .stored-book-cover strong { font-size:15px!important; }
+  body[data-active-tab=home] .mobile-home-landing.mobile-only { padding:48px 16px 24px!important; }
+  .mobile-home-main { padding-top:105px!important; }
+  .mobile-home-main>h2 { font-size:clamp(28px,7.4vw,36px)!important; line-height:1.25!important; max-width:100%; text-wrap:balance; word-break:keep-all; }
+  .mobile-home-main .mobile-study-search { margin-top:18px!important; }
+  .mobile-landing-history.prime-icon-button { position:absolute; top:14px; left:12px; border:0!important; background:color-mix(in srgb,var(--shell-card) 70%,transparent); color:var(--shell-text); }
+  .mobile-home-change.prime-icon-button { margin:0 auto; }
+  .mobile-pomodoro-copy [data-pomodoro-reset].prime-icon-button { min-width:44px!important; }
+  .home-settings-button.prime-icon-button { width:44px!important; }
+  .notification-badge { right:0!important; top:0!important; }
+}
+@media(min-width:600px) and (max-width:999px) {
+  #aiNotesPanel :is(#studyNoteList,.study-problem-page .quiz-book-grid) { grid-template-columns:repeat(4,minmax(0,1fr))!important; }
+}

@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const handlers={},created=[],timers=new Map();let time=0,timerId=0;
+class Node {constructor(tag){this.tagName=tag;this.dataset={};this.attrs={};this.nodes={};this.events={};const s=new Set();this.classList={toggle:(k,b)=>b?s.add(k):s.delete(k),contains:k=>s.has(k),add:k=>s.add(k),remove:k=>s.delete(k)};}setAttribute(k,v){this.attrs[k]=v;}removeAttribute(k){delete this.attrs[k];}hasAttribute(k){return k==='data-open-concept-note'&&this.dataset.openConceptNote!==undefined;}querySelector(s){return this.nodes[s]||(this.nodes[s]=new Node('child'));}addEventListener(k,f){this.events[k]=f;}append(){}closest(selector){return selector.includes('data-open-')?this:null;}focus(){} }
+const a=new Node('BUTTON'),b=new Node('BUTTON');a.dataset.openConceptNote='a';b.dataset.openQuizBook='b';
+const document={body:new Node('body'),createElement:tag=>{const n=new Node(tag);created.push(n);return n;},querySelector:()=>null,querySelectorAll:()=>[a,b],addEventListener:(k,f)=>handlers[k]=f};
+const scope=vm.createContext({document,window:{PrimeUI:{svg:()=>'<svg/>'},SchemsStudyAI:{libraryItems:()=>[{kind:'note',id:'a'},{kind:'quiz',id:'b'}]},addEventListener(){}},navigator:{},performance:{now:()=>time},setTimeout:f=>{const id=++timerId;timers.set(id,f);return id;},clearTimeout:id=>timers.delete(id),Map});
+vm.runInContext(fs.readFileSync(path.join(__dirname,'../js/book-selection.js'),'utf8'),scope);
+const event=(target=a,id=1,x=20)=>({target,pointerId:id,clientX:x,clientY:20,button:0,preventDefault(){this.prevented=true;},stopImmediatePropagation(){this.stopped=true;}}),fire=()=>{const pending=[...timers.values()];timers.clear();time+=460;pending.forEach(f=>f());};
+handlers.pointerdown(event());handlers.pointermove(event(a,1,35));fire();assert(!a.classList.contains('is-book-selected'),'scroll intent cancels long press');
+handlers.pointerdown(event());fire();assert(a.classList.contains('is-book-selected'));assert.equal(created[0].hidden,false);time+=2000;handlers.pointerup(event());const release=event();handlers.click(release);assert(release.stopped);assert(a.classList.contains('is-book-selected'),'long holds cannot deselect on release');
+const other=event(b,2);handlers.click(other);assert(other.stopped);assert(b.classList.contains('is-book-selected'),'a second book is selectable immediately');
+handlers.keydown({key:'Escape'});assert(created[0].hidden);assert(!a.classList.contains('is-book-selected'));
+handlers.pointerdown(event());handlers.pointercancel(event());fire();assert(!a.classList.contains('is-book-selected'));
+console.log('PASS book gesture: 460ms hold, scroll/cancel suppression, two-second hold release consumed once, immediate multi-selection, Escape cleanup, no vibration API requirement.');

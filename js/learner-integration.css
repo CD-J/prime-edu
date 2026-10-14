@@ -1,0 +1,18 @@
+.learner-ribbon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.learner-ribbon[hidden]{display:none}
+.connected-home-action[hidden]{display:none!important}
+.connected-home-action .school-alert-dday{font-size:28px;font-weight:600;letter-spacing:-.04em;color:var(--shell-blue);white-space:nowrap;margin-left:auto}
+.school-alert-open{display:grid;place-items:center;flex:none;width:44px;height:44px;border:1px solid var(--shell-line);border-radius:50%;background:var(--shell-blue-soft);color:var(--shell-blue);cursor:pointer}.school-alert-open svg{width:20px;height:20px}
+.learner-ribbon[data-count="1"]{grid-template-columns:1fr}
+.learner-ribbon button{display:flex;align-items:center;gap:12px;min-width:0;text-align:left;padding:14px 16px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;transition:transform .2s,background .2s}
+.learner-ribbon button:active{transform:scale(.98)}.learner-ribbon button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.learner-ribbon svg{width:21px;height:21px;flex:none;color:var(--blue)}.learner-ribbon button>div{flex:1;min-width:0}
+.learner-ribbon small{display:block;color:var(--muted);font-size:12px;line-height:1.4;margin-bottom:5px}.learner-ribbon strong{display:block;font-size:15px;font-weight:600;line-height:1.4;overflow-wrap:anywhere}
+.learner-ribbon .learner-ribbon-end{color:var(--muted);width:17px}
+.learner-ribbon small.learner-ribbon-schedule{display:flex;flex-wrap:wrap;column-gap:6px}.learner-ribbon-schedule time{white-space:nowrap}
+.consultation-linked-row{display:grid!important;grid-template-columns:minmax(0,1fr) 44px;gap:12px;align-items:center!important}
+.consultation-linked-row>div{min-width:0}.consultation-linked-row strong,.consultation-linked-row p{overflow-wrap:anywhere}
+.consultation-linked-row button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--blue);display:grid;place-items:center;cursor:pointer}.consultation-linked-row svg{width:20px;height:20px}
+@media(max-width:600px){.learner-ribbon{gap:8px;margin-bottom:10px}.learner-ribbon button{padding:12px;gap:8px;border-radius:18px}.learner-ribbon strong{font-size:14px}.learner-ribbon small{font-size:11px}.learner-ribbon .learner-ribbon-end{display:none}}
+@media(max-width:359px){.learner-ribbon{grid-template-columns:1fr}.learner-ribbon button{padding:12px 14px}}
+@media(prefers-reduced-motion:reduce){.learner-ribbon button{transition:none}}

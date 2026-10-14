@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const read=f=>fs.readFileSync(require.resolve('../'+f),'utf8');
+const html=read('index.html'),css=read('js/preparation-density.css');
+assert.match(html,/preparation-density\.css\?v=20261013-77b/);
+assert.match(css,/grid-template-rows:max-content max-content max-content minmax\(0,1fr\)/,'populated calendar must not stretch spacing between preparation and checklist');
+assert.match(css,/body:not\(\[data-active-tab="home"\]\):not\(\.is-book-selecting\) \.app \{ padding-bottom:0!important/,'only one bottom navigation clearance, but retain book-selection toolbar clearance');
+assert.match(css,/\.main \{ padding-bottom:calc\(84px \+ env\(safe-area-inset-bottom/);
+assert.match(css,/\.plan-action-overview:has\(\.activity-list-item\)/);
+assert.match(css,/\.plan-action-overview:has\(\.review-subjects\)/,'real work is not squeezed into empty-state columns');
+assert.match(css,/study-problem-page \.study-book-page-head \{ grid-template-columns:36px minmax\(0,1fr\) auto 44px!important/,'count and create button remain separate grid slots');
+assert.match(css,/study-concept-page \.study-book-page-head \{ grid-template-columns:36px minmax\(0,1fr\) 44px!important/);
+assert.match(css,/quiz-library-empty strong \{ font-size:14px!important; font-weight:400!important/);
+assert.match(css,/not\(\.sudo-chat-open\)/,'home presentation does not resize an open conversation');
+assert(!css.includes('.ai-category-grid.prime-slide-bar'),'restored paper index design remains unchanged');
+assert.match(html,/data-ui-icon="calendar"[^>]*>[\s\S]*?<h2>학사일정<\/h2>/);
+console.log('PASS service density contracts: natural empty states, single safe-area clearance, full-width actual work, aligned header/action/count grids and preserved notebook indexes.');

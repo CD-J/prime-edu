@@ -1,0 +1,84 @@
+/* Sudo is the original app's existing desktop chat launcher, not a new tab. */
+#aiFabButton.sudo-ai-button {
+  width: 88px;
+  height: 88px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  color: #111;
+  --sudo-ink: #111;
+  --sudo-fill: color-mix(in srgb, color-mix(in srgb, white 88%, var(--bg, #fff)) 94%, var(--blue, #777));
+}
+#aiFabButton.sudo-ai-button:focus-visible {
+  outline: 2px solid var(--blue, #555);
+  outline-offset: 4px;
+}
+.sudo-ai-character {
+  width: 108px;
+  height: 108px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+.sudo-ai-character svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.sudo-normal-eye,.sudo-spiral-eyes { transition: opacity 140ms ease; }
+.sudo-spiral-eyes { opacity: 0; }
+.is-sudo-dizzy .sudo-normal-eye { opacity: 0; }
+.is-sudo-dizzy .sudo-spiral-eyes { opacity: 1; }
+.sudo-eye-spin { transform-origin: 0 0; }
+.is-sudo-dizzy .sudo-eye-spin { animation: sudo-eye-swirl 1.7s linear infinite; animation-direction: var(--spin-direction); }
+.sudo-dizzy-notice { position: fixed; z-index: 46; width: max-content; max-width: calc(100vw - 24px); box-sizing: border-box; margin: 0; white-space: normal; overflow-wrap: anywhere; pointer-events: none; padding: 6px 10px; border: 1px solid var(--line,#ddd); border-radius: 12px; background: var(--surface,#fff); color: var(--ink,#111); font: 12px/1.4 system-ui,sans-serif; }
+.sudo-dizzy-notice[hidden] { display: none !important; }
+@keyframes sudo-eye-swirl { to { transform: rotate(360deg); } }
+#aiFabButton.sudo-ai-button.is-open { transform: none; }
+#aiFabWrap.is-dragging .sudo-ai-button { transform: none; }
+#aiFabButton.sudo-ai-button { position: relative; z-index: 1; }
+#aiFabButton.sudo-ai-button.is-sudo-absent { visibility: hidden; pointer-events: none; }
+.sudo-powder { position: fixed; width: 320px; height: 320px; pointer-events: none; z-index: 100; }
+.sudo-return { position: fixed; bottom: max(20px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line,#ddd); border-radius: 999px; padding: 8px 14px; background: var(--surface,#fff); color: var(--ink,#111); font: 12px/1.4 system-ui,sans-serif; cursor: pointer; max-width: calc(100vw - 24px); }
+.sudo-return[hidden] { display: none !important; }
+.sudo-return-seed { --sudo-fill: color-mix(in srgb,white 94%,var(--blue,#777)); --sudo-ink: #111; --face-opacity: clamp(0,calc((var(--return-progress,0) - .4) * 2.5),1); position: relative; display: grid; place-items: center; width: calc(14px + var(--return-progress,0) * 44px); height: calc(14px + var(--return-progress,0) * 44px); flex: none; border: 2px solid rgb(17 17 17 / calc(1 - var(--face-opacity))); border-radius: 50%; background: rgb(255 255 255 / calc(1 - var(--face-opacity))); transition: width 120ms linear,height 120ms linear,border-color 120ms linear,background 120ms linear; }
+.sudo-return-seed svg { position: absolute; inset: -5%; width: 110%; height: 110%; overflow: visible; opacity: var(--face-opacity); transition: opacity 120ms linear; }
+.sudo-return-text { overflow-wrap: anywhere; }
+.is-sudo-returning .sudo-ai-character { animation: sudo-reappear 450ms ease-out both; }
+@keyframes sudo-reappear { from { opacity: 0; transform: scale(.45); } to { opacity: 1; transform: scale(1); } }
+/* One compact conversation surface; no extra slogans or nested card chrome. */
+#aiFabWrap { touch-action: auto; z-index: 80; }
+#aiFabButton { touch-action: none; -webkit-touch-callout: none; }
+#aiFabPanel { display: flex; flex-direction: column; padding: 0; overflow: hidden; border: 1px solid var(--line,#e3e5e8); border-radius: 24px; background: var(--surface,#fff); color: var(--ink,#111); box-sizing: border-box; }
+#aiFabPanel[hidden] { display: none !important; }
+#aiFabPanel .ai-fab-head { flex: none; min-height: 64px; margin: 0; padding: 16px 20px; border-bottom: 1px solid var(--line,#eee); }
+#aiFabPanel .ai-fab-head h3 { margin: 0; font: 700 19px/1.4 system-ui,sans-serif; color: var(--ink,#111); }
+#aiFabPanel .ai-fab-head p { display: none; }
+#aiFabClose { width: 36px; min-width: 36px; height: 36px; padding: 0; border: 0; background: transparent; border-radius: 50%; color: var(--ink,#111); }
+#aiChatMessagesFab { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 20px 16px; background: var(--surface,#fff); touch-action: pan-y; }
+#aiFabPanel .ai-chat-bubble-row { margin: 0 0 14px; padding: 0; }
+#aiFabPanel .ai-chat-response { max-width: 88%; min-width: 0; }
+#aiFabPanel .ai-chat-bubble { width: auto; max-width: 100%; max-height: none; padding: 12px 14px; border: 0; border-radius: 16px; background: color-mix(in srgb,var(--ink,#111) 5%,var(--surface,#fff)); box-shadow: none; font: 14px/1.65 system-ui,sans-serif; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink,#111); }
+#aiFabPanel .is-user .ai-chat-bubble { background: var(--ink,#111); color: var(--surface,#fff); border-bottom-right-radius: 5px; }
+#aiFabPanel .ai-chat-suggestions { display: grid; gap: 8px; padding: 0; }
+#aiFabPanel .ai-chat-chip { text-align: left; font: 14px/1.5 system-ui,sans-serif; padding: 12px 14px; border: 1px solid var(--line,#ddd); border-radius: 14px; background: transparent; color: var(--ink,#111); box-shadow: none; }
+#aiFabPanel .ai-module-recommendations > span { display: none; }
+#aiFabPanel .ai-fab-form { flex: none; display: flex; align-items: center; gap: 8px; padding: 12px; margin: 0; border-top: 1px solid var(--line,#eee); background: var(--surface,#fff); }
+#aiChatInputFab { min-width: 0; flex: 1; width: 0; height: 46px; padding: 12px 14px; border: 0; border-radius: 14px; background: color-mix(in srgb,var(--ink,#111) 5%,var(--surface,#fff)); font-size: 16px; box-shadow: none; }
+#aiFabPanel .ai-fab-form > button { width: 44px; min-width: 44px; height: 44px; padding: 11px; border: 0; border-radius: 50%; background: var(--ink,#111); color: var(--surface,#fff); }
+#aiFabPanel .ai-fab-form > button svg { display: block; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 999px) {
+  #aiFabWrap { display: block !important; position: fixed; right: 12px; bottom: calc(96px + env(safe-area-inset-bottom)); }
+  #aiFabButton.sudo-ai-button { width: 70px; height: 70px; border-radius: 50%; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border: 0; box-shadow: none; }
+  #aiFabButton .sudo-ai-character { width: 92px; height: 92px; }
+  #aiFabWrap.is-dragging #aiFabButton { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  #aiFabPanel { z-index: 90; border-radius: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #aiFabButton.sudo-ai-button { transition: none; }
+  .sudo-normal-eye,.sudo-spiral-eyes,.sudo-dizzy-notice { transition: none; }
+  .is-sudo-dizzy .sudo-eye-spin { animation: none; }
+  .sudo-return-seed { transition: none; }
+  .is-sudo-returning .sudo-ai-character { animation: none; }
+}
+.sudo-memory-status { display: block; font-size: 12px; line-height: 1.5; color: var(--muted, #626b70); margin: 4px 0 10px; overflow-wrap: anywhere; }

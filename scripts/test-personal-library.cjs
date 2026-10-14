@@ -1,0 +1,24 @@
+const assert = require('node:assert/strict');
+const core = require('../js/personal-library-core.js');
+const input = {notes:[{id:'n1',title:'빛과 파동',content:'굴절 실험',createdAt:'2026-10-12T02:00:00Z'},{id:'n2',title:'보관된 노트',archivedAt:'2026-10-13'}],quizzes:[{id:'q1',title:'수학 확인',subject:'수학',questions:[{},{}],createdAt:{seconds:1791856800}}],tasks:[{id:'a1',title:'발표 준비',activity:{dueDate:'2026-10-20',steps:[{title:'자료 조사',state:'planned'}]}},{id:'t1',title:'일반 체크리스트'}],bookRecommendations:[{title:'우주',author:'작가',reason:'천문학 읽기'}]};
+const before=JSON.stringify(input);
+const rows=core.build(input,[{key:'session:s1',kind:'focus',label:'집중',icon:'clock',title:'개념 복습',date:'2026-10-14',metric:'25분',content:'삼각형',time:1791943200000}]);
+assert.equal(rows.length,5);assert.equal(JSON.stringify(input),before,'read-only snapshot');
+assert(!rows.some(r=>r.title==='보관된 노트'||r.id==='t1'));
+assert.equal(core.select(rows,'notes','굴절').length,1);
+assert.equal(core.select(rows,'notes','우주').length,0);
+assert.equal(core.select(rows,'all','수학')[0].target,'quiz');
+assert.equal(core.select(rows,'records')[0].id,'session:s1');
+assert.equal(core.build({},[]).length,0,'no placeholders represented as data');
+assert.equal(core.build({notes:[{id:'same'},{id:'same'}]}).length,1,'stable duplicate protection');
+const grades=core.build({gradeRecords:[{year:2,term:1,exam:'mid',subject:'수학',recordType:'exam-score',score:90},{year:2,term:1,subject:'수학',recordType:'semester-rank',gradeSystem:5,rank:2},{year:2,term:1,subject:'영어',recordType:'semester-rank',gradeSystem:9,rank:3}],gradeFeedback:{summary:'실제 분석',dataAsOf:'2026-10-14'}});
+assert.equal(grades.length,4,'exam scores and rank scales stay separate');assert.equal(grades.find(r=>r.id==='feedback').target,'target');
+const connected={notes:[{id:'n',subject:'과학'},{id:'gone',subject:'삭제된 과목',archivedAt:'2026-10-14'}],quizzes:[{id:'q',subject:'수학',sourceNoteId:'n'}],tasks:[{id:'a',activity:{steps:[],materials:[{kind:'note',id:'n'},{kind:'quiz',id:'gone'}]}}]};
+const map=core.graph(connected,[{key:'s',title:'공부 기록',target:{kind:'note',id:'n'}}]);
+assert(map.edges.some(e=>[e.source,e.target].includes('activity:a')&&[e.source,e.target].includes('note:n')));
+assert(map.edges.some(e=>e.label==='출처 노트'));
+assert(map.edges.some(e=>e.source==='record:s'&&e.target==='note:n'));
+assert(!map.nodes.some(n=>n.title==='삭제된 과목'));assert(!map.edges.some(e=>e.target==='quiz:gone'));
+const nodeIds=new Set(map.nodes.map(n=>n.key));assert(map.edges.every(e=>nodeIds.has(e.source)&&nodeIds.has(e.target)));
+for(const w of [320,394,1120]){const p=core.layout(map.nodes,map.edges,w,460);assert(p.every(n=>Number.isFinite(n.x)&&Number.isFinite(n.y)&&Math.abs(n.x)<w/2&&Math.abs(n.y)<230));assert.deepEqual(p,core.layout(map.nodes,map.edges,w,460));}
+console.log('PASS personal library: real documents only, archive exclusion, search, target identity, timestamps, duplicate protection, immutable input.');
